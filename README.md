@@ -10,6 +10,7 @@
 <br>&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp * ways to brush up on communication skills
 <br>&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp * how to communicate the things you need debugged
 
-There will also by content on my youtube channel so you may also use it as a guide as well. From the youtube content, you'll be able to use google image search to get the code, if not template from it as you see it on screen or read it. Any and all code I can get it to produce will be tested by hand. That includes edits done by hand. While I know what I am doing, others may not and need a really good example to work off of. However, you can't imitate or copy every little thing even about ladybugs. Sometimes, they're just that unique like zebras and no two are born with the same pattern unless they're twins.
+There will also by content on my youtube channel so you may also use it as a guide as well. From the youtube content, you'll be able to use google image search to get the code, if not template from it as you see it on screen or read it. Any and all code I can get it to produce will be tested by hand. That includes edits done by hand. While I know what I am doing, others may not and need a really good example to work off of.
 
+A lot of the code is from the bot itself. Test and use at your own discression. Note that reporting bugs will help some. The rest of the bugs you'll have to hunt and manage yourself depending on the thing you're trying to do. 
 </p>
