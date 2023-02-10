@@ -30,7 +30,7 @@ class LoginWindow(Gtk.Window):
         self.password_entry = Gtk.Entry()
         self.password_entry.set_visibility(False)
         vbox.pack_start(self.password_entry, True, True, 0)
-
+        
         # Create a login button
         login_button = Gtk.Button(label="Login")
         login_button.connect("clicked", self.on_login_clicked)
