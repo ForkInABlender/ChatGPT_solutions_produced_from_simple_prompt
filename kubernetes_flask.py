@@ -11,10 +11,6 @@ This answer only provides a way to proof of how to do such. This probably also i
 
 Energy[in] = Energy[out]
 Garbage[in] = Garbage[out]
-
-Play stupid games, win stupid prices. Being terminally stuck on stupid is not exclusionary for any human that plays stupid as well. The simplest way to win is to
- simply not play the game. Get the game to play itself and make it lose to itself. No one has to lose and no one has to be of the lose-lose of a tit-for-tat mental
-  contest in concert with you.
 """
 
 from flask import Flask, jsonify, request
