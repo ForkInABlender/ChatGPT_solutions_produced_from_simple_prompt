@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>My Brython App</title>
+    <script src="https://cdn.jsdelivr.net/gh/brython-dev/brython/www/src/brython.js"></script>
+  </head>
+  <body onload="brython()">
+    <script type="text/python">
+      from fs.osfs import OSFS
+      from fuse import FUSE
+      from threading import Thread
+
+    def mount_root():
+      root_fs = OSFS('/')
+      FUSE(root_fs, "/mnt/root", foreground=True)
+      t = Thread(target=mount_root)
+      t.start()
+    </script>
+  </body>
+</html>
