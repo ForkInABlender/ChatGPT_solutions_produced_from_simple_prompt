@@ -1,0 +1,5 @@
+# python modules to install
+
+pip install pyfilesystem
+pip install fusepy
+pip install flask
