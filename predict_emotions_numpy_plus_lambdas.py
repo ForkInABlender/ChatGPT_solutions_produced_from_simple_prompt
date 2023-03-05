@@ -1,6 +1,8 @@
 """
 This is only a template for predicting human emotions. Due note that it is meant to be similar to how we do such predictions.
- If we mistrained our brains on how or what is interacted with or interpreted, we end up guessing wrong. 
+ If we mistrained our brains on how or what is interacted with or interpreted, we end up guessing wrong. Now if someone were to update this correctly,
+  one could rewrite it to run off of data in a google-spreadsheet that adds new data. And depending on the dataset that needs to be ranked back out
+ due to that data leading to mistraining or confustion, a human or cleverly put together bit of software could be self-modifying.....
 
 
 
