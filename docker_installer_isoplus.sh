@@ -21,3 +21,6 @@ sudo docker run hello-world
 
 # chatGPT wrote all that. The robot wrote it. And I tested it. It works even on a Zorin15.3 ISO booted 
 # from a cd. Literally found the thing I would have searched hours to find. The bot finds it in minutes. 
+# The bot also suggests the command below for running it in rootless mode from said ISO.
+
+# sudo chown $USER /var/run/docker.sock && systemd-run --user dockerd-rootless.sh
