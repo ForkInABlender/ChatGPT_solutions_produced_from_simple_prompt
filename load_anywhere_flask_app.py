@@ -1,3 +1,8 @@
+"""
+I don't know why this works even with blogspot.com, only that it works.
+
+"""
+
 from flask import Flask
 from flask_cors import CORS, cross_origin
 
