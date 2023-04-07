@@ -13,6 +13,5 @@ CORS(app)
 @cross_origin()
 def index():
     return """
-<iframe frameborder="0" scrolling="no" src="https://raw.githubusercontent.com/ForkInABlender/ChatGPT_solutions_produced_from_simple_prompt/2023_04/test_index.html" width="100%"></iframe>"""
-
+https://htmlpreview.github.io/?https://github.com/ForkInABlender/ChatGPT_solutions_produced_from_simple_prompt/blob/2023_04/test_index.html"""
 app.run(host="0.0.0.0")
