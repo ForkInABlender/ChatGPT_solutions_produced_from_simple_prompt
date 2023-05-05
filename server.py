@@ -3,7 +3,7 @@ This is a template from another developer's version of it.
 
 What it does is respond to requests for dns record queries. This makes it easier to run one's own custom
  server. If paired with flask, the resolve gets responded to and the flask server can serve content on said TLD
-  in all likelihood.
+  in all likelihood. And yes, this was tested with 'dig' & 'nslookup'.
 
 """
 
