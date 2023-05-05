@@ -1,3 +1,12 @@
+"""
+This is a template from another developer's version of it. 
+
+What it does is respond to requests for dns record queries. This makes it easier to run one's own custom
+ server. If paired with flask, the resolve gets responded to and the flask server can serve content on said TLD
+  in all likelihood.
+
+"""
+
 from dnslib import DNSRecord, RR, A, CNAME
 from dnslib.server import DNSServer, DNSHandler, BaseResolver
 
@@ -8,13 +17,13 @@ class MyResolver(BaseResolver):
 
         reply = request.reply()
 
-        if qname == "mercury.ball.":
+        if qname == "TLD without 'www.'....":
             # A record
-            reply.add_answer(RR(qname, rdata=A("172.17.0.1")))
+            reply.add_answer(RR(qname, rdata=A("ip used by server...")))
 
-        elif qname == "www.mercury.ball.":
+        elif qname == "TLD with 'www.'....":
             # CNAME record
-            reply.add_answer(RR(qname, rdata=CNAME("mercury.ball.")))
+            reply.add_answer(RR(qname, rdata=CNAME("TLD without 'www' and '.' at the end...")))
 
         return reply
 
