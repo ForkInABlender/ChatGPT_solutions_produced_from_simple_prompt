@@ -142,3 +142,40 @@ broca_area.addConnection(FullConnection(broca_area['out'], temporal_lobe['in']))
 broca_area.addConnection(FullConnection(broca_area['out'], occipital_lobe['in']))
 broca_area.addConnection(FullConnection(broca_area['out'], limbic_system['in']))
 broca_area.addConnection(FullConnection(broca_area['out'], wernicke_area['in']))
+
+# Emulating the Visual Cortex
+visual_cortex = FeedForwardNetwork()
+visual_cortex.addInputModule(LinearLayer(num_inputs))
+visual_cortex.addModule(SigmoidLayer(num_hidden))
+visual_cortex.addOutputModule(LinearLayer(num_outputs))
+visual_cortex.addConnection(FullConnection(input_layer, hidden_layer))
+visual_cortex.addConnection(FullConnection(hidden_layer, output_layer))
+visual_cortex.sortModules()
+
+# Connecting the Visual Cortex to other regions
+visual_cortex.addConnection(FullConnection(visual_cortex['out'], frontal_lobe['in']))
+visual_cortex.addConnection(FullConnection(visual_cortex['out'], parietal_lobe['in']))
+visual_cortex.addConnection(FullConnection(visual_cortex['out'], temporal_lobe['in']))
+visual_cortex.addConnection(FullConnection(visual_cortex['out'], occipital_lobe['in']))
+visual_cortex.addConnection(FullConnection(visual_cortex['out'], limbic_system['in']))
+
+# Connecting the Frontal Lobe to the Visual Cortex
+frontal_lobe.addConnection(FullConnection(frontal_lobe['out'], visual_cortex['in']))
+
+# Connecting the Parietal Lobe to the Visual Cortex
+parietal_lobe.addConnection(FullConnection(parietal_lobe['out'], visual_cortex['in']))
+
+# Connecting the Temporal Lobe to the Visual Cortex
+temporal_lobe.addConnection(FullConnection(temporal_lobe['out'], visual_cortex['in']))
+
+# Connecting the Occipital Lobe to the Visual Cortex
+occipital_lobe.addConnection(FullConnection(occipital_lobe['out'], visual_cortex['in']))
+
+# Connecting the Limbic System to the Visual Cortex
+limbic_system.addConnection(FullConnection(limbic_system['out'], visual_cortex['in']))
+
+# Connecting Wernicke's Area to the Visual Cortex
+wernicke_area.addConnection(FullConnection(wernicke_area['out'], visual_cortex['in']))
+
+# Connecting Broca's Area to the Visual Cortex
+broca_area.addConnection(FullConnection(broca_area['out'], visual_cortex['in']))
