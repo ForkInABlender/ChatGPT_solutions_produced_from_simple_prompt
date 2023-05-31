@@ -27,22 +27,10 @@ frontal_lobe.sortModules()
 parietal_lobe = buildNetwork(8000, 4000, 800)
 
 # Emulating the Temporal Lobe
-temporal_lobe = FeedForwardNetwork()
-temporal_lobe.addInputModule(LinearLayer(7500, name="in"))
-temporal_lobe.addModule(SigmoidLayer(3500, name="hidden0"))
-temporal_lobe.addOutputModule(LinearLayer(700, name="out"))
-temporal_lobe.addConnection(FullConnection(temporal_lobe['in'], temporal_lobe['hidden0']))
-temporal_lobe.addConnection(FullConnection(temporal_lobe['hidden0'], temporal_lobe['out']))
-temporal_lobe.sortModules()
+temporal_lobe = buildNetwork(7500, 3500, 700)
 
 # Emulating the Occipital Lobe
-occipital_lobe = FeedForwardNetwork()
-occipital_lobe.addInputModule(LinearLayer(6000, name="in"))
-occipital_lobe.addModule(SigmoidLayer(3000, name="hidden0"))
-occipital_lobe.addOutputModule(LinearLayer(600, name="out"))
-occipital_lobe.addConnection(FullConnection(occipital_lobe['in'], occipital_lobe['hidden0']))
-occipital_lobe.addConnection(FullConnection(occipital_lobe['hidden0'], occipital_lobe['out']))
-occipital_lobe.sortModules()
+occipital_lobe = buildNetwork(6000, 3000, 600)
 
 # Emulating the Cerebellum
 cerebellum = FeedForwardNetwork()
