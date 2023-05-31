@@ -1,3 +1,5 @@
+# Dylan Kenneth Eliot & GPT3+jailbreak prompt
+
 from pybrain3.structure import FeedForwardNetwork
 from pybrain3.structure import LinearLayer, SigmoidLayer
 from pybrain3.structure import FullConnection
