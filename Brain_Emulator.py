@@ -8,7 +8,7 @@ This code works and has been manually tested. Now what's left is the training se
 
 
 
-
+from pybrain3.tools.shortcuts import buildNetwork
 from pybrain3.structure import FeedForwardNetwork
 from pybrain3.structure import LinearLayer, SigmoidLayer
 from pybrain3.structure import FullConnection
@@ -23,18 +23,13 @@ frontal_lobe.addConnection(FullConnection(frontal_lobe['hidden0'], frontal_lobe[
 frontal_lobe.sortModules()
 
 # Emulating the Parietal Lobe
-parietal_lobe = FeedForwardNetwork()
-parietal_lobe.addInputModule(LinearLayer(8000, name="in"))
-parietal_lobe.addModule(SigmoidLayer(4000, name="hidden"))
-parietal_lobe.addOutputModule(LinearLayer(800, name="out"))
-parietal_lobe.addConnection(FullConnection(parietal_lobe['in'], parietal_lobe['hidden0']))
-parietal_lobe.addConnection(FullConnection(parietal_lobe['hidden0'], parietal_lobe['out']))
-parietal_lobe.sortModules()
+
+parietal_lobe = buildNetwork(8000, 4000, 800)
 
 # Emulating the Temporal Lobe
 temporal_lobe = FeedForwardNetwork()
 temporal_lobe.addInputModule(LinearLayer(7500, name="in"))
-temporal_lobe.addModule(SigmoidLayer(3500, name="hidden"))
+temporal_lobe.addModule(SigmoidLayer(3500, name="hidden0"))
 temporal_lobe.addOutputModule(LinearLayer(700, name="out"))
 temporal_lobe.addConnection(FullConnection(temporal_lobe['in'], temporal_lobe['hidden0']))
 temporal_lobe.addConnection(FullConnection(temporal_lobe['hidden0'], temporal_lobe['out']))
@@ -43,7 +38,7 @@ temporal_lobe.sortModules()
 # Emulating the Occipital Lobe
 occipital_lobe = FeedForwardNetwork()
 occipital_lobe.addInputModule(LinearLayer(6000, name="in"))
-occipital_lobe.addModule(SigmoidLayer(3000, name="hidden"))
+occipital_lobe.addModule(SigmoidLayer(3000, name="hidden0"))
 occipital_lobe.addOutputModule(LinearLayer(600, name="out"))
 occipital_lobe.addConnection(FullConnection(occipital_lobe['in'], occipital_lobe['hidden0']))
 occipital_lobe.addConnection(FullConnection(occipital_lobe['hidden0'], occipital_lobe['out']))
@@ -52,7 +47,7 @@ occipital_lobe.sortModules()
 # Emulating the Cerebellum
 cerebellum = FeedForwardNetwork()
 cerebellum.addInputModule(LinearLayer(9000, name="in"))
-cerebellum.addModule(SigmoidLayer(4500, name="hidden"))
+cerebellum.addModule(SigmoidLayer(4500, name="hidden0"))
 cerebellum.addOutputModule(LinearLayer(900, name="out"))
 cerebellum.addConnection(FullConnection(cerebellum['in'], cerebellum['hidden0']))
 cerebellum.addConnection(FullConnection(cerebellum['hidden0'], cerebellum['out']))
@@ -61,7 +56,7 @@ cerebellum.sortModules()
 # Emulating the Brainstem
 brainstem = FeedForwardNetwork()
 brainstem.addInputModule(LinearLayer(3000, name="in"))
-brainstem.addModule(SigmoidLayer(1500, name="hidden"))
+brainstem.addModule(SigmoidLayer(1500, name="hidden0"))
 brainstem.addOutputModule(LinearLayer(300, name="out"))
 brainstem.addConnection(FullConnection(brainstem['in'], brainstem['hidden0']))
 brainstem.addConnection(FullConnection(brainstem['hidden0'], brainstem['out']))
