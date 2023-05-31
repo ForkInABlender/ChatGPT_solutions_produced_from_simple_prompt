@@ -1,6 +1,6 @@
-from pybrain.structure import FeedForwardNetwork
-from pybrain.structure import LinearLayer, SigmoidLayer
-from pybrain.structure import FullConnection
+from pybrain3.structure import FeedForwardNetwork
+from pybrain3.structure import LinearLayer, SigmoidLayer
+from pybrain3.structure import FullConnection
 
 # Emulating the Frontal Lobe
 frontal_lobe = FeedForwardNetwork()
