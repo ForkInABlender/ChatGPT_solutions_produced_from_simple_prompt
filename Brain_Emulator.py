@@ -1,4 +1,7 @@
 # Dylan Kenneth Eliot & GPT3+jailbreak prompt
+#
+# https://web.archive.org/web/20220616043507/http://pybrain.org/docs/tutorial/netmodcon.html
+
 
 from pybrain3.structure import FeedForwardNetwork
 from pybrain3.structure import LinearLayer, SigmoidLayer
