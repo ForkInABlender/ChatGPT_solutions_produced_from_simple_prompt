@@ -96,9 +96,10 @@ def perform_preprocessing(eeg_data):
     return preprocessed_data
 
 
+
 def preprocess(eeg_data):
     global frontal_lobe_dataset, parietal_lobe_dataset, temporal_lobe_dataset, occipital_lobe_dataset, cerebellum_dataset, limbic_system_dataset, wernicke_area_dataset, broca_area_dataset, visual_cortex_dataset
-    global expected_output_for_frontal_lobe, expected_output_for_parietal_lobe, expected_output_for_temporal_lobe, expected_output_for_occipital_lobe, expected_output_for_cerebellum, expected_output_for_brainstem, expected_output_for_wernicke_area, expected_output_for_broca_area, expected_output_for_visual_cortex
+    global expected_output_for_frontal_lobe, expected_output_for_parietal_lobe, expected_output_for_temporal_lobe, expected_output_for_occipital_lobe, expected_output_for_cerebellum, expected_output_for_brainstem, expected_output_for_limbic_system, expected_output_for_wernicke_area, expected_output_for_broca_area, expected_output_for_visual_cortex
     preprocessed_data = perform_preprocessing(eeg_data)
     frontal_lobe_dataset.addSample(preprocessed_data[:10000], expected_output_for_frontal_lobe)
     parietal_lobe_dataset.addSample(preprocessed_data[:8000], expected_output_for_parietal_lobe)
