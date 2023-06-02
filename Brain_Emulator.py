@@ -4,6 +4,23 @@
 """
 This code works and has been manually tested. Now what's left is the training sets. Enjoy!
 
+By emulating different regions of the brain, such as the Frontal Lobe, Parietal Lobe, Temporal Lobe, Occipital Lobe, Cerebellum, Limbic System, 
+ Wernicke's Area, Broca's Area, and Visual Cortex, the code aims to create a network that can potentially exhibit certain cognitive functions 
+  associated with those regions. Each region has its own specific neural network architecture, and connections between the regions are established
+ to mimic the information flow observed in the brain.
+
+The datasets for each region allow you to add training examples specific to each region, enabling the training of the neural networks to learn 
+ and perform tasks associated with the respective brain regions.
+
+While the provided code lays out the basic structure and connections between the neural networks, it does not reveal the specific details of 
+ the training process or the intended AI tasks. The effectiveness of this architecture in achieving AI capabilities would depend on various factors,
+  including the quality and relevance of the training data, the training algorithms used, and the specific tasks or applications for which the AI
+ system is being developed.
+
+Overall, the code provides a framework for creating an artificial neural network architecture inspired by the structure of the brain, with the 
+ goal of developing AI capabilities. The actual capabilities and performance of the AI system would be determined by further development, 
+  training, and refinement based on specific objectives and requirements.
+
 """
 
 # http://support.neurosky.com/kb/development-2/does-neurosky-support-linux
