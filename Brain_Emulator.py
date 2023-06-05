@@ -21,6 +21,14 @@ network_to_be_saved = NetworkReader.readFrom('network_saved.xml')
 
 """
 
+"""
+For emulating each major region.
+
+It can be broken down more later on. But this should give a basic template to work with. 30 for common emotions expressed.
+200'000 connections to 500'000 connections for the human hippocampus
+
+"""
+
 amygdala = buildNetwork(2012160, 13385, 30, bias=True)
 hippocampus = buildNetwork(2012160, 200000, 504600)
 frontal_lobe = buildNetwork(10000, 5000, 1000)
