@@ -29,25 +29,9 @@ temporal_lobe = buildNetwork(7500, 3500, 700)   # Emulating the Temporal Lobe
 occipital_lobe = buildNetwork(6000, 3000, 600)  # Emulating the Occipital Lobe
 cerebellum = buildNetwork(9000, 4500, 900)      # Emulating the Cerebellum
 brainstem = buildNetwork(3000, 1500, 300)       # Emulating the Brainstem
-limbic_system = buildNetwork(5000, 2500, 500) # Emulating the Limbic System
-
-# Emulating Wernicke's Area
-wernicke_area = FeedForwardNetwork()
-wernicke_area.addInputModule(LinearLayer(3500))
-wernicke_area.addModule(SigmoidLayer(1800))
-wernicke_area.addOutputModule(LinearLayer(350))
-wernicke_area.addConnection(FullConnection(wernicke_area['in'], wernicke_area['hidden0']))
-wernicke_area.addConnection(FullConnection(wernicke_area['hidden0'], wernicke_area['out']))
-wernicke_area.sortModules()
-
-# Emulating Broca's Area
-broca_area = FeedForwardNetwork()
-broca_area.addInputModule(LinearLayer(3000))
-broca_area.addModule(SigmoidLayer(1500))
-broca_area.addOutputModule(LinearLayer(300))
-broca_area.addConnection(FullConnection(broca_area['in'], broca_area['hidden0']))
-broca_area.addConnection(FullConnection(broca_area['hidden0'], broca_area['out']))
-broca_area.sortModules()
+limbic_system = buildNetwork(5000, 2500, 500)   # Emulating the Limbic System
+wernicke_area = buildNetwork(3500, 1800, 350)   # Emulating Wernicke's Area
+broca_area = buildNetwork(3000, 1500, 300)      # Emulating Broca's Area
 
 # Connecting the Frontal Lobe to other regions
 frontal_lobe.addConnection(FullConnection(frontal_lobe['out'], parietal_lobe['in']))
