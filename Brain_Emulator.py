@@ -21,10 +21,6 @@ network_to_be_saved = NetworkReader.readFrom('network_saved.xml')
 
 """
 
-from pybrain3.structure import FeedForwardNetwork
-from pybrain3.structure import FullConnection
-from pybrain3.tools.shortcuts import buildNetwork
-
 amygdala = buildNetwork(2012160, 13385, 30, bias=True)
 hippocampus = buildNetwork(2012160, 200000, 504600)
 frontal_lobe = buildNetwork(10000, 5000, 1000)
