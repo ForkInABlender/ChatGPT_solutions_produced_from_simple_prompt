@@ -1,6 +1,31 @@
-from pybrain.structure import FeedForwardNetwork
-from pybrain.structure import LinearLayer, SigmoidLayer
-from pybrain.structure import FullConnection
+# Dylan Kenneth Eliot & GPT3 with custom bot prompt
+#
+#
+
+from pybrain3.structure import FeedForwardNetwork
+from pybrain3.structure import LinearLayer, SigmoidLayer
+from pybrain3.structure import FullConnection
+from pybrain3.tools.shortcuts import buildNetwork
+from pybrain3.tools.xml.networkwriter import NetworkWriter
+from pybrain3.tools.xml.networkreader import NetworkReader
+
+"""
+
+to save a network:
+
+NetworkWriter.writeToFile(network_to_be_saved, 'network_saved.xml')
+
+to use a saved network:
+
+network_to_be_saved = NetworkReader.readFrom('network_saved.xml')
+
+"""
+
+
+hippocampus = buildNetwork(2012160, 200000, 504600)
+
+# Train and test the network using appropriate datasets
+
 
 # Emulating the Frontal Lobe
 frontal_lobe = FeedForwardNetwork()
