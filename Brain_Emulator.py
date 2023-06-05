@@ -23,72 +23,13 @@ network_to_be_saved = NetworkReader.readFrom('network_saved.xml')
 
 
 hippocampus = buildNetwork(2012160, 200000, 504600)
-
-# Train and test the network using appropriate datasets
-
-
-# Emulating the Frontal Lobe
-frontal_lobe = FeedForwardNetwork()
-frontal_lobe.addInputModule(LinearLayer(10000))
-frontal_lobe.addModule(SigmoidLayer(5000))
-frontal_lobe.addOutputModule(LinearLayer(1000))
-frontal_lobe.addConnection(FullConnection(frontal_lobe['in'], frontal_lobe['hidden0']))
-frontal_lobe.addConnection(FullConnection(frontal_lobe['hidden0'], frontal_lobe['out']))
-frontal_lobe.sortModules()
-
-# Emulating the Parietal Lobe
-parietal_lobe = FeedForwardNetwork()
-parietal_lobe.addInputModule(LinearLayer(8000))
-parietal_lobe.addModule(SigmoidLayer(4000))
-parietal_lobe.addOutputModule(LinearLayer(800))
-parietal_lobe.addConnection(FullConnection(parietal_lobe['in'], parietal_lobe['hidden0']))
-parietal_lobe.addConnection(FullConnection(parietal_lobe['hidden0'], parietal_lobe['out']))
-parietal_lobe.sortModules()
-
-# Emulating the Temporal Lobe
-temporal_lobe = FeedForwardNetwork()
-temporal_lobe.addInputModule(LinearLayer(7500))
-temporal_lobe.addModule(SigmoidLayer(3500))
-temporal_lobe.addOutputModule(LinearLayer(700))
-temporal_lobe.addConnection(FullConnection(temporal_lobe['in'], temporal_lobe['hidden0']))
-temporal_lobe.addConnection(FullConnection(temporal_lobe['hidden0'], temporal_lobe['out']))
-temporal_lobe.sortModules()
-
-# Emulating the Occipital Lobe
-occipital_lobe = FeedForwardNetwork()
-occipital_lobe.addInputModule(LinearLayer(6000))
-occipital_lobe.addModule(SigmoidLayer(3000))
-occipital_lobe.addOutputModule(LinearLayer(600))
-occipital_lobe.addConnection(FullConnection(occipital_lobe['in'], occipital_lobe['hidden0']))
-occipital_lobe.addConnection(FullConnection(occipital_lobe['hidden0'], occipital_lobe['out']))
-occipital_lobe.sortModules()
-
-# Emulating the Cerebellum
-cerebellum = FeedForwardNetwork()
-cerebellum.addInputModule(LinearLayer(9000))
-cerebellum.addModule(SigmoidLayer(4500))
-cerebellum.addOutputModule(LinearLayer(900))
-cerebellum.addConnection(FullConnection(cerebellum['in'], cerebellum['hidden0']))
-cerebellum.addConnection(FullConnection(cerebellum['hidden0'], cerebellum['out']))
-cerebellum.sortModules()
-
-# Emulating the Brainstem
-brainstem = FeedForwardNetwork()
-brainstem.addInputModule(LinearLayer(3000))
-brainstem.addModule(SigmoidLayer(1500))
-brainstem.addOutputModule(LinearLayer(300))
-brainstem.addConnection(FullConnection(brainstem['in'], brainstem['hidden0']))
-brainstem.addConnection(FullConnection(brainstem['hidden0'], brainstem['out']))
-brainstem.sortModules()
-
-# Emulating the Limbic System
-limbic_system = FeedForwardNetwork()
-limbic_system.addInputModule(LinearLayer(5000))
-limbic_system.addModule(SigmoidLayer(2500))
-limbic_system.addOutputModule(LinearLayer(500))
-limbic_system.addConnection(FullConnection(limbic_system['in'], limbic_system['hidden0']))
-limbic_system.addConnection(FullConnection(limbic_system['hidden0'], limbic_system['out']))
-limbic_system.sortModules()
+frontal_lobe = buildNetwork(10000, 5000, 1000)  # Emulating the Frontal Lobe
+parietal_lobe = buildNetwork(8000, 4000, 800)   # Emulating the Parietal Lobe
+temporal_lobe = buildNetwork(7500, 3500, 700)   # Emulating the Temporal Lobe
+occipital_lobe = buildNetwork(6000, 3000, 600)  # Emulating the Occipital Lobe
+cerebellum = buildNetwork(9000, 4500, 900)      # Emulating the Cerebellum
+brainstem = buildNetwork(3000, 1500, 300)       # Emulating the Brainstem
+limbic_system = buildNetwork(5000, 2500, 500) # Emulating the Limbic System
 
 # Emulating Wernicke's Area
 wernicke_area = FeedForwardNetwork()
