@@ -44,7 +44,30 @@ def generate_text(gpt2_model, gpt2_tokenizer, input_text, max_length=100, num_re
 # Load the GPT-2 models and create the PyBrain3 network
 model1, tokenizer1 = get_gpt2_model_and_tokenizer("gpt2-medium")
 model2, tokenizer2 = get_gpt2_model_and_tokenizer("gpt2-large")
-amygdala = create_pybrain3_network(768, 13385, 30)
+
+amygdala = create_pybrain3_network(2012160, 13385, 30)
+hippocampus = buildNetwork(2012160, 200000, 504600)
+frontal_lobe = buildNetwork(10000, 5000, 1000)
+parietal_lobe = buildNetwork(8000, 4000, 800)
+temporal_lobe = buildNetwork(7500, 3500, 700)
+occipital_lobe = buildNetwork(6000, 3000, 600)
+cerebellum = buildNetwork(9000, 4500, 900)
+brainstem = buildNetwork(3000, 1500, 300)
+limbic_system = buildNetwork(5000, 2500, 500)
+wernicke_area = buildNetwork(3500, 1800, 350)
+broca_area = buildNetwork(3000, 1500, 300)
+
+networks = [
+    amygdala, hippocampus, frontal_lobe, parietal_lobe, temporal_lobe,
+    occipital_lobe, cerebellum, brainstem, limbic_system, wernicke_area, broca_area
+]
+
+# Connect all networks to each other, including self-connections
+for i in range(len(networks)):
+    for j in range(len(networks)):
+        connection = FullConnection(networks[i], networks[j])
+        networks[i].addConnection(connection)
+        networks[i].sortModules()
 
 # Generate output from the first GPT-2 model
 input_text = "Hello, how are you?"
