@@ -6,6 +6,8 @@ After fairful consideration, after carefule consideration, my initial brain emul
  enough in my eyes. It just needed that special loving touch of math. So I made it simpler. Now it is a 
   matter of time, compute, and data size. Well, and some eeg data about our brains using neuropy.
 
+
+Point being, if you train it correctly, it can surpass gpt-3 & 4.
 """
 
 
