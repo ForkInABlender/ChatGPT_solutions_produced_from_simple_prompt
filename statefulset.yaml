@@ -1,0 +1,33 @@
+
+
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: your-app-statefulset
+spec:
+  serviceName: your-app
+  replicas: 117
+  selector:
+    matchLabels:
+      app: your-app
+  template:
+    spec:
+      containers:
+        - name: your-app
+          image: your-container-registry/your-app-image:latest
+          ports:
+            - containerPort: 8080
+          resources:
+            limits:
+              cpu: 500m
+              memory: 512Mi
+          env:
+            - name: CONTAINER_NUMBER
+              valueFrom:
+                fieldRef:
+                  fieldPath: metadata.labels['statefulset.kubernetes.io/pod-name']
+            - name: ENVIRONMENT_COUNT
+              value: "117"  # Total number of environments
+          labels:
+            app: your-app
+
