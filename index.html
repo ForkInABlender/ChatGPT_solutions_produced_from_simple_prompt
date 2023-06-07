@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>GPT-4 Emulator</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.3.0/socket.io.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/brython/3.9.2/brython.min.js"></script>
+</head>
+<body onload="brython()">
+    <h1>GPT-4 Emulator</h1>
+
+    <div id="output"></div>
+
+    <script type="text/python">
+        from browser import document, alert, window
+
+        socket = window.io.connect('http://localhost:5000')
+
+        def generate_modified_text(input_text):
+            socket.emit('generate_modified_text', input_text)
+
+        @socket.on('modified_text')
+        def handle_modified_text(output_text):
+            document['output'].innerHTML = output_text
+
+        def handle_submit(event):
+            event.preventDefault()
+            input_text = document['input'].value.strip()
+            generate_modified_text(input_text)
+
+        document['input_form'].bind('submit', handle_submit)
+    </script>
+
+    <form id="input_form">
+        <input type="text" id="input" placeholder="Enter input text">
+        <button type="submit">Generate</button>
+    </form>
+</body>
+</html>
+
