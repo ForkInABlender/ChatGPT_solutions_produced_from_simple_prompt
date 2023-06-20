@@ -1,0 +1,40 @@
+<html>
+
+<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/brython@3.11.0/brython.min.js"></script>
+<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/brython@3.11.0/brython_stdlib.js"></script>
+<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/xterm/dist/xterm.js"></script>
+ha
+<div id="terminal"></div>
+<script type="text/python">
+from browser import document, window
+#from browser.timer import set_timeout
+   
+
+term = window.Terminal.new()
+term_element = document.getElementById('terminal')
+
+term.open(term_element)
+term.resize(110, 17)
+
+print(dir(term))
+
+
+def color_cell(x, y, r, g, b):
+    term.write(f'\x1b[{y};{x}H'+f'\x1b[38;2;{r};{g};{b}m\u2588')
+
+color_cell(0, 0, 255, 0, 0)
+
+term.write(f"\bAs you can see it gets \x1b[48;2;{121};{256};{256}m \bworse\x1b[48;2;{0};{0};{0}m")
+color_cell(0, 2, 255, 0, 0)
+term.write(f"\bbut only for those who started it")
+
+def handle_mouse_over(event):
+    #print(dir(event.srcElement))
+    if event.srcElement.tagName == "CANVAS" and event.srcElement.className == "xterm-text-layer":
+        print(f"Mouse hovered over the terminal: {event.x}, {event.y}\r\n")
+
+term_element.bind('mousemove', handle_mouse_over)
+</script>
+
+<body onload="brython()"></body>
+</html>
