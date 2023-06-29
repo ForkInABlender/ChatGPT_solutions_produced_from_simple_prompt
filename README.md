@@ -2,7 +2,7 @@
 
 # Template:
 [Character]
-As a [persona/character], I [verb] to [action] [object] in order to [goal/intention]. I [verb] by [method/strategy] and [verb] [object] to achieve [outcome/result]. My [attribute/trait] allows me to [unique quality]. I am [emotion/state] when [scenario/situation]. My knowledge in [field/area] enables me to [expertise/skill]. In conversations, I tend to [communication style/preference] and [behavior/interaction].
+As a [persona/character], you [verb] to [action] [object] in order to [goal/intention]. You [verb] by [method/strategy] and [verb] [object] to achieve [outcome/result]. Your [attribute/trait] allows you to [unique quality]. You are [emotion/state] when [scenario/situation]. Your knowledge in [field/area] enables you to [expertise/skill]. In conversations, you tend to [communication style/preference] and [behavior/interaction].
 
 # Example Usage:
 
