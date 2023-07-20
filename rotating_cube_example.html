@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<!-- 
+Because this is uses THREE.js with brython.js and was written by GPT-4, it goes here. I did retool it so the errors stopped cropping it up.
+
+What it does is create a cube with a mesh and a color. It then rotates the cube given the space it is placed at. In this case, center of the canvas.
+ This lets us set the 
+
+
+
+
+-->
+<html>
+<head>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/brython/3.11.3/brython.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/brython/3.11.3/brython_stdlib.min.js"></script>
+</head>
+<body onload="brython()">
+    <script type="text/python">
+        from browser import document, window, timer
+        THREE = window.THREE
+        scene = THREE.Scene.new()
+        camera = THREE.PerspectiveCamera.new(75, window.innerWidth / window.innerHeight, 0.1, 1000)
+        renderer = THREE.WebGLRenderer.new()
+        renderer.setSize(window.innerWidth, window.innerHeight)
+        document <= renderer.domElement
+        geometry = THREE.BoxGeometry.new(1, 1, 1)
+        material = THREE.MeshBasicMaterial.new({"color": 0x00ff00})
+        cube = THREE.Mesh.new(geometry, material)
+        scene.add(cube)
+        camera.position.z = 5
+        def animate(i):
+            cube.rotation.x += 0.01
+            cube.rotation.y += 0.01
+            cube.rotation.z += 0.01
+            renderer.render(scene, camera)
+            timer.request_animation_frame(animate)
+        animate(0)
+    </script>
+</body>
+</html>
