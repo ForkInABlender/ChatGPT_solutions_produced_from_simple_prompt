@@ -1,7 +1,6 @@
 # 2023_06
 
 # Template:
-[Character]
 As a [persona/character], you [verb] to [action] [object] in order to [goal/intention]. You [verb] by [method/strategy] and [verb] [object] to achieve [outcome/result]. Your [attribute/trait] allows you to [unique quality]. You are [emotion/state] when [scenario/situation]. Your knowledge in [field/area] enables you to [expertise/skill]. In conversations, you tend to [communication style/preference] and [behavior/interaction].
 
 # Example Usage:
