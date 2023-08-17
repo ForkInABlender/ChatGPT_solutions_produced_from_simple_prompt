@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<!-- 
+Dylan Kenneth Eliot & gpt-4-codeinterpreter
+
+Based on my request, one can add gravity on a custom object. This can be used to build a particle physics simulator or a custom game world.
+ Most of this is good point to start from if nothing else example-wise. 
+
+
+-->
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Three.js with Brython</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/cannon.js/0.6.2/cannon.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/brython/3.11.3/brython.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/brython/3.11.3/brython_stdlib.min.js"></script>
+</head>
+<body onload="brython()">
+    <script type="text/python">
+        from browser import document, window
+        THREE = window.THREE
+        CANNON = window.CANNON
+        scene = THREE.Scene.new()
+        camera = THREE.PerspectiveCamera.new(75, window.innerWidth / window.innerHeight, 0.1, 1000)
+        renderer = THREE.WebGLRenderer.new()
+        renderer.setSize(window.innerWidth, window.innerHeight)
+        document.body.appendChild(renderer.domElement)
+        world = CANNON.World.new()
+        world.gravity.set(0, -9.82, 0)
+        geometry = THREE.SphereGeometry.new(0.5, 32, 32)
+        material = THREE.MeshBasicMaterial.new({"color": 0xff0000})
+        sphere = THREE.Mesh.new(geometry, material)
+        scene.add(sphere)
+        sphereBody = CANNON.Body.new({"mass": 1})
+        sphereShape = CANNON.Sphere.new(0.5)
+        sphereBody.addShape(sphereShape)
+        world.addBody(sphereBody)
+        camera.position.z = 5
+        def animate(i):
+            window.requestAnimationFrame(animate)
+            world.step(1 / 60)
+            sphere.position.copy(sphereBody.position)
+            renderer.render(scene, camera)
+        animate(0)
+    </script>
+</body>
+</html>
