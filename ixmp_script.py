@@ -1,9 +1,11 @@
-#Dylan Kenneth Eliot & GPT-4-plugins
+#Dylan Kenneth Eliot & GPT-4-plugins & openai module
 
 """
 This is a ixmp server. I don't know it's use case beyond vaguely that it could be used for testing and analyzing of data and application usage.
 How is beyond me. Even the documentation was a little vague. So, probably GPT is better for asking what it can be used for.
 
+
+As this is the example it wrote entirely by a fat-finger (ICMP). 
 """
 
 import subprocess, ixmp
