@@ -3,7 +3,10 @@
 """
 This took a bit of prompt engineering. Most of it is designed to be an open source version of GPT2/3 not built by OpenAI.
  Thus far, it is a starting point to work with. You'll need to model it more for your needs and purposes. Thus far, it is a working rough cut 
-  out of the core of it might work and look. The rest comes down to implementation. 
+  out of the core of it might work and look. The rest comes down to implementation.
+
+https://github.com/AlexProgramm/pybrain3/
+https://web.archive.org/web/20230115194403/http://pybrain.org/docs/index.html
 
 """
 
