@@ -7,6 +7,10 @@ This took a bit of prompt engineering. Most of it is designed to be an open sour
 
 https://github.com/AlexProgramm/pybrain3/
 https://web.archive.org/web/20230115194403/http://pybrain.org/docs/index.html
+You'll also need from python3.6 the string.py library for scipy. and update your scipy and numpy
+modules to get your copy working. The traceback should tell you what it needs fixed.
+
+
 
 """
 
