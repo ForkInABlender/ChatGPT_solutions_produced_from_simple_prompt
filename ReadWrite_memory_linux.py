@@ -1,3 +1,13 @@
+# Dylan Kenneth Eliot & gpt-4-plugins
+
+"""
+This is a simple script that requires knowing what memory addresses are "RWX" compliant.
+This also has to do with ``pmap <PID> | grep "[r\w+].*[x\w+].*[x\w+]"`` to find them.
+
+After that, it is a matter of what you're wanting to read versus write to and from memory.
+
+"""
+
 import os
 
 class ProcessMemory:
