@@ -6,6 +6,8 @@ This also has to do with ``pmap <PID> | grep "[r\w+].*[x\w+].*[x\w+]"`` to find 
 
 After that, it is a matter of what you're wanting to read versus write to and from memory.
 
+Now this can be used with root or inside a docker container. This is something one wouldn't want to 
+ see misuse of. That being said, please use this wisely. 
 """
 
 import os
