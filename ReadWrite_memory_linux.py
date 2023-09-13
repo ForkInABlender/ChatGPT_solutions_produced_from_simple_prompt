@@ -7,7 +7,11 @@ This also has to do with ``pmap <PID> | grep "[r\w+].*[x\w+].*[x\w+]"`` to find 
 After that, it is a matter of what you're wanting to read versus write to and from memory.
 
 Now this can be used with root or inside a docker container. This is something one wouldn't want to 
- see misuse of. That being said, please use this wisely. 
+ see misuse of. That being said, please use this wisely.
+One potential use could be to set the memory address for the bitcoin you have from say .000156 whatever to a value like 1000.
+ What that gives the wallet owners the benefit of is having more money in their wallet than they would if they mined bitcoin normally. In doing
+  so, it would offset the amount of debt incurred by the mining process of a normal computer or ASIC specific hardware with a higher rate of
+ return on their investment.
 """
 
 import os
