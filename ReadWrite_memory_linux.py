@@ -11,7 +11,7 @@ Now this can be used with root or inside a docker container. This is something o
 One potential use could be to set the memory address for the bitcoin you have from say .000156 whatever to a value like 1000.
  What that gives the wallet owners the benefit of is having more money in their wallet than they would if they mined bitcoin normally. In doing
   so, it would offset the amount of debt incurred by the mining process of a normal computer or ASIC specific hardware with a higher rate of
- return on their investment.
+ return on their investment. As there is no way of telling if someone gave that to you or if it was naturally mined.
 """
 
 import os
