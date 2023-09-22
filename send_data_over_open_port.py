@@ -13,8 +13,9 @@ And this code has been tested
 
 I am not responsible for any damage one does with this code. If you use this to test for a security
  reason, that's one thing. But outright hacking with this type of code is considered illegal.
-Please do be mindful even when testing on your own local machines. I do not condone hacking beyond
- educational purposes such as teaching what it is and what it looks like.
+Please do be mindful even when testing on your own local machines, as well as others on the same
+ network. I do not condone hacking beyond educational purposes such as teaching what it is and what
+  it looks like.
 """
 
 import socket
