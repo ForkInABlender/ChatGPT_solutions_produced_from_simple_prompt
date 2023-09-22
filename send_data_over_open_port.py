@@ -5,7 +5,9 @@ This took some time to figure out. However, given a ip and a port, with a specif
  or pseudo-random data. Due note that this is a way databases and other exposed api's can be messed with, even on local networks by other users.
   Detection of intrusion may not, however, be triggered by this method. So, be mindful of what is public and what is not.
 
+The way it works is:
 
+send_data_over_open_port.py send {ip of server/server-name}
 """
 
 import socket
