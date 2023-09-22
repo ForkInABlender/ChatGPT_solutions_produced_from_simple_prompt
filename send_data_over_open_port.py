@@ -10,6 +10,10 @@ The way it works is:
 send_data_over_open_port.py send {ip of server/server-name}
 
 And this code has been tested
+
+I am not responsible for any damage one does with this code. If you use this to test for a security
+ reason, that's one thing. But outright hacking with this type of code is considered illegal.
+Please do be mindful even when testing on your own local machines.
 """
 
 import socket
