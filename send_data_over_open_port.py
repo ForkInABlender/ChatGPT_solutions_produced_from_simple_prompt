@@ -29,27 +29,6 @@ def get_ip_from_name(device_name):
         except:
             return None
 
-def listen_device_traffic(device_name):
-    device_ip = get_ip_from_name(device_name)
-    if not device_ip:
-        print(f"Could not resolve IP address for device name: {device_name}")
-        return
-
-    # Create a raw socket to listen to all traffic
-    s = socket.socket(socket.AF_PACKET, socket.SOCK_RAW, socket.ntohs(3))
-    
-    while True:
-        # Receive data from the socket
-        packet, addr = s.recvfrom(65536)
-
-        # Extract the source and destination IP addresses from the packet
-        src_ip = socket.inet_ntoa(packet[26:30])
-        dst_ip = socket.inet_ntoa(packet[30:34])
-
-        # Check if the packet is sourced from or destined to the device's IP address
-        if src_ip == device_ip or dst_ip == device_ip:
-            print(f"Captured packet between {src_ip} and {dst_ip}: {packet}")
-
 def generate_random_data(length=100):
     """Generate random data of the specified length."""
     return ''.join(random.choice('0123456789ABCDEF') for _ in range(length))
@@ -75,10 +54,7 @@ if __name__ == "__main__":
         sys.exit(1)
 
     action = sys.argv[1]
-
-    if action == "listen":
-        DEVICE_NAME = sys.argv[2]
-        listen_device_traffic(DEVICE_NAME)
+ 
     elif action == "send":
         TARGET_IP = sys.argv[2]
         send_random_packet(TARGET_IP)
