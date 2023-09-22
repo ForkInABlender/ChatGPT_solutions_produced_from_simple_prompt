@@ -8,6 +8,8 @@ This took some time to figure out. However, given a ip and a port, with a specif
 The way it works is:
 
 send_data_over_open_port.py send {ip of server/server-name}
+
+And this code has been tested
 """
 
 import socket
