@@ -14,20 +14,6 @@ import subprocess
 import sys
 import random
 
-def get_ip_from_name(device_name):
-    try:
-        # Try DNS resolution first
-        return socket.gethostbyname(device_name)
-    except socket.gaierror:
-        # If DNS resolution fails, try ARP cache
-        try:
-            # Use arp command to get the IP address
-            result = subprocess.check_output(["arp", "-n", device_name]).decode('utf-8')
-            for line in result.split("\n"):
-                if device_name in line:
-                    return line.split()[0]
-        except:
-            return None
 
 def generate_random_data(length=100):
     """Generate random data of the specified length."""
