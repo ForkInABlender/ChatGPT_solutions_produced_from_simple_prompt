@@ -37,7 +37,6 @@ if __name__ == "__main__":
 
     # Check if a device name is provided as a command-line argument
     if len(sys.argv) < 3:
-        print("Usage: python script_name.py listen DEVICE_NAME")
         print("       python script_name.py send TARGET_IP")
         sys.exit(1)
 
