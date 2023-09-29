@@ -8,6 +8,11 @@ Sometimes, we need tools that operate like "up"-s hearing aids do. In some cases
 And know exactly who it is being said to. Even though the traffic is encrypted, it doesn't mean someone doesn't have a duplicate copy of the
  pieces of information exchanged.
 
+"Why not just use scapy? Isn't it built for this kind of thing?"
+
+Well, yes, it was, but, it also failed to do so beyond the local machine's requests the way wireshark does. And I wouldn't accept broken yet
+ functional code. So, this was tried as an alternative that worked as expected. 
+
 
 """
 
