@@ -20,7 +20,7 @@ To run it, type:
 * for python: "python basic_A_record_DNS.py"
 
 This should work anywhere python does with the socket and struct library installed on that system. Including android cell phones not using kivy.
-
+ The reason to not use scapy is scapy would only botch it and mitmproxy wouldn't help as middleware. 
 """
 
 import socket, struct
