@@ -8,7 +8,10 @@ Using "dig @127.0.0.1" or the ip of the server the record is in. In GPT-4's exam
 
 In Practice, you'd define such through a registrar and buy a domain name. Instead, this lets you customize how you define your own. Ideally,
  one would use dig and nslookup, and then retool this to be http protocol compatible such that it worked with ngrok. Then it would be a matter of
-  implementation. A docker container and threading is recommended if you're looking to run this with a flask server.
+  implementation. A docker container and threading is recommended if you're looking to run this with a flask server. If you're looking to use
+ this with jython, standalone or installer based, it is recommended you find a way to use the java threading tools within the interpreter that
+  will be running the code. Jython does allow you to run 2 or more instances of jython that don't talk to one another running different bits of
+   code like the code you see below.
 """
 
 import socket, struct
