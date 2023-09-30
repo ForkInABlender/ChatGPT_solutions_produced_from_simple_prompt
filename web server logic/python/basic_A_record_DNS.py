@@ -1,7 +1,9 @@
 # Dylan Kenneth Eliot & GPT-4-plugins
 
 """
+This file was created to explore DNS A record keeping and data in a dictionary. a "zone file" if you will.
 
+Using "dig @127.0.0.1" or the ip of the server the record is in. In GPT-4's example, it is "localdomain.com".
 """
 
 import socket, struct
