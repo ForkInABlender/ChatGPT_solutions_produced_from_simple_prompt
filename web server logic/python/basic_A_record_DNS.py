@@ -12,6 +12,15 @@ In Practice, you'd define such through a registrar and buy a domain name. Instea
  this with jython, standalone or installer based, it is recommended you find a way to use the java threading tools within the interpreter that
   will be running the code. Jython does allow you to run 2 or more instances of jython that don't talk to one another running different bits of
    code like the code you see below.
+
+Thus far, this code works for python3.6+ as well as jython (which follows cpython 2.7 for 2.7).
+
+To run it, type:
+* for jython: "java -jar jython.jar basic_A_record_DNS.py"
+* for python: "python basic_A_record_DNS.py"
+
+This should work anywhere python does with the socket and struct library installed on that system. Including android cell phones not using kivy.
+
 """
 
 import socket, struct
