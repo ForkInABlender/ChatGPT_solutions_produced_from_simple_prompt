@@ -3,7 +3,12 @@
 """
 This file was created to explore DNS A record keeping and data in a dictionary. a "zone file" if you will.
 
-Using "dig @127.0.0.1" or the ip of the server the record is in. In GPT-4's example, it is "localdomain.com".
+Using "dig @127.0.0.1" or the ip of the server the record is in. In GPT-4's example, it is "localdomain.com". Templating from this, 
+ one could create any CNAME, TXT, and any other record commonly used on the web.
+
+In Practice, you'd define such through a registrar and buy a domain name. Instead, this lets you customize how you define your own. Ideally,
+ one would use dig and nslookup, and then retool this to be http protocol compatible such that it worked with ngrok. Then it would be a matter of
+  implementation. A docker container and threading is recommended if you're looking to run this with a flask server.
 """
 
 import socket, struct
