@@ -1,6 +1,12 @@
+# Dylan Kenneth Eliot & GPT-4-plugins
+
+
 """
 Alice talks to bob, vise versa. But what about "bob-alice" or "alice-bob"?
 And how would Alice or bob tell them from themselves or each other?
+
+"A true mirror of ourselves is seen when what is not imitatable comes into its view. It is at this point that they must chase such like a cat
+ chasing a red dot."
 
 """
 
