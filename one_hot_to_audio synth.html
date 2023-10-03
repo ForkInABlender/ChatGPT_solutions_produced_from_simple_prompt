@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<!-- Dylan Kenneth Eliot & GPT-4-plugins & GPT-4-code-interpreter/analyzer
+
+This is good for audio synthesis. But now it is time to connect it to something useful. Say, a reverse engineered version of gpt-2/3/4.
+
+
+-->
+<html>
+<head>
+    <title>One-Hot Encoded Array to Speech</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/brython/3.11.3/brython.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/brython/3.11.3/brython_stdlib.js"></script>
+</head>
+<body>
+    <button id="button_id">Generate Speech</button>
+    <script type="text/python">
+        from browser import document, window
+        import random
+
+        def one_hot_to_speech(one_hot_array, vocab):
+            speech_text = ''
+            for row in one_hot_array:
+                char = vocab[row.index(1.0)]
+                speech_text += char
+            
+            speech_synthesis = window.speechSynthesis
+            utterance = window.SpeechSynthesisUtterance.new(speech_text)
+            # Modulate vocal patterns
+            utterance.pitch = .5  # Pitch: 0.5 to 1.5
+            utterance.rate = .9    # Rate: 0.8 to 1.2
+            utterance.volume = 1    # Volume: 0.8 to 1
+            speech_synthesis.speak(utterance)
+
+        one_hot_array = [
+            [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0],
+            [0.0, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0],
+            [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0],
+            [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0],
+            [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 0.0],
+            [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.0],
+            [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0],
+            [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0],
+            [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0]
+        ]
+        vocab = 'abcdefghijklmnoBO '
+        document["button_id"].bind("click", lambda ev: one_hot_to_speech(one_hot_array, vocab))
+    </script>
+    <script>
+        brython();
+    </script>
+</body>
+</html>
+
