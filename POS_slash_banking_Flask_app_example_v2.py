@@ -10,10 +10,24 @@ This is a simplified POS system and what its backend might look like. However, t
 
 
 from flask import Flask, request, jsonify
+import gspread
+from oauth2client.service_account import ServiceAccountCredentials
+import pandas as pd
 import threading
 import time
 
 app = Flask(__name__)
+
+# Initialize Google Sheets API
+def init_gspread():
+    scope = ["https://spreadsheets.google.com/feeds", "https://www.googleapis.com/auth/spreadsheets",
+             "https://www.googleapis.com/auth/drive.file", "https://www.googleapis.com/auth/drive"]
+    creds = ServiceAccountCredentials.from_json_keyfile_name("credentials.json", scope)
+    client = gspread.authorize(creds)
+    sheet = client.open("Your_Spreadsheet_Name").sheet1
+    return sheet
+
+sheet = init_gspread()
 
 # Simulate bank accounts
 bank_accounts = {
@@ -27,14 +41,22 @@ linked_credit_cards = {
     '5555666677778888': '789012',
 }
 
-# Function to check balance
-def check_balance(account_number):
-    return bank_accounts.get(account_number, {}).get('balance', 'Account not found')
+# SQLAlchemy-like Wrapper Functions
+def add_account(account_number, balance):
+    new_row = [account_number, balance]
+    sheet.append_row(new_row)
+
+def update_account(account_number, balance):
+    df = pd.DataFrame(sheet.get_all_records())
+    df.loc[df['Account Number'] == account_number, 'Balance'] = balance
+    sheet.clear()
+    sheet.insert_rows(df.values.tolist(), index=1)
 
 # Function to deposit money
 def deposit(account_number, amount):
     if account_number in bank_accounts:
         bank_accounts[account_number]['balance'] += amount
+        update_account(account_number, bank_accounts[account_number]['balance'])
         return True
     return False
 
@@ -42,17 +64,9 @@ def deposit(account_number, amount):
 def withdraw(account_number, amount):
     if account_number in bank_accounts and bank_accounts[account_number]['balance'] >= amount:
         bank_accounts[account_number]['balance'] -= amount
+        update_account(account_number, bank_accounts[account_number]['balance'])
         return True
     return False
-
-# Function to handle purchase
-def handle_purchase(credit_card, amount):
-    account_number = linked_credit_cards.get(credit_card)
-    if account_number:
-        if withdraw(account_number, amount):
-            print(f"Purchase of {amount} from account {account_number} successful!")
-        else:
-            print(f"Purchase failed due to insufficient funds in account {account_number}.")
 
 # Background task to listen for purchases
 def listen_for_purchases():
@@ -63,10 +77,11 @@ def listen_for_purchases():
 
 @app.route('/charge', methods=['POST'])
 def charge():
-    account_number = request.form.get('account_number')
+    credit_card = request.form.get('credit_card')
     amount = float(request.form.get('amount'))
+    account_number = linked_credit_cards.get(credit_card)
     
-    if withdraw(account_number, amount):
+    if account_number and withdraw(account_number, amount):
         return jsonify({'status': 'success', 'amount': amount})
     else:
         return jsonify({'status': 'failed', 'message': 'Insufficient funds or invalid account'})
