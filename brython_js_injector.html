@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<!-- Dylan Kenneth Eliot & GPT-4-plugins (Alpha Edition)
+
+So, GPT sort of made this in an attempt to meet a different request. But it finally met one of my other curiousities. To my surprise, it succeeded.
+ But in doing so, it also allowed for another cool trick. Meaning one could probably load ruby after it was put through source-to-source compilation for
+  it to be javascript compatible. Then one can use said ruby code inside the browser with brython & flask server run with jython libraries. Then one would be
+   able to use ruby with python, javascript, html, and java. And the point of doing such is to allow for ease of development as well as reduce complexity by
+  allowing for more flexibility in definition functionality of what the web apps do. I would consider doing something similar for testing & developing code.
+ What I would say it would be needed for is something like gpu.js, where it is giving the developer some compatibility issues. (threads in javascript land are
+  sort of important, and the brython.js developer was busy with other things, likey) As you should see in the code, it provides a way to add code to make two
+   ordinarily imcompatible portions of execution compatible. This glue made it easier to narrow the gap while using gpu.js and brython.js
+ Where it'd come in handy is when one needs to use a modified copy of brain.js to do what pybrain3 can do, but with javascript & python logic. Steering clear
+  as much as possible away from nodejs, transformers, pytorch, pyodide, etc. Because it has to be super light weight while maintaining compatibility.
+
+https://opalrb.com/#getting-started
+
+-->
+<html>
+<head>
+  <script src="https://cdn.jsdelivr.net/npm/brython@3.11.3/brython.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/brython@3.11.3/brython_stdlib.js"></script>
+</head>
+<body onload="brython()">
+
+<script type="text/python" id="python_code">
+from browser import document, window
+
+def inject_js_code(js_code):
+    script_elem = document.createElement('script')
+    script_elem.type = 'text/javascript'
+    script_elem.innerHTML = js_code
+    document.getElementsByTagName('head')[0].appendChild(script_elem)
+
+js_code = '''
+function sayHello() {
+  alert("Hello from injected JS!");
+}
+'''
+inject_js_code(js_code)
+
+window.sayHello()
+</script>
+
+</body>
+</html>
