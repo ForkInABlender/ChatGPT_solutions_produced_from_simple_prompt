@@ -2,6 +2,10 @@
 
 """
 
+The point of this was to display the 2-dimensional layout of a poly-dimensional structure like the brain. This can be used to develop an actual AI from
+ human values. 
+
+
 
 """
 
