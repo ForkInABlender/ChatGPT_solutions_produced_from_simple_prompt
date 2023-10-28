@@ -12,7 +12,7 @@ The point of this was to display the 2-dimensional layout of a poly-dimensional 
 from pybrain3.structure import TanhLayer, LSTMLayer, RecurrentNetwork, FullConnection
 from pybrain3.tools.shortcuts import buildNetwork
 from main__GPT_Model import net as gpt_net
-import numpy as np
+
 # Anterior Cingulate Cortex (ACC) Model
 acc_net = RecurrentNetwork()
 acc_net.addInputModule(TanhLayer(100, name='in'))
