@@ -11,7 +11,6 @@ from pybrain3.structure import FeedForwardNetwork, FullConnection
 from pybrain3.supervised.trainers import BackpropTrainer
 from pybrain3.structure.modules.neuronlayer import NeuronLayer
 import numpy as np
-import pickle
 
 class FeedForwardLayer(NeuronLayer):
   def __init__(self, indim, outdim):
@@ -141,9 +140,9 @@ class LayerNorm(NeuronLayer):
 		inerr[:] = dinbuf
 
 
-VOCAB_SIZE = 50257
+VOCAB_SIZE = 120 #GPT-3 & 4 use that value --> 50257; otherwise, use 120 to interface with this model until retooled.
 D_MODEL = 128
-NUM_BLOCKS = 94 
+NUM_BLOCKS = 4 # 94 to 96 for GPT 3 & 4; othwerwise set to 4.
 NUM_HEADS = 64
 FFN_DIM = 128 
 net = FeedForwardNetwork()
@@ -176,14 +175,3 @@ for _ in range(NUM_BLOCKS):
 outLayer = SoftmaxLayer(VOCAB_SIZE)
 net.addOutputModule(outLayer)
 net.addConnection(FullConnection(prev_layer, outLayer))
-
-#print(net.activate(tuple([0]*50257)))
-
-"""
-This is for those getting into AI development.
-
-If you're looking for a place to start, here is a good place as any.
-
-Do note that this isn't easy to do development.
-
-"""  
