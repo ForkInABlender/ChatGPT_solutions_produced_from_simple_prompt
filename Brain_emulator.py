@@ -3,8 +3,9 @@
 """
 
 The point of this was to display the 2-dimensional layout of a poly-dimensional structure like the brain. This can be used to develop an actual AI from
- human values. What it isn't for? Video games. :) In fact, it is intentionally not for video games. :) A human mind is not for video games. 
-
+ human values. What it isn't for? Video games. :) In fact, it is intentionally not for video games. :) A human mind is not for video games.
+  And I will not condone an AI being added into a video game based on my code. I will, however, condone the use of my code for scientific purposes; up to
+   and including raising the dead as AI until they can have their physical body regrown even in a lab.
 """
 
 from pybrain3.structure import TanhLayer, LSTMLayer, RecurrentNetwork, FullConnection
