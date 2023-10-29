@@ -12,7 +12,7 @@ from pybrain3.structure import TanhLayer, LSTMLayer, RecurrentNetwork, FullConne
 from pybrain3.tools.shortcuts import buildNetwork
 from main__GPT_Model import net as gpt_net
 import numpy as np
-#
+# Anterior Cingulate Cortex (ACC) Model
 acc_net = RecurrentNetwork()
 acc_net.addInputModule(TanhLayer(100, name='in'))
 acc_net.addModule(TanhLayer(250, name='hidden0'))
@@ -20,7 +20,7 @@ acc_net.addOutputModule(TanhLayer(50, name='out'))
 acc_net.addConnection(FullConnection(acc_net['in'], acc_net['hidden0']))
 acc_net.addConnection(FullConnection(acc_net['hidden0'], acc_net['out']))
 acc_net.addRecurrentConnection(FullConnection(acc_net['hidden0'], acc_net['hidden0']))
-#
+# Mirror Neuron System Model
 mirror_net = RecurrentNetwork()
 mirror_net.addInputModule(TanhLayer(500, name='in'))
 mirror_net.addModule(TanhLayer(250, name='hidden0'))
@@ -28,7 +28,7 @@ mirror_net.addOutputModule(TanhLayer(50, name='out'))
 mirror_net.addConnection(FullConnection(mirror_net['in'], mirror_net['hidden0']))
 mirror_net.addConnection(FullConnection(mirror_net['hidden0'], mirror_net['out']))
 mirror_net.addRecurrentConnection(FullConnection(mirror_net['hidden0'], mirror_net['hidden0']))
-#
+# The rest for training
 insula_net = buildNetwork(500, 250, 50, hiddenclass=TanhLayer) 
 frontal_lobe_net = buildNetwork(100, 600, 120)
 prefrontal_cortex = buildNetwork(250, 500, 100, hiddenclass=TanhLayer)
@@ -43,7 +43,7 @@ hippocampus = buildNetwork(250, 125, 50, hiddenclass=LSTMLayer)
 thalamus = buildNetwork(400, 200, 120)
 amygdala = buildNetwork(120, 60, 10, hiddenclass=TanhLayer)
 hypothalamus = buildNetwork(120, 100, 20)
-#
+
 models = [
 		("acc_net", acc_net),
 		("mirror_net", mirror_net),
@@ -65,30 +65,32 @@ models = [
 ]
 for model_name, model in models:
 		model.sortModules()
-#
-def one_hot_encode(word, vocab_size, char_to_int):
-		encoding = np.zeros((len(word), vocab_size))
-		for i, char in enumerate(word):
-				encoding[i, char_to_int[char]] = 1
-		return encoding
-#
-def one_hot_decode(encoding, int_to_char):
-		decoded_word = ''
-		for row in encoding:
-				char_idx = np.argmax(row)
-				decoded_word += int_to_char[char_idx]
-		return decoded_word
-#
+
+def one_hot_encode(word, vocab_size, char_to_float):
+	encoding = np.zeros((len(word), vocab_size), dtype=float)
+	for i, char in enumerate(word):
+			encoding[i, int(char_to_float[char])-7] = float(ord(char))
+	return encoding
+
+def one_hot_decode(encoding):
+	decoded_word = ''
+	for row in encoding:
+		for val in row:
+				if val != 0.0:
+						decoded_word += chr(int(val))
+	return decoded_word
+
 vocab = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789!@#$%^&*()-=_+[]{}|;:\'",.<>?/\\`~ \n\t\v\r'
-char_to_int = {char: i for i, char in enumerate(vocab)}
-int_to_char = {i: char for char, i in char_to_int.items()}
+char_to_float = {char: float(i) for i, char in enumerate(vocab)}
 vocab_size = len(vocab)
-#
+
+
 class BrainModel:
 	def __init__(self, models):
 		self.models = {name: model for name, model in models}
 		self.shared_memory = np.zeros(100)
 	def forward(self, sensory_input, previous_decision=None, social_input=None):
+		##
 		thalamus_output = self.models['thalamus'].activate(sensory_input)
 		emotional_state = self.models['amygdala'].activate(thalamus_output)
 		autonomic_state = self.models['hypothalamus'].activate(thalamus_output)
@@ -109,16 +111,16 @@ class BrainModel:
 		final_input = np.concatenate([decision, executive_functions, temporal_output, basic_functions, language_output, acc_output, language_processing, comprehension, visual_input])
 		final_decision = self.models['cerebral_cortex'].activate(final_input)
 		return final_decision, comprehension
-#
+
 brain = BrainModel(models)
-#
-sensory_input = np.random.rand(400)
-previous_decision = np.random.rand(250)
-social_input = np.random.rand(500)
-#
+
+sensory_input = np.random.rand(400)  # Replace with actual sensory input
+previous_decision = np.random.rand(250)  # Replace with the previous decision if available
+social_input = np.random.rand(500)  # Replace with actual social input if available
+
 while True:
 	user_text = input("Enter your input: ")
-	one_hot_user_text = one_hot_encode(user_text, vocab_size, char_to_int)
+	one_hot_user_text = one_hot_encode(user_text, vocab_size, char_to_float)
 	sensory_input = one_hot_user_text.flatten()
 	social_input = np.concatenate([social_input, one_hot_user_text.flatten()])
 	if len(sensory_input) < 400:
@@ -131,8 +133,13 @@ while True:
 			social_input = social_input[:500]
 	if previous_decision is None:
 		previous_decision = np.zeros(250)
+	####
+	print("sensory_input: ", sensory_input, "\nprevious_decision: ", previous_decision, "\nsocial_input: ", social_input)
+	####
 	final_decision, comprehension = brain.forward(sensory_input, previous_decision, social_input)
-	decoded_comprehension = one_hot_decode(comprehension, int_to_char)
-	#print("Final Decision:", final_decision)
-	print("Comprehension (Decoded):", decoded_comprehension)
+	#decoded_comprehension = one_hot_decode(comprehension)
+	####
+	print("final_decision: ", final_decision, "\ncomprehension:", comprehension)
+	####
+	#print("Comprehension (Decoded):", decoded_comprehension)
 	previous_decision = np.pad(final_decision, (0, max(0, 250 - len(final_decision))), 'constant')[:250]
