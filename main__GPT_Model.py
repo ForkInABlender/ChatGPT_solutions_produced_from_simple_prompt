@@ -140,9 +140,9 @@ class LayerNorm(NeuronLayer):
 		inerr[:] = dinbuf
 
 
-VOCAB_SIZE = 120 #GPT-3 & 4 use that value --> 50257; otherwise, use 120 to interface with this model until retooled.
+VOCAB_SIZE = 120 #GPT-3 & 4 use that value --> 50257; otherwise, use 120 to interface with this model until retooled. Otherwise, good for gpt-2.
 D_MODEL = 128
-NUM_BLOCKS = 4 # 94 to 96 for GPT 3 & 4; othwerwise set to 4.
+NUM_BLOCKS = 96 # 94 to 96 for GPT 3 & 4; othwerwise set to 4. anything less than 3 transformer blocks and nothing.
 NUM_HEADS = 64
 FFN_DIM = 128 
 net = FeedForwardNetwork()
