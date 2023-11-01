@@ -8,6 +8,7 @@ Thus far this is what is needed plus some rdkit, brian2, and sympy calculations 
 
 from pybrain3.structure import RecurrentNetwork, TanhLayer, FullConnection
 from pybrain3.tools.shortcuts import buildNetwork
+import numpy as np
 """
 from sympy import symbols, lambdify, sin
 # Define a symbolic variable
