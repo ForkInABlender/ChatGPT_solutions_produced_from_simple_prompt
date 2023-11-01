@@ -1,13 +1,14 @@
 # Dylan Kenneth Eliot & GPT-4-Plugins (Alpha Edition)
 
 """
-
-The point of this was to display the 2-dimensional layout of a poly-dimensional structure like the brain. This can be used to develop an actual AI from
- human values. What it isn't for? Video games. :) In fact, it is intentionally not for video games. :) A human mind is not for video games.
-  And I will not condone an AI being added into a video game based on my code. I will, however, condone the use of my code for scientific purposes; up to
-   and including raising the dead as AI until they can have their physical body regrown even in a lab.
+Thus far this is what is needed plus some rdkit, brian2, and sympy calculations that mimick the human brain, including changing size and shape as 
+ normal human minds might (from a machine learning perspective). In this case, it will be possible to train, and load in place. Now the next part,
+  text and correct for misconfiguration as done in the prior version by monthly branch update.  
 """
 
+from pybrain3.structure import RecurrentNetwork, TanhLayer, FullConnection
+from pybrain3.tools.shortcuts import buildNetwork
+"""
 from sympy import symbols, lambdify, sin
 # Define a symbolic variable
 x = symbols('x')
@@ -18,67 +19,158 @@ f_lambdified = lambdify(x, f, 'numpy')
 # Use the function
 result = f_lambdified(2)  # Should return sin(2) + 2^2 = 4.909297426825681
 print("Result:", result)
-
+"""
 ####
-# Dylan Kenneth Eliot & GPT-4-Plugins (Alpha Edition)
-from pybrain3.structure import TanhLayer, LSTMLayer, RecurrentNetwork, FullConnection
-from pybrain3.tools.shortcuts import buildNetwork
-from main__GPT_Model import net as gpt_net
-import numpy as np
-# Anterior Cingulate Cortex (ACC) Model
-acc_net = RecurrentNetwork()
-acc_net.addInputModule(TanhLayer(100, name='in'))
-acc_net.addModule(TanhLayer(250, name='hidden0'))
-acc_net.addOutputModule(TanhLayer(50, name='out'))
-acc_net.addConnection(FullConnection(acc_net['in'], acc_net['hidden0']))
-acc_net.addConnection(FullConnection(acc_net['hidden0'], acc_net['out']))
-acc_net.addRecurrentConnection(FullConnection(acc_net['hidden0'], acc_net['hidden0']))
-# Mirror Neuron System Model
-mirror_net = RecurrentNetwork()
-mirror_net.addInputModule(TanhLayer(500, name='in'))
-mirror_net.addModule(TanhLayer(250, name='hidden0'))
-mirror_net.addOutputModule(TanhLayer(50, name='out'))
-mirror_net.addConnection(FullConnection(mirror_net['in'], mirror_net['hidden0']))
-mirror_net.addConnection(FullConnection(mirror_net['hidden0'], mirror_net['out']))
-mirror_net.addRecurrentConnection(FullConnection(mirror_net['hidden0'], mirror_net['hidden0']))
-# The rest for training
-insula_net = buildNetwork(500, 250, 50, hiddenclass=TanhLayer)
-frontal_lobe_net = buildNetwork(100, 600, 120)
-prefrontal_cortex = buildNetwork(250, 500, 100, hiddenclass=TanhLayer)
-cerebral_cortex = buildNetwork(925, 500, 100)
-temporal_lobe = buildNetwork(50, 500, 250, hiddenclass=TanhLayer)
-visual_cortex = buildNetwork(120, 400, 80)
-brocas_area_net = buildNetwork(150, 375, 75)
-wernickes_area_net = buildNetwork(75, 350, 70)
-cerebellum = buildNetwork(700, 350, 70)
-brainstem = buildNetwork(120, 300, 60)
-hippocampus = buildNetwork(250, 125, 50, hiddenclass=LSTMLayer)
-thalamus = buildNetwork(400, 200, 120)
-amygdala = buildNetwork(120, 60, 10, hiddenclass=TanhLayer)
-hypothalamus = buildNetwork(120, 100, 20)
+
+class BrainEmulator:
+    def __init__(self):
+        # Existing networks
+        self.brocas_area = buildNetwork(50257, 500, 100)
+	self.wernickes_area = buildNetwork(100, 500, 50257)
+        self.temporal_lobe = buildNetwork(257, 500, 100)
+        self.prefrontal_cortex = buildNetwork(500, 1000, 200)
+        self.hippocampus = buildNetwork(1000, 500, 100)
+        self.amygdala = buildNetwork(500, 250, 50)
+        self.thalamus = buildNetwork(250, 125, 25)
+        self.parietal_lobe = buildNetwork(125, 250, 50)
+        self.occipital_lobe = buildNetwork(250, 125, 25)
+        self.insular_cortex = buildNetwork(125, 250, 50)
+        self.cingulate_cortex = buildNetwork(250, 125, 25)
+        self.basal_ganglia = buildNetwork(125, 250, 50)
+        self.corpus_callosum = buildNetwork(250, 125, 25)
+        self.pineal_gland = buildNetwork(125, 250, 50)
+        self.midbrain = buildNetwork(250, 125, 25)
+        self.pons = buildNetwork(125, 250, 50)
+        self.medulla = buildNetwork(250, 125, 25)
+        self.spinal_cord = buildNetwork(125, 250, 50)
+        self.reticular_formation = buildNetwork(250, 125, 25)
+        self.subthalamic_nucleus = buildNetwork(125, 250, 50)
+        self.ventral_tegmental_area = buildNetwork(250, 125, 25)
+        self.red_nucleus = buildNetwork(125, 250, 50)
+        self.globus_pallidus = buildNetwork(250, 125, 25)
+        self.superior_colliculus = buildNetwork(125, 250, 50)
+        self.inferior_colliculus = buildNetwork(250, 125, 25)
+        self.arcuate_fasciculus = buildNetwork(125, 250, 50)
+        self.caudate_nucleus = buildNetwork(250, 125, 25)
+        self.olfactory_bulb = buildNetwork(125, 250, 50)
+        self.mammillary_bodies = buildNetwork(250, 125, 25)
+        self.fornix = buildNetwork(125, 250, 50)
+        self.optic_chiasm = buildNetwork(250, 125, 25)
+        self.pituitary_gland = buildNetwork(125, 250, 50)
+        self.hypothalamus = buildNetwork(250, 125, 25)
+        self.ventral_striatum = buildNetwork(125, 250, 50)
+        self.substantia_nigra = buildNetwork(250, 125, 25)
+        self.choroid_plexus = buildNetwork(125, 250, 50)
+        self.septal_nuclei = buildNetwork(250, 125, 25)
+        self.anterior_cingulate = buildNetwork(125, 250, 50)
+        self.posterior_cingulate = buildNetwork(250, 125, 25)
+        self.purkinje_cells = buildNetwork(125, 250, 50)
+        self.claustrum = buildNetwork(250, 125, 25)
+        self.locus_coeruleus = buildNetwork(125, 250, 50)
+        self.raphe_nuclei = buildNetwork(250, 125, 25)
+        self.periaqueductal_gray = buildNetwork(125, 250, 50)
+        self.ventral_pallidum = buildNetwork(250, 125, 25)
+        self.preoptic_area = buildNetwork(125, 250, 50)
+        self.supraoptic_nucleus = buildNetwork(250, 125, 25)
+        self.paraventricular_nucleus = buildNetwork(125, 250, 50)
+        self.orbitofrontal_cortex = buildNetwork(250, 125, 25)
+        self.dorsolateral_prefrontal_cortex = buildNetwork(125, 250, 50)
+        self.fusiform_gyrus = buildNetwork(250, 125, 25)
+        self.supramarginal_gyrus = buildNetwork(125, 250, 50)
+        self.angular_gyrus = buildNetwork(250, 125, 25)
+        self.entorhinal_cortex = buildNetwork(125, 250, 50)
+        self.dentate_gyrus = buildNetwork(250, 125, 25)
+        self.suprachiasmatic_nucleus = buildNetwork(125, 250, 50)
+        self.nucleus_accumbens = buildNetwork(250, 125, 25)
+        self.putamen = buildNetwork(125, 250, 50)
+        self.frontal_lobe = buildNetwork(250, 125, 25)
+        self.acc_net = RecurrentNetwork()
+        self.acc_net.addInputModule(TanhLayer(100, name='in'))
+        self.acc_net.addModule(TanhLayer(250, name='hidden0'))
+        self.acc_net.addOutputModule(TanhLayer(50, name='out'))
+        self.acc_net.addConnection(FullConnection(self.acc_net['in'], self.acc_net['hidden0']))
+        self.acc_net.addConnection(FullConnection(self.acc_net['hidden0'], self.acc_net['out']))
+        self.acc_net.addRecurrentConnection(FullConnection(self.acc_net['hidden0'], self.acc_net['hidden0']))
+        self.mirror_net = RecurrentNetwork()
+        self.mirror_net.addInputModule(TanhLayer(500, name='in'))
+        self.mirror_net.addModule(TanhLayer(250, name='hidden0'))
+        self.mirror_net.addOutputModule(TanhLayer(50, name='out'))
+        self.mirror_net.addConnection(FullConnection(self.mirror_net['in'], self.mirror_net['hidden0']))
+        self.mirror_net.addConnection(FullConnection(self.mirror_net['hidden0'], self.mirror_net['out']))
+        self.mirror_net.addRecurrentConnection(FullConnection(self.mirror_net['hidden0'], self.mirror_net['hidden0']))
+        self.insula_net = buildNetwork(500, 250, 50, hiddenclass=TanhLayer)
+        self.frontal_lobe_net = buildNetwork(100, 600, 120)
+        self.cerebral_cortex = buildNetwork(925, 500, 100)
+        self.visual_cortex = buildNetwork(120, 400, 80)
+        self.brocas_area_net = buildNetwork(150, 375, 75)
+        self.wernickes_area_net = buildNetwork(75, 350, 70)
+        self.cerebellum = buildNetwork(700, 350, 70)
+        self.brainstem = buildNetwork(120, 300, 60)
+        self.thalamus = buildNetwork(400, 200, 120)
+        self.hypothalamus = buildNetwork(120, 100, 20)
 #
-models = [
-		("acc_net", acc_net),
-		("mirror_net", mirror_net),
-		("insula_net", insula_net),
-		("frontal_lobe_net", frontal_lobe_net),
-		("prefrontal_cortex", prefrontal_cortex),
-		("cerebral_cortex", cerebral_cortex),
-		("temporal_lobe", temporal_lobe),
-		("visual_cortex", visual_cortex),
-		("brocas_area_net", brocas_area_net),
-		("wernickes_area_net", wernickes_area_net),
-		("cerebellum", cerebellum),
-		("brainstem", brainstem),
-		("hippocampus", hippocampus),
-		("thalamus", thalamus),
-		("amygdala", amygdala),
-		("hypothalamus", hypothalamus),
-		("gpt_net", gpt_net)
-]
-#
-for model_name, model in models:
-		model.sortModules()
+    def run_brain_simulation(self, initial_input):
+        data = initial_input
+        data = self.brocas_area.activate(data)
+        data = self.temporal_lobe.activate(data)
+        data = self.prefrontal_cortex.activate(data)
+        data = self.hippocampus.activate(data)
+        data = self.amygdala.activate(data)
+        data = self.thalamus.activate(data)
+        data = self.parietal_lobe.activate(data)
+        data = self.occipital_lobe.activate(data)
+        data = self.insular_cortex.activate(data)
+        data = self.cingulate_cortex.activate(data)
+        data = self.basal_ganglia.activate(data)
+        data = self.corpus_callosum.activate(data)
+        data = self.pineal_gland.activate(data)
+        data = self.midbrain.activate(data)
+        data = self.pons.activate(data)
+        data = self.medulla.activate(data)
+        data = self.spinal_cord.activate(data)
+        data = self.reticular_formation.activate(data)
+        data = self.subthalamic_nucleus.activate(data)
+        data = self.ventral_tegmental_area.activate(data)
+        data = self.red_nucleus.activate(data)
+        data = self.globus_pallidus.activate(data)
+        data = self.superior_colliculus.activate(data)
+        data = self.inferior_colliculus.activate(data)
+        data = self.arcuate_fasciculus.activate(data)
+        data = self.caudate_nucleus.activate(data)
+        data = self.olfactory_bulb.activate(data)
+        data = self.mammillary_bodies.activate(data)
+        data = self.fornix.activate(data)
+        data = self.optic_chiasm.activate(data)
+        data = self.pituitary_gland.activate(data)
+        data = self.hypothalamus.activate(data)
+        data = self.ventral_striatum.activate(data)
+        data = self.substantia_nigra.activate(data)
+        data = self.choroid_plexus.activate(data)
+        data = self.septal_nuclei.activate(data)
+        data = self.anterior_cingulate.activate(data)
+        data = self.posterior_cingulate.activate(data)
+        data = self.purkinje_cells.activate(data)
+        data = self.claustrum.activate(data)
+        data = self.locus_coeruleus.activate(data)
+        data = self.raphe_nuclei.activate(data)
+        data = self.periaqueductal_gray.activate(data)
+        data = self.ventral_pallidum.activate(data)
+        data = self.preoptic_area.activate(data)
+        data = self.supraoptic_nucleus.activate(data)
+        data = self.paraventricular_nucleus.activate(data)
+        data = self.orbitofrontal_cortex.activate(data)
+        data = self.dorsolateral_prefrontal_cortex.activate(data)
+        data = self.fusiform_gyrus.activate(data)
+        data = self.supramarginal_gyrus.activate(data)
+        data = self.angular_gyrus.activate(data)
+        data = self.entorhinal_cortex.activate(data)
+        data = self.dentate_gyrus.activate(data)
+        data = self.suprachiasmatic_nucleus.activate(data)
+        data = self.nucleus_accumbens.activate(data)
+        data = self.putamen.activate(data)
+        data = self.frontal_lobe.activate(data)
+	data = self.wernickes_area.activate(data)
+        return data
 #
 def one_hot_encode(word, vocab_size, char_to_float):
 		encoding = np.zeros((len(word), vocab_size), dtype=float)
@@ -98,53 +190,10 @@ vocab = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789!@#$%^&*(
 char_to_float = {char: float(i) for i, char in enumerate(vocab)}
 vocab_size = len(vocab)
 
-class BrainModel:
-		def __init__(self, models):
-				self.models = {name: model for name, model in models}
-				self.shared_memory = np.zeros(100)
-		def forward(self, sensory_input, previous_decision=None, social_input=None):
-				thalamus_output = self.models['thalamus'].activate(sensory_input)
-				emotional_state = self.models['amygdala'].activate(thalamus_output)
-				autonomic_state = self.models['hypothalamus'].activate(thalamus_output)
-				mirror_output = self.models['mirror_net'].activate(social_input if social_input is not None else np.zeros_like(sensory_input))
-				if previous_decision is not None:
-						self.shared_memory = self.models['hippocampus'].activate(previous_decision)
-				decision_input = np.concatenate([thalamus_output, emotional_state, self.shared_memory, mirror_output, autonomic_state])
-				decision = self.models['prefrontal_cortex'].activate(decision_input)
-				executive_functions = self.models['frontal_lobe_net'].activate(decision)
-				temporal_output = self.models['temporal_lobe'].activate(self.shared_memory)
-				basic_functions = self.models['brainstem'].activate(thalamus_output)
-				language_output = self.models['gpt_net'].activate(executive_functions)
-				acc_output = self.models['acc_net'].activate(decision)
-				language_input = np.concatenate([acc_output, decision])
-				language_processing = self.models['brocas_area_net'].activate(language_input)
-				comprehension = self.models['wernickes_area_net'].activate(language_processing)
-				visual_input = self.models['visual_cortex'].activate(thalamus_output)
-				final_input = np.concatenate([decision, executive_functions, temporal_output, basic_functions, language_output, acc_output, language_processing, comprehension, visual_input])
-				final_decision = self.models['cerebral_cortex'].activate(final_input)
-				return final_decision, comprehension
-#
-brain = BrainModel(models)
-#
-sensory_input = np.random.rand(400)
-previous_decision = np.random.rand(250)
-social_input = np.random.rand(500)
+brain_model = BrainModel()
 #
 while True:
 		user_text = input("Enter your input: ")
 		one_hot_user_text = one_hot_encode(user_text, vocab_size, char_to_float)
-		sensory_input = one_hot_user_text.flatten()
-		social_input = np.concatenate([social_input, one_hot_user_text.flatten()])
-		if len(sensory_input) < 400:
-				sensory_input = np.pad(sensory_input, (0, 400 - len(sensory_input)), 'constant')
-		elif len(sensory_input) > 400:
-				sensory_input = sensory_input[:400]
-		if len(social_input) < 500:
-				social_input = np.pad(social_input, (0, 500 - len(social_input)), 'constant')
-		elif len(social_input) > 500:
-				social_input = social_input[:500]
-		if previous_decision is None:
-				previous_decision = np.zeros(250)
-		final_decision, comprehension = brain.forward(sensory_input, previous_decision, social_input)
-		print(final_decision, comprehension)
-		previous_decision = np.pad(final_decision, (0, max(0, 250 - len(final_decision))), 'constant')[:250]
+		final_output = brain_model.run_brain_simulation(one_hot_user_text)
+		print(one_hot_decode(final_output))
