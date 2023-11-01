@@ -174,18 +174,18 @@ class BrainEmulator:
         return data
 #
 def one_hot_encode(word, vocab_size, char_to_float):
-		encoding = np.zeros((len(word), vocab_size), dtype=float)
-		for i, char in enumerate(word):
-				encoding[i, int(char_to_float[char])-7] = float(ord(char))
-		return encoding
+	encoding = np.zeros((len(word), vocab_size), dtype=float)
+	for i, char in enumerate(word):
+		encoding[i, int(char_to_float[char])-7] = float(ord(char))
+	return encoding
 
 def one_hot_decode(encoding):
-		decoded_word = ''
-		for row in encoding:
-				for val in row:
-						if val != 0.0:
-								decoded_word += chr(int(val))
-		return decoded_word
+	decoded_word = ''
+	for row in encoding:
+		for val in row:
+			if val != 0.0:
+				decoded_word += chr(int(val))
+	return decoded_word
 
 vocab = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789!@#$%^&*()-=_+[]{}|;:\'",.<>?/\\`~ \n\t\v\r'
 char_to_float = {char: float(i) for i, char in enumerate(vocab)}
@@ -194,7 +194,7 @@ vocab_size = len(vocab)
 brain_model = BrainModel()
 #
 while True:
-		user_text = input("Enter your input: ")
-		one_hot_user_text = one_hot_encode(user_text, vocab_size, char_to_float)
-		final_output = brain_model.run_brain_simulation(one_hot_user_text)
-		print(one_hot_decode(final_output))
+	user_text = input("Enter your input: ")
+	one_hot_user_text = one_hot_encode(user_text, vocab_size, char_to_float)
+	final_output = brain_model.run_brain_simulation(one_hot_user_text)
+	print(one_hot_decode(final_output))
