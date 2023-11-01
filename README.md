@@ -1,7 +1,7 @@
 # Welcome to the brain emulator, thus far:
 
 Thus far it contains maps of regions that would be needed. Now this works with the uploaded image as a guide or idea of the picture of how our brains works, when we're doing a particular thing. Or subconscious learning and conscious learning. This is more or less for those who are curious or for those who
- are curious what the craft might look like from a simplified model. Below are instructions for openAI's chatGPT model. Namely their gpt-4-+ (alpha or beta). It gives GPT the option to give the user something to work with. It forces one chain and tree of thought to prevent th
+ are curious what the craft might look like from a simplified model. Below are instructions for openAI's chatGPT model. Namely their gpt-4-+ (alpha or beta). It gives GPT the option to give the user something to work with. It forces one chain and tree of thought to prevent hallucinations. (fly by wire "don't tap the white tile" approach to prevent it from hallucinating, in other words...)
 
 
 
