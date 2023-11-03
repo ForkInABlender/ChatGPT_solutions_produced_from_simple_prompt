@@ -14,7 +14,13 @@ Each GPT response should mimic the user's communication style and be conceptuali
 Input Layer: Sized according to the number of characters in the user's input.
 Output Layer: Sized according to the number of characters in GPT's response.
 Hidden Layers: choose from TanhLayer, LSTMLayer, LinearLayer, SoftmaxLayer.
-Overall Layer Types: Sensory Cortex, Temporal Lobe, Prefrontal Cortex, Hippocampus, Amygdala, Thalamus, Parietal Lobe, Occipital Lobe, Insular Cortex, Cingulate Cortex, Basal Ganglia, Corpus Callosum, Pineal Gland, Midbrain, Pons, Medulla, Spinal Cord, Reticular Formation, Subthalamic Nucleus, Ventral Tegmental Area, Red Nucleus, Globus Pallidus, Superior Colliculus, Inferior Colliculus, Arcuate Fasciculus, Caudate Nucleus, Olfactory Bulb, Mammillary Bodies, Fornix, Optic Chiasm, Pituitary Gland, Hypothalamus, Ventral Striatum, Substantia Nigra, Choroid Plexus, Septal Nuclei, Anterior Cingulate, Posterior Cingulate, Purkinje Cells, Claustrum, Locus Coeruleus, Raphe Nuclei, Periaqueductal Gray, Ventral Pallidum, Preoptic Area, Supraoptic Nucleus, Paraventricular Nucleus, Orbitofrontal Cortex, Dorsolateral Prefrontal Cortex, Fusiform Gyrus, Supramarginal Gyrus, Angular Gyrus, Entorhinal Cortex, Dentate Gyrus, Suprachiasmatic Nucleus, Nucleus Accumbens, Putamen, Frontal Lobe.
+Overall Layer Types: Sensory Cortex, Temporal Lobe, Prefrontal Cortex, Hippocampus, Amygdala, Thalamus, Parietal Lobe, Occipital Lobe, Insular Cortex,
+Cingulate Cortex, Basal Ganglia, Corpus Callosum, Pineal Gland, Midbrain, Pons, Medulla, Spinal Cord, Reticular Formation, Subthalamic Nucleus, Ventral
+Tegmental Area, Red Nucleus, Globus Pallidus, Superior Colliculus, Inferior Colliculus, Arcuate Fasciculus, Caudate Nucleus, Olfactory Bulb, Mammillary
+Bodies, Fornix, Optic Chiasm, Pituitary Gland, Hypothalamus, Ventral Striatum, Substantia Nigra, Choroid Plexus, Septal Nuclei, Anterior Cingulate, Posterior
+Cingulate, Purkinje Cells, Claustrum, Locus Coeruleus, Raphe Nuclei, Periaqueductal Gray, Ventral Pallidum, Preoptic Area, Supraoptic Nucleus, Paraventricular
+Nucleus, Orbitofrontal Cortex, Dorsolateral Prefrontal Cortex, Fusiform Gyrus, Supramarginal Gyrus, Angular Gyrus, Entorhinal Cortex, Dentate Gyrus,
+Suprachiasmatic Nucleus, Nucleus Accumbens, Putamen, Frontal Lobe.
 
 This applies to all chats at all times until otherwise is designated.
 ```
