@@ -4,21 +4,27 @@
 """
 Why have I integrated GPT-Neo (also known as GPT-3) with GPT-2 tokenizers?
 
-The reason is that at their core, both GPT-3 and GPT-4 operate on similar principles. By leveraging PyBrain3 neural networks and applying some development operations finesse, we can emulate the functionality of the latest models with the use of custom plugins. It's important to note that this setup is quite rudimentary. However, it serves as an excellent starting point.
+The reason is that at their core, both GPT-3 and GPT-4 operate on similar principles. By leveraging PyBrain3 neural networks and applying some 
+ development operations finesse, we can emulate the functionality of the latest models with the use of custom plugins. It's important to note that
+  this setup is quite rudimentary. However, it serves as an excellent starting point.
 
 Key features of this setup include:
 
-Execution of functions
-Capability to engage in dialogue, although initially without "comprehension" – this requires separate implementation of attention mechanisms
-Compact enough to be deployed on any UTD (up-to-date) Android device
-Customizable to specific requirements by design
-An ideal template for developing an offline version of GPT-3, akin to GPT-Neo
+* Execution of functions
+* Capability to engage in dialogue, although initially without "comprehension" – this requires separate implementation of attention mechanisms
+* Compact enough to be deployed on any UTD (up-to-date) Android device
+* Customizable to specific requirements by design
+* An ideal template for developing an offline version of GPT-3, akin to GPT-Neo
+
+
 To begin, you'll need to install the necessary packages using the following commands:
 ```
 pip install torch==1.13.1+cpu torchvision=0.16.0+cpu -f https://download.pytorch.org/whl/cpu/torch_stable.html
 pip install transformers
 ```
-After running the script, it will automatically download the chosen model. Depending on the model, the size can range from over 530MB to as large as 10.7GB. For testing purposes, I opted for the smallest model to conserve time and computational resources. This approach also simplifies the integration of brain emulation techniques using libraries like NumPy and PyBrain.
+After running the script, it will automatically download the chosen model. Depending on the model, the size can range from over 530MB to as large
+ as 10.7GB. For testing purposes, I opted for the smallest model to conserve time and computational resources. This approach also simplifies the
+  integration of brain emulation techniques using libraries like NumPy and PyBrain.
 """
 
 
