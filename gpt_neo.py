@@ -25,6 +25,10 @@ pip install transformers
 After running the script, it will automatically download the chosen model. Depending on the model, the size can range from over 530MB to as large
  as 10.7GB. For testing purposes, I opted for the smallest model to conserve time and computational resources. This approach also simplifies the
   integration of brain emulation techniques using libraries like NumPy and PyBrain.
+
+The other option is to combine 2 docker containers that would be good to put into one combined install. The second best to that is rpc between
+ the points and then further disaggregate the model further into more computationally manageable sizes. 
+
 """
 
 
