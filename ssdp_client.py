@@ -1,5 +1,15 @@
 # Dylan Kenneth Eliot & GPT-4-plugins (Alpha Edition)
 
+"""
+The ssdp_server.py listens even for when the ssdp_client.py looks for servers like it.
+
+This gives a ping to what is being looked for and what is discovered.
+
+More often than not, browsers are emitting these identifiers. 
+
+
+"""
+
 
 import socket
 import http.client
