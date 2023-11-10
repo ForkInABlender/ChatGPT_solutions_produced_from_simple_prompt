@@ -1,3 +1,6 @@
+# Dylan Kenneth Eliot & GPT-4-plugins (Alpha Edition)
+
+
 import socket
 import http.client
 import io
