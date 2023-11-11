@@ -20,6 +20,12 @@ The practical, feasible, and logically laid out design was inspired by another d
 
 This will require a copy of python3.6.9 for it to work, minimum version requirement.
 
+* fusepy
+* pyoo
+
+Those must be installed minimum within python for this to work.
+
+
 """
 
 
