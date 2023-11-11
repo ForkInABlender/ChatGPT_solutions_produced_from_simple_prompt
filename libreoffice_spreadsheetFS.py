@@ -9,6 +9,9 @@ Then use this script.
 
 This can be updated so it uses an IP instead of a named pipe as well.
 
+What this does is encode the file content and data into a savable format (base64) to compress and decompress data.
+
+This is useful for when content changes or file accesses are addressed. Similar to inodes on NTFS/Fat/Fat32/XFat/EFI partitions are laid out.
 
 
 """
