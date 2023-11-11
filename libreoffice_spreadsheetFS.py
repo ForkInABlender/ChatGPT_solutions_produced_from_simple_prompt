@@ -1,5 +1,19 @@
 # Dylan Kenneth Eliot & GPT-4-plugins (Alpha Edition)
 
+"""
+soffice --accept="pipe,name=my_pipe;urp;" --norestore --nologo --nodefault
+
+use the above command to start a linux named pipe.
+
+Then use this script. 
+
+This can be updated so it uses an IP instead of a named pipe as well.
+
+
+
+"""
+
+
 import pyoo
 import os, stat, base64
 import fuse
