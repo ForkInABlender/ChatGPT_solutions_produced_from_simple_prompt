@@ -41,3 +41,9 @@ On top of that, it gives GPT more ability to look around itself on the inside a 
 It is basically a way to template from the existing parts, even gpt-2. This in turn can be applied to GPT for building an AI from even my code and docker hub containers. This is because all they'd need is to tune each based on the shape of the model for each region of the brain and further refine it.
 This applies even to human beings. The first part on AI systems abd trees-of-trees-of-thought actually mimicks aspects of conversation that both were thinking about star trek on.
 Both had thought of it akin to that and Alan Turings' dream. And now it is very possible. Even in PHP programming. And this proved to be partly possible to have a conversation in fragments with the machine that one had with a group of friends already. But as 2 beings, 1 human physically and the other a LLM token parsing with non-linearity and baysien theory applied. In turn, it would be within high probability that it could recall a conversation it wasn't physically present to recount or hear from another.
+
+
+If you need GPT to hash it out, here is the link for that:
+https://chat.openai.com/share/d8d17be5-516b-42b4-9675-837cb7d34889
+
+Until GPT provides a way to load chat.openai.com links inside of a github .md, this is the format used. 
