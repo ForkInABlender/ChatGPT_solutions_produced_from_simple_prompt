@@ -25,6 +25,7 @@ This will require a copy of python3.6.9 for it to work, minimum version requirem
 
 Those must be installed minimum within python for this to work.
 
+This functions like the google one. And yes, every bit was tested. 
 
 """
 
