@@ -18,6 +18,8 @@ This is useful for when content changes or file accesses are addressed. Similar 
 The practical, feasible, and logically laid out design was inspired by another developer who I will give credit to anonymously and by reference.
  As their version works with google-spreadsheets.
 
+This will require a copy of python3.6.9 for it to work, minimum version requirement.
+
 """
 
 
