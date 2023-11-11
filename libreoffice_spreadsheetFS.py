@@ -13,6 +13,10 @@ What this does is encode the file content and data into a savable format (base64
 
 This is useful for when content changes or file accesses are addressed. Similar to inodes on NTFS/Fat/Fat32/XFat/EFI partitions are laid out.
 
+( In short, an "inode" is a an an index node that serves as a unique identifier for specific bits of metadata on a particular filesystem. )
+
+The practical, feasible, and logically laid out design was inspired by another developer who I will give credit to anonymously and by reference.
+ As their version works with google-spreadsheets.
 
 """
 
