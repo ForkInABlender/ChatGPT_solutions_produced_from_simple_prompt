@@ -31,12 +31,12 @@ The last part is to figure out how to rework the tokenizer framework to operate 
 
 
 
--- https://raw.githubusercontent.com/.../Brain_emulator.py --
--- https://raw.githubusercontent.com/.../gpt3_4_using_2_with... --
--- https://raw.githubusercontent.com/.../main__GPT_Model.py --
--- https://hub.docker.com/.../de3343/ai_mods_py3.10/general --
--- https://hub.docker.com/.../docker/de3343/gpt-neo-app/general --
--- https://raw.githubusercontent.com/.../one_hot_to_audio... --
+-- https://raw.githubusercontent.com/ForkInABlender/ChatGPT_solutions_produced_from_simple_prompt/2023_10/Brain_emulator.py --
+-- https://raw.githubusercontent.com/ForkInABlender/ChatGPT_solutions_produced_from_simple_prompt/2023_11/gpt3_4_using_2_with_function_calls_optional.py --
+-- https://raw.githubusercontent.com/ForkInABlender/ChatGPT_solutions_produced_from_simple_prompt/2023_11/main__GPT_Model.py --
+-- https://hub.docker.com/repository/docker/de3343/ai_mods_py3.10/general --
+-- https://hub.docker.com/repository/docker/de3343/gpt-neo-app/general --
+-- https://raw.githubusercontent.com/ForkInABlender/ChatGPT_solutions_produced_from_simple_prompt/2023_10/one_hot_to_audio%20synth.html --
 
 """
 
