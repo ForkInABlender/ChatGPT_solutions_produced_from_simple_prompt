@@ -8,6 +8,7 @@ What it allows for is now using the information about the molecule to do emulati
 This is valuable for when you need to test on a fixed size of neural networks that is small to find stability points.
 But it can also be retooled to apply it to the transformers, pytorch, numpy, and tensorflow models as well.
 
+Now the smile below is of Crispr or the common substructure used in DNA repair mediated by zinc and magnesium ions.
 
 """
 
