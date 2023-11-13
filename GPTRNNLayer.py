@@ -30,6 +30,14 @@ The last part is to figure out how to rework the tokenizer framework to operate 
  Now this comes in handy for my pybrain3 models as it adds the right level of modeling for each region of the brain. 
 
 
+
+-- https://raw.githubusercontent.com/.../Brain_emulator.py --
+-- https://raw.githubusercontent.com/.../gpt3_4_using_2_with... --
+-- https://raw.githubusercontent.com/.../main__GPT_Model.py --
+-- https://hub.docker.com/.../de3343/ai_mods_py3.10/general --
+-- https://hub.docker.com/.../docker/de3343/gpt-neo-app/general --
+-- https://raw.githubusercontent.com/.../one_hot_to_audio... --
+
 """
 
 
