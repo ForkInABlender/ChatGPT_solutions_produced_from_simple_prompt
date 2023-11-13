@@ -10,6 +10,9 @@ But it can also be retooled to apply it to the transformers, pytorch, numpy, and
 
 Now the smile below is of Crispr or the common substructure used in DNA repair mediated by zinc and magnesium ions.
 
+What I'd like for to be done with this is for it to be used to find stable DNA repairs and how they apply to the brain via emulation.
+
+
 """
 
 import sympy as sp
