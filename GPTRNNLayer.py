@@ -21,6 +21,13 @@ This came about from me asking it to take a look at star trek concepts and watch
 This makes it hard to decide what to do as now even GPT has been turned into a simple enough neural network that anyone can train.
 But also that the documentation for GPT as built and used by openAI and the like is the wrong direction now.
 
+But when paired, trained, and used like any other part of GPT-2 as in the gpt_neo.py script, at the hidden layer level, and the input and output flattened
+ and unflattened, it likely will work like the transformer or hugging faces model.
+
+The last part is to figure out how to rework the tokenizer framework to operate without an attached model. That's the last part needed for AI besides 
+ well tuned and more accurate models that can be built from this.
+
+ Now this comes in handy for my pybrain3 models as it adds the right level of modeling for each region of the brain. 
 
 
 """
@@ -30,9 +37,8 @@ But also that the documentation for GPT as built and used by openAI and the like
 from pybrain3.structure.modules.neuronlayer import NeuronLayer
 from pybrain3.structure import FeedForwardNetwork, FullConnection
 from pybrain3.structure.modules import LinearLayer, LSTMLayer, SoftmaxLayer
-from pybrain3.supervised.trainers import BackpropTrainer
 
-class GPTRNNLayer(NeuronLayer):
+class GPT_RNNLayer_transformer_block(NeuronLayer):
     def __init__(self, input_size, hidden_size, output_size):
         super(GPTRNNLayer, self).__init__(input_size, output_size)
         self.hidden_size = hidden_size
@@ -68,9 +74,3 @@ class GPT(FeedForwardNetwork):
         self.addConnection(FullConnection(self.hidden_module, self.output_module))
 
         self.sortModules()
-
-    def forward(self, x):
-        return self.activate(x)
-
-    def backwards(self, x, y):
-        trainer = BackpropTrainer(self, dataset=x)
