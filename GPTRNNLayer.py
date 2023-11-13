@@ -19,6 +19,8 @@ This came about from me asking it to take a look at star trek concepts and watch
   recall like a human with a faulty long term memory model was optimized poorly during training on randomly web-scraped content for certain.
 
 This makes it hard to decide what to do as now even GPT has been turned into a simple enough neural network that anyone can train.
+But also that the documentation for GPT as built and used by openAI and the like is the wrong direction now.
+
 
 
 """
