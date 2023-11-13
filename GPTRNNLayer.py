@@ -27,8 +27,8 @@ But when paired, trained, and used like any other part of GPT-2 as in the gpt_ne
 The last part is to figure out how to rework the tokenizer framework to operate without an attached model. That's the last part needed for AI besides 
  well tuned and more accurate models that can be built from this.
 
- Now this comes in handy for my pybrain3 models as it adds the right level of modeling for each region of the brain. 
-
+ Now this comes in handy for my pybrain3 models as it adds the right level of modeling for each region of the brain. The remainder is numpy bridging code.
+  Mainly so it can use the tokenizer with little effort. 
 
 
 -- https://raw.githubusercontent.com/ForkInABlender/ChatGPT_solutions_produced_from_simple_prompt/2023_10/Brain_emulator.py --
