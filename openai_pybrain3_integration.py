@@ -5,7 +5,45 @@
 
 Now GPT could make use of this to come closer to being more than a token parser. :)
 
-This should give you an idea of how to adapt the ELIXA project imitation that is GPT-3 & GPT-4.
+This script integrates several libraries and functionalities, primarily focusing on chemical data processing, neural network training, and interaction 
+   with OpenAI's API. Here's a breakdown of its components and functionalities:
+   
+1. **Import Libraries**: The script imports necessary libraries including `openai` for accessing OpenAI's API, `json` for data serialization, `numpy` for
+   numerical operations, `rdkit` for chemical informatics, `pybrain3` for neural network operations, and `sympy` for symbolic mathematics.
+   
+2. **OpenAI API Key Setup**: It sets up the OpenAI API key, which is necessary for making requests to OpenAI's services.
+
+3. **Chemical Data Processing with RDKit**: 
+    - It uses RDKit to process a chemical compound represented by a SMILES (Simplified Molecular Input Line Entry System) string.
+    - It calculates the molecular weight (`mol_weight`) and the logarithm of the partition coefficient (`logp`) of the molecule.
+
+4. **Symbolic Calculations with SymPy**: 
+    - It defines a symbolic expression using SymPy and simplifies it.
+    - The expression is then evaluated using the molecular weight and logP values calculated earlier.
+
+5. **Neural Network Setup with PyBrain3**:
+    - It prepares a dataset for a neural network, using the features (molecular weight and logP) and the target (evaluated expression).
+    - A neural network is built and trained using backpropagation. The network has 2 input neurons, 3 hidden neurons, and 1 output neuron.
+
+6. **Neural Network Processing Function**:
+    - It defines a function `process_nn` that takes input data, processes it through the neural network, and returns the prediction in JSON format.
+
+7. **OpenAI Function Definition**:
+    - It defines a function for OpenAI to call (`process_nn`), including its parameters and description.
+
+8. **OpenAI API Interaction**:
+    - The script makes an API call to OpenAI's ChatCompletion model, sending a user message and the defined function.
+    - It then checks for a function call in the response from OpenAI. If there's a function call, it processes the input data through the neural network
+         and appends the response to the message chain.
+    - A second API call is made to OpenAI with the updated messages, including the neural network's output.
+
+9. **Output**:
+    - Finally, the script prints the content of the response from the second OpenAI API call.
+
+This script is a sophisticated integration of chemical informatics, symbolic computation, neural network processing, and interaction with OpenAI's API, 
+  demonstrating a complex workflow that spans multiple domains.
+
+This should give you an idea of how to adapt the ELIZA project imitation that is GPT-3 & GPT-4 to your model.
 
 Happy Templating!
 
