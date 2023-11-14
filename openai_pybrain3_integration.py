@@ -3,6 +3,16 @@
 """
 
 
+Now GPT could make use of this to come closer to being more than a token parser. :)
+
+This should give you an idea of how to adapt the ELIXA project imitation that is GPT-3 & GPT-4.
+
+Happy Templating!
+
+
+
+
+
 """
 
 
