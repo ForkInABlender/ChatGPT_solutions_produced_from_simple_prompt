@@ -48,7 +48,7 @@ from pybrain3.structure.modules import LinearLayer, LSTMLayer, SoftmaxLayer
 
 class GPT_RNNLayer_transformer_block(NeuronLayer):
     def __init__(self, input_size, hidden_size, output_size):
-        super(GPTRNNLayer, self).__init__(input_size, output_size)
+        super(GPT_RNNLayer_transformer_block, self).__init__(input_size, output_size)
         self.hidden_size = hidden_size
 
         self.lstm = LSTMLayer(input_size, hidden_size)
