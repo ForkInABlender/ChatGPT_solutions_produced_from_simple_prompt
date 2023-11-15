@@ -9,7 +9,7 @@ This is good thus far because it tells me it can do modeling and try to emulate 
 
 https://pubchem.ncbi.nlm.nih.gov/ is a fairly useful website for making use of chemical smiles with such. 
 
-https://chat.openai.com/share/946f5a88-a6b5-4ed0-adbe-1fb38d2264cf
+https://chat.openai.com/share/946f5a88-a6b5-4ed0-adbe-1fb38d2264cf is where you'll need to look to find it, scrolling up (3 to 9 from the end to the end)
 
 """
 
