@@ -71,7 +71,7 @@ class GPT(FeedForwardNetwork):
         self.input_module = LinearLayer(input_size)
         self.addInputModule(self.input_module)
 
-        self.hidden_module = GPTRNNLayer(input_size, hidden_size, output_size)
+        self.hidden_module = GPT_RNNLayer_transformer_block(input_size, hidden_size, output_size)
         self.addModule(self.hidden_module)
 
         self.output_module = SoftmaxLayer(output_size)
