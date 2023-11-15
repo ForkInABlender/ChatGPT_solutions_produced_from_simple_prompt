@@ -7,6 +7,8 @@ So, thus far, it takes in a chemical smile as defined in xml data, and applies i
 This is good thus far because it tells me it can do modeling and try to emulate biological processes for neurochemical and biochemical processes of the
  brain. It means that it can, amongst other things, be used to model a brain that exists in a computer.
 
+https://pubchem.ncbi.nlm.nih.gov/ is a fairly useful website for making use of chemical smiles with such. 
+
 
 
 """
