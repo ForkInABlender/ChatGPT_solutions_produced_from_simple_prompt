@@ -1,45 +1,53 @@
-import subprocess
-from ctypes import CFUNCTYPE, c_char_p, c_int, create_string_buffer
+# Dylan Kenneth Eliot & GPT-4-plugins (Alpha Edition) (code tune up)
 
-# Assembly code to be compiled
+
+"""
+It is now updated to embed any assembly used directly into python. 
+
+
+This can now directly bind to the assembly of any c/c++ binary that follows the elf binary format inside the python code with no disk bloatation.
+
+On top of that, one likely could disassemble even docker and kubernetes tools and use their assembly directly inside python.
+
+"""
+
+
+import subprocess
+import os
+import tempfile
+from ctypes import *
+
 asm_code = """
 section .data
-    msg db 'Hello, World!', 0
+    global msg
+    msg db 'Hello, World!', 0xa
 
 section .text
     global _start
 
 _start:
-    ; write the message to stdout
-    mov eax, 4 ; system call number (sys_write)
-    mov ebx, 1 ; file descriptor (stdout)
-    mov ecx, msg ; pointer to message
-    mov edx, 13 ; length of message
-    int 0x80 ; call kernel
-
-    ; exit
-    mov eax, 1 ; system call number (sys_exit)
-    xor ebx, ebx ; exit status
-    int 0x80 ; call kernel
+    mov rax, 1
+    mov rdi, 1
+    mov rsi, msg
+    mov rdx, 14
+    syscall
+   ret
 """
 
-# link the assembly code with nasm
-proc = subprocess.run(["nasm", "-f", "elf", "-o", "-"], input=asm_code, stdout=subprocess.PIPE)
-
-# Load the binary into Python
-from ctypes import CDLL
-
-hello = CDLL(None, handle=proc.stdout)
+fd, asm_file = tempfile.mkstemp(suffix=".asm")
+os.write(fd, asm_code.encode())
+os.close(fd)
+obj_file = asm_file.replace('.asm', '.o')
+subprocess.run(["nasm", "-f", "elf64", asm_file, "-o", obj_file])
+shared_lib = asm_file.replace('.asm', '.so')
+subprocess.run(["ld", "-shared", "-o", shared_lib, obj_file])
+hello = CDLL(shared_lib)
+hello._start.argtypes = []
 hello._start.restype = c_int
+msg = (c_char*14).in_dll(hello, "msg")
+os.remove(asm_file)
+os.remove(obj_file)
+os.remove(shared_lib)
 
-# Access the msg data in the .data section
-msg = c_char_p.in_dll(hello, "msg")
-print(msg.value.decode())
-
-# Create a Python function that wraps the _start function
-@CFUNCTYPE(c_int)
-def hello_function():
-    return hello._start()
-
-# Call the Python function
-hello_function()
+hello._start()
+print("normal")
