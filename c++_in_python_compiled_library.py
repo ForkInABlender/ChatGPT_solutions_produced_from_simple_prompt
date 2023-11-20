@@ -1,4 +1,4 @@
-# Dylan Kenneth Eliot & Google Bard AI
+# Dylan Kenneth Eliot & Google Bard AI & GPT-4-plugins (Alpha Edition)
 
 """
 
