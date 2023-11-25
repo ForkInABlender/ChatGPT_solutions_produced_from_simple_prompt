@@ -5,6 +5,8 @@
 
 Now anyone can redirect anyone.... Even at or before the network router.
 
+Due realize that doing this to someone else without their consent is a cyber security crime (193 to 195 cyber security laws)
+ in 180 to 270+ sovern parts of the globe. 
 
 
 """
