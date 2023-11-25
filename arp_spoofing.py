@@ -1,3 +1,15 @@
+# Dylan Kenneth Eliot & GPT-4-plugins (Alpha Edition)
+
+"""
+
+
+Now anyone can redirect anyone.... Even at or before the network router.
+
+
+
+"""
+
+
 import socket
 import struct
 import fcntl
