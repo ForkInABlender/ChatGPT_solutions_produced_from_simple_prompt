@@ -13,10 +13,8 @@ https://hub.docker.com/r/de3343/ai_mods_py3.10/
 
 The ideal container to use is "de3343/ai_mods_py3.10:tiktoken" for modeling at the moment. 
 
-""" 
 
 
-"""
 -- update :: 12/09/2023
 
 * fixed it so it works enough to accept and use name assigned as well as network size
