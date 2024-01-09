@@ -40,4 +40,4 @@ The separation of concerns being that each part of the model is separated or fra
 
 We're on the verge of it. It now requires some elbow grease, clever, and computing it over their in the cloud. Then it is rehashing for error, and creating an autonomous offline
  free agent. An automata if you will. The basic building blocks are put together. The rest is R&D, light, clockwork, and mimicking cell functions. Then making it more cyborg like
-  so it have something beyond emulation to work with. 
+  so it have something beyond emulation to work with. From that point, same sets of steps as applies to kanban methodology of development. Even for 12-factor software.
