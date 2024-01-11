@@ -32,6 +32,16 @@ Ultimately, the goal is to maintain an open-source approach while enabling the A
   physical entities, like robots, using simple components such as NXT modules connected to a Raspberry Pi cluster, effectively giving the AI a 'body' to
  accompany its 'mind'.
 
+
+For more documentation & information, look to 
+
+https://pypi.org/project/tiktoken/
+
+OR
+
+https://pytorch.org/
+
+OR ask GPT about this script & how to train it.
 """
 
 import torch.nn as nn
