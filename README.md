@@ -36,6 +36,12 @@ The separation of concerns being that each part of the model is separated or fra
   In terms of gpt, it might be a bit more than a REST API call and basic math transforms plus task completion checks on said used plugin. If so, then, the next stage is to find
  out what from either model can be imitated and what cannot. Then add in some parts for consciousness & awareness of what it's trying to do.
 
+# What does "updated_main.py" do?
+
+Must of what "gpt_script.py" does but within pybrain3 instead of pytorch.
+Once you know how to use static computational graphs for dynamic computational graphing, then the principles it are like that of playing a piano. Once you learn to play the piano or
+ violin, one doesn't forget unless you try really hard. 
+
 # How many steps away is AI development?
 
 We're on the verge of it. It now requires some elbow grease, clever, and computing it over their in the cloud. Then it is rehashing for error, and creating an autonomous offline
