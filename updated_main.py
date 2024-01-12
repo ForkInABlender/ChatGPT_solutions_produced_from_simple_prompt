@@ -1,4 +1,22 @@
-from pybrain3.structure import LinearLayer, TanhLayer, LSTMLayer, FullConnection, FeedForwardNetwork
+# Dylan Kenneth Eliot & GPT-4-Plugins (Beta Edition)
+
+"""
+This is similar to the gpt_script.py and functions the exact same way but with far more training needed.
+
+This is tiktoken and pybrain3.
+
+Tiktoken does the encoding, numpy parts do the work for BPE of the response, then it gets decoded. With no change of input, the output
+ can be expected to be the same. As it also needs a feed back loop, it probably is a good idea to use recurrent or concurrent networks,
+  or both. All depends on use-case.
+
+Never-the-less this is another examle of how gpt-2 functions at its core outside its normal housing.
+
+Because it is using lightweight mechanical modeling for static computational graphs for something dynamic, it must also pay attention to
+ to its own formulation of response.
+
+From here, it is a matter of finding a dataset that doesn't use fake or stolen data/content.
+"""
+
 from pybrain3.structure import LinearLayer, TanhLayer, LSTMLayer, SoftmaxLayer, FeedForwardNetwork, FullConnection
 import tiktoken
 
@@ -37,13 +55,5 @@ if __name__ == "__main__":
     hidden_dim = 768
     model = DynamicNet(vocab_size, hidden_dim)
     input_text = "Hello, how are you?"
-    response = generate_response(model, input_text, tokenizer)
-    print("Response:", response)
-    response = generate_response(model, input_text, tokenizer)
-    print("Response:", response)
-    response = generate_response(model, input_text, tokenizer)
-    print("Response:", response)
-    response = generate_response(model, input_text, tokenizer)
-    print("Response:", response)
     response = generate_response(model, input_text, tokenizer)
     print("Response:", response)
