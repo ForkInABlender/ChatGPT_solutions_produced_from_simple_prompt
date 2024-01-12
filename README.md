@@ -65,3 +65,5 @@ If I didn't find the fix which was "add 'from numpy import random' to the scipy.
 What did Alan Turing say about AI?
 
 That's what is AI: What Alan Turing said, not what the other guy said.
+
+AI is more than just token parsing, and a simple NLP will not do. It needs a human element in it as a part of it. As it would originate from us in origin. 
