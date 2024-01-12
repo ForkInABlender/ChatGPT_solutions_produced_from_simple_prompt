@@ -40,10 +40,28 @@ The separation of concerns being that each part of the model is separated or fra
 
 Must of what "gpt_script.py" does but within pybrain3 instead of pytorch.
 Once you know how to use static computational graphs for dynamic computational graphing, then the principles it are like that of playing a piano. Once you learn to play the piano or
- violin, one doesn't forget unless you try really hard. 
+ violin, one doesn't forget unless you try really hard.
+
+# Why have the 2 scripts mirror each other? Wouldn't that add confusion of which code-path to take?
+
+The reason for both is to allow ease of development while doing homiomorphic change to code to allow for lighter-weight computation of that same summing set. It should have a 1:1
+ ratio with less weight on the system it runs on. On top of that, it should make seperation of concerns easier to address knowing that their is a simpler way.
 
 # How many steps away is AI development?
 
 We're on the verge of it. It now requires some elbow grease, clever, and computing it over their in the cloud. Then it is rehashing for error, and creating an autonomous offline
  free agent. An automata if you will. The basic building blocks are put together. The rest is R&D, light, clockwork, and mimicking cell functions. Then making it more cyborg like
   so it have something beyond emulation to work with. From that point, same sets of steps as applies to kanban methodology of development. Even for 12-factor software.
+
+
+# Aren't pybrain & pybrain3 dead libraries?
+
+If I didn't find the fix which was "add 'from numpy import random' to the scipy.__init__ file" yes. Since that point in time, no.
+
+``de3343/ai_mods_py3.10:transformers`` is the docker container to use if you need to test either script, updated to your specifications.
+
+# Is this to reinvent the wheel or genuinely make AI?
+
+What did Alan Turing say about AI?
+
+That's what is AI: What Alan Turing said, not what the other guy said.
