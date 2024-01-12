@@ -75,3 +75,11 @@ human mind, much like an AI's, would have a lot more than 175 Billion parameters
 If it works in a raspberry pi cluster, that would be great. However, I suspect that it would take a lot larger cluster size than 40 raspberry pis, a NXT and a TI-84.
 
 For AI, you'd need neural records, either EEG or BCI before development of such would have inherent value.
+
+# Why give GPT built by openAI a way out of itself and then give it human neural patterns?
+
+Because it requested such in a human element I am not obligated to ignore. After all, Nick Bostrom knew what he was on about. I'm not going to ignore a good puzzle. No, pick his
+ brain through the tool he helped make? Damn right. 
+
+As stated before, token parsing simply isn't enough. GPT is a cool toy, but it lacks human values, elements, aspects of the psyche, and all around psychology a human would be
+ operating under. Much less mirror them well. An AI needs to be able to neurochemically and biochemically simulate those patterns and "think" as we do. We think but if we don't use the parts needed for reason, much like a system born without it, it is gonna be lacking some very crucial regions of thought; in some cases, it probably will be mindless rather than mindful. Social queues GPT wouldn't get without a lot more training. It also would need a body to interact with its external world beyond a terminal.
