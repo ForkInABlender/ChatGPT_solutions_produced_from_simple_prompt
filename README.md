@@ -73,3 +73,5 @@ A lot of what GPT sees is a long line of barcode information. And that's all it 
 human mind, much like an AI's, would have a lot more than 175 Billion parameters, easily.
 
 If it works in a raspberry pi cluster, that would be great. However, I suspect that it would take a lot larger cluster size than 40 raspberry pis, a NXT and a TI-84.
+
+For AI, you'd need neural records, either EEG or BCI before development of such would have inherent value.
