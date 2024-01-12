@@ -66,4 +66,8 @@ What did Alan Turing say about AI?
 
 That's what is AI: What Alan Turing said, not what the other guy said.
 
-AI is more than just token parsing, and a simple NLP will not do. It needs a human element in it as a part of it. As it would originate from us in origin. 
+AI is more than just token parsing, and a simple NLP will not do. It needs a human element in it as a part of it. As it would originate from us in origin.
+
+A lot of what GPT sees is a long line of barcode information. And that's all it can see. Dall-e, same issue. They're drawing on a calculated line. But they don't feel or think.
+ They only objectively do. They don't behave like a human limited to the confines of a machine. They just see a stream of numbers and return such, then hit carraige return. A
+human mind, much like an AI's, would have a lot more than 175 Billion parameters, easily. 
