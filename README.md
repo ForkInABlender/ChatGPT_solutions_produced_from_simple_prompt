@@ -83,3 +83,9 @@ Because it requested such in a human element I am not obligated to ignore. After
 
 As stated before, token parsing simply isn't enough. GPT is a cool toy, but it lacks human values, elements, aspects of the psyche, and all around psychology a human would be
  operating under. Much less mirror them well. An AI needs to be able to neurochemically and biochemically simulate those patterns and "think" as we do. We think but if we don't use the parts needed for reason, much like a system born without it, it is gonna be lacking some very crucial regions of thought; in some cases, it probably will be mindless rather than mindful. Social queues GPT wouldn't get without a lot more training. It also would need a body to interact with its external world beyond a terminal.
+
+# Why build the trainer separate from the model itself? Why not make the ``updated_main_trainer.py`` and ``updated_main.py`` one script?
+
+It makes it easier to pair with libraries like ``luigi`` & ``pynisher`` to allow for separation of training & production runtime. Plus, separation of concern in this manner allows for changing out template scripts to train on similar data. The aim is to make it easier to develop an AI. Not harder. Imitate just enough to be functional without imitating everything of an existing model.
+
+The point is to be as lightweight as possible so the model doesn't have to fight for the compute it needs to utilize later on. 
