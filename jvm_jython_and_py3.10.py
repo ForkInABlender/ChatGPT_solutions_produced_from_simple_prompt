@@ -19,6 +19,7 @@ https://github.com/ForkInABlender/-and-so-sayeth-the-math-nerds-1-1-5-/blob/main
 
 This also means any value, given the correct type assignment for casting, override even java functions/methods and values used by them.
 
+Please use these wisely. 
 
 """
 
