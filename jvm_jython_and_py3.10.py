@@ -22,7 +22,7 @@ This also means any value, given the correct type assignment for casting, overri
 Please use these wisely.
 
 
-
+https://chat.openai.com/share/dc81cfd7-cd57-4745-8ff0-abda407da005
 
 :)
 
