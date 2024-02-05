@@ -23,6 +23,8 @@ Please use these wisely.
 
 
 https://chat.openai.com/share/dc81cfd7-cd57-4745-8ff0-abda407da005
+https://github.com/ForkInABlender/ChatGPT_solutions_produced_from_simple_prompt/blob/2024_02/python_adb_integration_test.py
+
 
 :)
 
