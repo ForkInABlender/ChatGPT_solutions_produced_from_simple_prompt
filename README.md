@@ -13,3 +13,10 @@ What it would allow for AI development as a video game instead is a space for a 
 
 The goal is to use it to aide in modeling neural networks that can accept a 3-d environment and have similar periferal vision as humans do while playing the game. Later on, this can
  be expanded to having a network modeled for "imagining" what next it can do. Then give it something more to work with.
+
+
+# Why GTK and OpenGL in addition in python?
+
+Ease of development. The only thing that is being done different is how it is made use of. OpenGL in python allows me to hide away the rendering that the AI would do on a GPU.
+ For instance, you're using an intel gpu on a dell office computer. I personally don't envy hopping through code bases and drivers for a simple answer stairing at me.
+ PyOpenGL worked for using OpenGL targeting a mesa driver, where the gtk framework would work on other builds. 
