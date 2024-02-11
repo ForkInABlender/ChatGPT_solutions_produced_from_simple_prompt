@@ -20,3 +20,10 @@ The goal is to use it to aide in modeling neural networks that can accept a 3-d 
 Ease of development. The only thing that is being done different is how it is made use of. OpenGL in python allows me to hide away the rendering that the AI would do on a GPU.
  For instance, you're using an intel gpu on a dell office computer. I personally don't envy hopping through code bases and drivers for a simple answer stairing at me.
  PyOpenGL worked for using OpenGL targeting a mesa driver, where the gtk framework would work on other builds. 
+
+# What is GridShift Encryption for?
+
+It is in this repo to make use of it in AI. The point is to train it on encoded responses and return similar. Then decode and return response. The reason I find it important for AI
+ is to capture generated and pretrained responses. The end goal is to make use of needed tokens rather than just make use of large numbers & large numerical sets. Instead, small
+ changes are required for better sets of responses. So, part of my thinking was encrypt & tokenize then train and detokenize and decode the response. The gridshift encryption 
+ can also be applied to AI oriented neural network modeling for dynamic reshape, assuming the layer sizes match or follow a custom grid-wrap rule. This would also allow for perturbing your network somewhat to your desired outcome. In theory, it would allow for also shifting neurons around from any layer so long as you knew when to shift the neurons or where to keep responses encrypted based on the input and shift number & ascii tokens used. In the available example, it does a 10 by 10 of common to use characters for English speakers. 
