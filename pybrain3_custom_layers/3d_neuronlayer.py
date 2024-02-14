@@ -16,6 +16,10 @@ Sadly, this isn't meant to replace modern-day GPUs. However, if you find a use f
 
 Token parsing is not AI.  And any failure to accept that will not be treated with respect as the Eliza projects on the market aren't AI. )
 
+For more information, please read through
+
+https://chat.openai.com/share/837e66b0-6ff7-458b-9489-5eb950449ae8
+
 
 """
 
