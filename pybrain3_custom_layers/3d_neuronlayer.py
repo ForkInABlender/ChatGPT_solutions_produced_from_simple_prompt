@@ -20,6 +20,9 @@ For more information, please read through
 
 https://chat.openai.com/share/837e66b0-6ff7-458b-9489-5eb950449ae8
 
+Enjoy :)
+
+You will not be missed!
 
 """
 
