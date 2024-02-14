@@ -14,7 +14,7 @@ This also means that it must have a 3-dimensional modeling of even the cerebral 
 Sadly, this isn't meant to replace modern-day GPUs. However, if you find a use for it in that domain, more power to you. But it is to make use of the CPU as it "thinks" on a 
  thing it is looking at, listening to, or trying to reason about, when it comes to AI development. (Alan Turings' definition is the only acceptable definition. tough, cope. 
 
-Token parsing is not AI. )
+Token parsing is not AI.  And any failure to accept that will not be treated with respect as the Eliza projects on the market aren't AI. )
 
 
 """
