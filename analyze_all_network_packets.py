@@ -1,9 +1,5 @@
 # Dylan Kenneth Eliot & GPT-4-Plugins (Beta Edition)
 
-import socket
-import struct
-import textwrap
-
 """
 
 This is a little more advanced. It looks at all packets then decodes what its eyeball sees.
@@ -13,7 +9,9 @@ This script works best with root or proot (root like environment even on / ) lik
 To use this on windows outside of WSL, run CMD.exe as administrator, either via the task manager or powershell command prompt with admin priviliges.
 """
 
-
+import socket
+import struct
+import textwrap
 
 def ethernet_frame(data):
     dest_mac, src_mac, proto = struct.unpack('! 6s 6s H', data[:14])
@@ -32,6 +30,11 @@ def ipv4_packet(data):
 
 def ipv4(addr):
     return '.'.join(map(str, addr))
+
+def custom_protocol_packet(data):
+    header, payload = struct.unpack('! H', data[:2]), data[2:]
+    print("Header: ", header)
+    print("Payload: ", payload)
 
 def main():
     conn = socket.socket(socket.AF_PACKET, socket.SOCK_RAW, socket.ntohs(3))
@@ -54,6 +57,11 @@ def main():
             # Filter for a specific IP address
             if src == "[ip-filtered-for]" or target == "[ip-filtered-for]":
                 print('Captured a packet from/to [ip-filtered-for]!')
+        
+        # Check for Custom Protocol
+        if eth_proto == 0x0608:
+            print('Custom Protocol Packet Detected')
+            custom_protocol_packet(data)
 
 if __name__ == '__main__':
     main()
