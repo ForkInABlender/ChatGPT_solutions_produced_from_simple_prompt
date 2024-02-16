@@ -9,6 +9,8 @@ import textwrap
 This is a little more advanced. It looks at all packets then decodes what its eyeball sees.
 
 This script works best with root or proot (root like environment even on / ) like shell environments.
+
+To use this on windows outside of WSL, run CMD.exe as administrator, either via the task manager or powershell command prompt with admin priviliges.
 """
 
 
