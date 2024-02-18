@@ -35,4 +35,4 @@ Acorn.io allows a lot of flexibility with how you structure, constrain, control,
 
 The point of using acorn.io is mostly to cut the time needed to train each copy of the same container image of the pybrain3/tiktoken version. So that development time doesn't rely 
  on hardware like gpu heavy compute. Instead, make it simple, lightweight, and able to run anywhere. In my case, it isn't about putting an AI into a video game, but giving it a 
- framework to run around in.
+ framework to run around in so the human it is emulating doesn't go insane.
