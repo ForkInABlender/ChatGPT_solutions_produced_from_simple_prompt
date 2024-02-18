@@ -27,3 +27,12 @@ It is in this repo to make use of it in AI. The point is to train it on encoded 
  is to capture generated and pretrained responses. The end goal is to make use of needed tokens rather than just make use of large numbers & large numerical sets. Instead, small
  changes are required for better sets of responses. So, part of my thinking was encrypt & tokenize then train and detokenize and decode the response. The gridshift encryption 
  can also be applied to AI oriented neural network modeling for dynamic reshape, assuming the layer sizes match or follow a custom grid-wrap rule. This would also allow for perturbing your network somewhat to your desired outcome. In theory, it would allow for also shifting neurons around from any layer so long as you knew when to shift the neurons or where to keep responses encrypted based on the input and shift number & ascii tokens used. In the available example, it does a 10 by 10 of common to use characters for English speakers. This later can be adapted to other languages as well, but, it should provide a basic outline to work with.
+
+# What does Acorn.io have to do with building an AI?
+
+Acorn.io allows a lot of flexibility with how you structure, constrain, control, or operate kubernetes. Even from their source source code. What it gives python developers is the 
+ option to use something like tiktoken, pybrain, luigi, and pynisher with flask. Acorn also allows for ease of definition of what and how it should conditionally respond.
+
+The point of using acorn.io is mostly to cut the time needed to train each copy of the same container image of the pybrain3/tiktoken version. So that development time doesn't rely 
+ on hardware like gpu heavy compute. Instead, make it simple, lightweight, and able to run anywhere. In my case, it isn't about putting an AI into a video game, but giving it a 
+ framework to run around in.
