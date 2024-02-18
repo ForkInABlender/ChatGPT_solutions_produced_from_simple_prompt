@@ -52,4 +52,4 @@ While still unsafe, tested and mildly unsafe is better than absolute panick, whi
 
 # What would happen if someone used this code to make an AI of you?
 
-They'd get trolled by the model once they'd have succeeded. 
+They'd get trolled by the model once they'd have succeeded. Imitation is not flattery in that case, and the results they get are what they get. 
