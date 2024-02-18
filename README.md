@@ -49,3 +49,7 @@ Open source development, even from what pybrain/pybrain3's initial developers cr
 
 
 While still unsafe, tested and mildly unsafe is better than absolute panick, which is what openai has as a code base. At best it is a good template to work from, but, lacks human qualities that would be considered inherent by Alan Turings' definition of AI, much like Isaac Asimovs'.
+
+# What would happen if someone used this code to make an AI of you?
+
+They'd get trolled by the model once they'd have succeeded. 
