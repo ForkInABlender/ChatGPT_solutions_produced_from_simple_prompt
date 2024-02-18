@@ -46,3 +46,6 @@ Proprietary development is not the point. The reason it is being done in this ma
  have the chops for AI development in the real world. Same is true for Microsoft spending billions in infra that is only impeding development. While google isn't proprietary inherently, they do follow similar bending of the knee this way problematically. 
 
 Open source development, even from what pybrain/pybrain3's initial developers created, proved to be more functional than modern day proprietarily built libraries and software. What open source development of AI allows for is the same scope analysis to the problem set NASA uses when finding the root causes of a problem.
+
+
+While still unsafe, tested and mildly unsafe is better than absolute panick, which is what openai has as a code base. 
