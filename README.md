@@ -43,4 +43,4 @@ The point of using acorn.io is mostly to cut the time needed to train each copy 
 # Why not do it proprietarily? Isn't open source unsafe?
 
 Proprietary development is not the point. The reason it is being done in this manner as open source is that proprietary development focused and hyperfocused on token parsing, which isn't AI so much as poorly designed autocorrect with the intent to fool. I do not, for that reason, support OpenAI's lack of critical thinking on AI development. Even Google doesn't
- have the chops for AI development in the real world. 
+ have the chops for AI development in the real world. Same is true for Microsoft spending billions in infra that is only impeding development.
