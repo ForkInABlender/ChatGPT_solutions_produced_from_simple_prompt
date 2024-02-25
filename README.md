@@ -56,4 +56,10 @@ They'd get trolled by the model once they'd have succeeded. Imitation is not fla
 
 # Aren't you going to give a how to guide with the readme?
 
-Why? It's your head. Organize your head how you wish. Their is no one way on how to think. Either you know how to use it, or you do not. And you'd know how to use it if you read the source material it is built on.
+Why? It's your head. Organize your head how you wish. Their is no one way on how to think. Either you know how to use it, or you do not. And you'd know how to use it if you read the source material it is built on. For instance, pybrain3 based network layers, networks, etcetera, are mostly for static computational graphs but can still do dynamic computational graph representation similar to what gpt-4 uses pytorch for under the hood. tiktoken is good for token parsing. 
+
+AI development has several purposes:
+ * problem solve
+ * imitate a human mind represented as dynamically reshaping networks
+ * Do more than token parse & actually comprehend beyond basic training
+ * imitating human consciousness ( not for the purposes of embedding into video games as that violates the individual it is imitatings' copyright rights )
