@@ -53,3 +53,7 @@ While still unsafe, tested and mildly unsafe is better than absolute panick, whi
 # What would happen if someone used this code to make an AI of you?
 
 They'd get trolled by the model once they'd have succeeded. Imitation is not flattery in that case, and the results they get are what they get. Now, I will not list the exceptions to that rule because that is for me and that person the exception applies to  to know. And if they use it to lie, then the results will be just that based on the input. GIGO law applies to it and why you did that with it. And that's if you force it you play your lie out as truth.
+
+# Aren't you going to give a how to guide with the readme?
+
+Why? It's your head. Organize your head how you wish. Their is no one way on how to think. 
