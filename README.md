@@ -62,4 +62,4 @@ AI development has several purposes:
  * problem solve
  * imitate a human mind represented as dynamically reshaping networks
  * Do more than token parse & actually comprehend beyond basic training
- * imitating human consciousness ( not for the purposes of embedding into video games as that violates the individual it is imitatings' copyright rights )
+ * imitating human consciousness ( not for the purposes of embedding into video games as that violates the individual it is imitatings' copyright rights including their human rights )
