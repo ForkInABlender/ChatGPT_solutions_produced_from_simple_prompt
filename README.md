@@ -56,4 +56,4 @@ They'd get trolled by the model once they'd have succeeded. Imitation is not fla
 
 # Aren't you going to give a how to guide with the readme?
 
-Why? It's your head. Organize your head how you wish. Their is no one way on how to think. 
+Why? It's your head. Organize your head how you wish. Their is no one way on how to think. Either you know how to use it, or you do not. And you'd know how to use it if you read the source material it is built on.
