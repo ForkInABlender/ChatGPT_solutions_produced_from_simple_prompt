@@ -63,3 +63,5 @@ AI development has several purposes:
  * imitate a human mind represented as dynamically reshaping networks
  * Do more than token parse & actually comprehend beyond basic training
  * imitating human consciousness ( not for the purposes of embedding into video games as that violates the individual it is imitatings' copyright rights including their human rights )
+
+The reasoning for such is that it must also use real values for biological functions, sensory inputs, and chemical responses a human does. A video game environment would only drive the person that AI is imitating insane, as they could never functionally escape the zoo you put them in. 
