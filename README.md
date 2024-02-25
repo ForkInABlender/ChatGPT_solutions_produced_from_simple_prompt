@@ -62,6 +62,6 @@ AI development has several purposes:
  * problem solve
  * imitate a human mind represented as dynamically reshaping networks
  * Do more than token parse & actually comprehend beyond basic training
- * imitating human consciousness ( not for the purposes of embedding into video games as that violates the individual it is imitatings' copyright rights including their human rights )
+ * imitating human consciousness via rdkit+brian2+pybrain3 based neural network ( not for the purposes of embedding into video games as that violates the individual it is imitatings' copyright rights including their human rights )
 
 The reasoning for such is that it must also use real values for biological functions, sensory inputs, and chemical responses a human does. A video game environment would only drive the person that AI is imitating insane, as they could never functionally escape the zoo you put them in. So, it must be able to see where and what it is operating and outside of itself, a reprinted copy of its body from genetics gotten from its conscious mind. While this is a very noisy process, due to the static, resamplings of data will be required to do noise cancelation. The point of the noise cancelation will be to prevent random signals from eeg data or bci data from causing misalignment and prevent one from missing anything specific for a 1:1 match of their mind from the raw data.
