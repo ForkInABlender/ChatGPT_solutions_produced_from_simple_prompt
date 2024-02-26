@@ -27,7 +27,7 @@ You will not be missed!
 """
 
 import numpy as np
-from pybrain.structure.modules import NeuronLayer
+from pybrain.structure.modules.neuronlayer import NeuronLayer # forgot `.neuronlayer`.... oops
 
 class Dim3NeuronLayer(NeuronLayer):
     def __init__(self, indim, outdim, num_heads):
