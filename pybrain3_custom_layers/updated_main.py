@@ -17,10 +17,10 @@ Because it is using lightweight mechanical modeling for static computational gra
 From here, it is a matter of finding a dataset that doesn't use fake or stolen data/content.
 """
 
-from pybrain3.structure import LinearLayer, TanhLayer, LSTMLayer, SoftmaxLayer, FeedForwardNetwork, FullConnection
+from pybrain3.structure import LinearLayer, TanhLayer, LSTMLayer, SoftmaxLayer, RecurrentNetwork, FullConnection
 import tiktoken
 
-class DynamicNet(FeedForwardNetwork):
+class DynamicNet(RecurrentNetwork):
     def __init__(self, vocab_size, hidden_dim):
         super(DynamicNet, self).__init__()
         # Layers
