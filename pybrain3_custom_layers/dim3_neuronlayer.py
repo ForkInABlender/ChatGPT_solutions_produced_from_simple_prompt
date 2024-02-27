@@ -32,72 +32,77 @@ from pybrain.structure.modules.neuronlayer import NeuronLayer # forgot `.neuronl
 class Dim3NeuronLayer(NeuronLayer):
     def __init__(self, indim, outdim, num_heads):
         assert indim % num_heads == 0, "indim must be divisible by num_heads"
-        super(Custom3DNeuronLayer, self).__init__()
+        super(Dim3NeuronLayer, self).__init__(indim, outdim)
         self.indim = indim
         self.outdim = outdim
         self.num_heads = num_heads
         self.depth = indim // num_heads
 
+        # Initialize weights for the projections
         self.W_q = np.random.randn(indim, indim)
         self.W_k = np.random.randn(indim, indim)
         self.W_v = np.random.randn(indim, indim)
-        self.W_o = np.random.randn(indim, outdim)
+        # Adjust the output dimension for concatenated heads
+        self.W_o = np.random.randn(self.depth * num_heads, outdim)
 
     def scaled_dot_product_attention(self, Q, K, V):
         matmul_qk = np.dot(Q, K.swapaxes(-2, -1))
         dk = Q.shape[-1]
         scaled_attention_logits = matmul_qk / np.sqrt(dk)
         
-        # Softmax is applied to the last axis (seq_length_k) to normalize the scores
         attention_weights = np.exp(scaled_attention_logits) / np.sum(np.exp(scaled_attention_logits), axis=-1, keepdims=True)
         output = np.dot(attention_weights, V)
         return output, attention_weights
 
     def _forwardImplementation(self, inbuf, outbuf):
+        if inbuf.ndim == 1:
+            inbuf = inbuf.reshape(1, 1, -1)
+        elif inbuf.ndim == 2:
+            inbuf = inbuf.reshape(inbuf.shape[0], 1, -1)
+
         batch_size, seq_length, _ = inbuf.shape
 
-        # Linear projections in batch from input_dim => num_heads x depth
         Q = np.dot(inbuf.reshape(-1, self.indim), self.W_q).reshape(batch_size, seq_length, self.num_heads, self.depth)
         K = np.dot(inbuf.reshape(-1, self.indim), self.W_k).reshape(batch_size, seq_length, self.num_heads, self.depth)
         V = np.dot(inbuf.reshape(-1, self.indim), self.W_v).reshape(batch_size, seq_length, self.num_heads, self.depth)
 
-        # Transpose to get dimensions batch_size x num_heads x seq_length x depth
         Q = Q.transpose(0, 2, 1, 3)
         K = K.transpose(0, 2, 1, 3)
         V = V.transpose(0, 2, 1, 3)
 
-        # Scaled Dot-Product Attention
-        attention_outputs, self.attention_weights = [], []
+        attention_outputs, attention_weights = [], []
         for i in range(self.num_heads):
             attention_output, attention_weight = self.scaled_dot_product_attention(Q[:, i, :, :], K[:, i, :, :], V[:, i, :, :])
             attention_outputs.append(attention_output)
-            self.attention_weights.append(attention_weight)
+            attention_weights.append(attention_weight)
 
-        # Concatenation of heads
         attention_output = np.concatenate(attention_outputs, axis=-1)
-
-        # Final linear layer
         outbuf[:] = np.dot(attention_output.reshape(batch_size, -1), self.W_o)
 
     def _backwardImplementation(self, outerr, inerr, outbuf, inbuf):
+        if inbuf.ndim == 1:
+            inbuf = inbuf.reshape(1, 1, -1)
+        elif inbuf.ndim == 2:
+            inbuf = inbuf.reshape(inbuf.shape[0], 1, -1)
+
         batch_size, seq_length, _ = inbuf.shape
 
-        # Gradients for final linear layer
-        dW_o = np.dot(outbuf.reshape(-1, self.outdim).T, outerr)
-        doutbuf = np.dot(outerr, self.W_o.T).reshape(batch_size, seq_length, self.num_heads, self.depth)
+        if outerr.ndim == 1:
+            outerr = outerr.reshape(1, 1, -1)
+        elif outerr.ndim == 2:
+            outerr = outerr.reshape(outerr.shape[0], 1, -1)
 
-        # Split doutbuf for heads
-        doutbuf = doutbuf.transpose(0, 2, 1, 3)  # Transpose back to num_heads first for consistency
+        dW_o = np.dot(outbuf.reshape(-1, self.outdim).T, outerr.reshape(-1, self.outdim))
 
-        dW_q, dW_k, dW_v = np.zeros_like(self.W_q), np.zeros_like(self.W_k), np.zeros_like(self.W_v)
+        dout_attention = np.dot(outerr, self.W_o.T).reshape(batch_size, self.num_heads, seq_length, self.depth)
+        dout_attention = dout_attention.transpose(0, 2, 1, 3)
+
+        dW_q = np.zeros_like(self.W_q)
+        dW_k = np.zeros_like(self.W_k)
+        dW_v = np.zeros_like(self.W_v)
+
         for i in range(self.num_heads):
-            dattention_output = doutbuf[:, i, :, :]
-
-            # Placeholder for the gradient through the softmax and dot products
-            # This is complex and involves partial derivatives through the attention mechanism
-            # Assuming we have dQ, dK, dV from the attention gradients for simplification
-
-            # Update gradients for Q, K, V weights
+            dattention_output = dout_attention[:, :, i, :]
             dW_q_partial = np.dot(inbuf.reshape(-1, self.indim).T, dattention_output.reshape(-1, self.depth))
             dW_k_partial = np.dot(inbuf.reshape(-1, self.indim).T, dattention_output.reshape(-1, self.depth))
             dW_v_partial = np.dot(inbuf.reshape(-1, self.indim).T, dattention_output.reshape(-1, self.depth))
@@ -106,7 +111,7 @@ class Dim3NeuronLayer(NeuronLayer):
             dW_k += dW_k_partial
             dW_v += dW_v_partial
 
-        # Update weights (simplified without learning rate or optimization algorithm)
+        # Update weights (this is a placeholder; actual update logic depends on your training loop)
         self.W_q -= dW_q
         self.W_k -= dW_k
         self.W_v -= dW_v
