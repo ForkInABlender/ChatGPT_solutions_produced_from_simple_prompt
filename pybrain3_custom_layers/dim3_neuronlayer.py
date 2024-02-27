@@ -111,7 +111,6 @@ class Dim3NeuronLayer(NeuronLayer):
             dW_k += dW_k_partial
             dW_v += dW_v_partial
 
-        # Update weights (this is a placeholder; actual update logic depends on your training loop)
         self.W_q -= dW_q
         self.W_k -= dW_k
         self.W_v -= dW_v
