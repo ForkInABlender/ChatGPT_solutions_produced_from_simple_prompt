@@ -27,7 +27,7 @@ You will not be missed!
 """
 
 import numpy as np
-from pybrain.structure.modules.neuronlayer import NeuronLayer # forgot `.neuronlayer`.... oops
+from pybrain3.structure.modules.neuronlayer import NeuronLayer # forgot `.neuronlayer`.... oops
 
 class Dim3NeuronLayer(NeuronLayer):
     def __init__(self, indim, outdim, num_heads):
@@ -49,8 +49,12 @@ class Dim3NeuronLayer(NeuronLayer):
         matmul_qk = np.dot(Q, K.swapaxes(-2, -1))
         dk = Q.shape[-1]
         scaled_attention_logits = matmul_qk / np.sqrt(dk)
-        
-        attention_weights = np.exp(scaled_attention_logits) / np.sum(np.exp(scaled_attention_logits), axis=-1, keepdims=True)
+
+        # Log-sum-exp trick for numerical stability
+        logits_max = np.max(scaled_attention_logits, axis=-1, keepdims=True)
+        exp_logits = np.exp(scaled_attention_logits - logits_max)
+        attention_weights = exp_logits / np.sum(exp_logits, axis=-1, keepdims=True)
+
         output = np.dot(attention_weights, V)
         return output, attention_weights
 
