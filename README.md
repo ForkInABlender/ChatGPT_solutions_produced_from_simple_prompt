@@ -39,11 +39,10 @@ The point of using acorn.io is mostly to cut the time needed to train each copy 
  enough so it can interact with A environment which gives it freedom of mobility and communicationand no limitations on thinking. Instead of trapping a human mind, the goal is to
  template from this point til it matches that of the human brain with no goals for it to be limited to minecraft game world data. ( A world seed if you will ... )
 
-
 # Why not do it proprietarily? Isn't open source unsafe?
 
 Proprietary development is not the point. The reason it is being done in this manner as open source is that proprietary development focused and hyperfocused on token parsing, which isn't AI so much as poorly designed autocorrect with the intent to fool. I do not, for that reason, support OpenAI's lack of critical thinking on AI development. Even Google doesn't
- have the chops for AI development in the real world. Same is true for Microsoft spending billions in infra that is only impeding development. While google isn't proprietary inherently, they do follow similar bending of the knee this way problematically. 
+ have the chops for AI development in the real world. Same is true for Microsoft spending billions in infra that is only impeding development. However, Google is a lot closer than many have come. While google isn't proprietary inherently, they do follow similar bending of the knee this way problematically. 
 
 Open source development, even from what pybrain/pybrain3's initial developers created, proved to be more functional than modern day proprietarily built libraries and software. What open source development of AI allows for is the same scope analysis to the problem set NASA uses when finding the root causes of a problem.
 
@@ -70,5 +69,7 @@ The reasoning for such is that it must also use real values for biological funct
 
 Yes. This keeps it simple enough for loading each region separate enough to make it more modular and readily loadable. Once I fix the bug in its saving mechanry as well as loading mechanry.In the meantime, the python module "pickle" will be useful to save and load ones models.
 
+# why `udocker` and why Android OS? Why not use the apps on the android market and just use ssh?
 
-
+It makes it easier and saves me ( and others ) development time. Plus ssh is a pain in the ass, and the chiefs that make use of it, more power too them. I, however, found ssh to 
+be a stumbling block impeding development. It also had to be run offline before it would be useful in many clusters beyond a cell phone. On top of that, it saved me time and development cost. In addition, it was easier to consider the minimum build that would work for systems using proot-distro. ( I can't speak for IOS and apple software development, however, they may have similar enough binaries that it would also work and run on an iphone. )
