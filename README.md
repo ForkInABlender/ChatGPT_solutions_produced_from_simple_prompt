@@ -73,3 +73,7 @@ Yes. This keeps it simple enough for loading each region separate enough to make
 
 It makes it easier and saves me ( and others ) development time. Plus ssh is a pain in the ass, and the chiefs that make use of it, more power too them. I, however, found ssh to 
 be a stumbling block impeding development. It also had to be run offline before it would be useful in many clusters beyond a cell phone. On top of that, it saved me time and development cost. In addition, it was easier to consider the minimum build that would work for systems using proot-distro. ( I can't speak for IOS and apple software development, however, they may have similar enough binaries that it would also work and run on an iphone. )
+
+``alias docker="udocker"`` may come in handy in the proot-distro of an ubuntu install.
+
+While limited, it can run docker containers within itself with a docker-in-docker solution. Meaning it can still be useful in other ways while passing the docker socket to the udocker instance of that [D-in-D] solution to the limitations of udocker.
