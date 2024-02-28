@@ -82,4 +82,4 @@ Sadly, I may have made it every OS compatible......
 Forunately, this is open source code. So, "yay, it can run everywhere including a cell-phone". Unfortunately, that was found on a very high up on a steep gradient. So it is a very (vuuury) hard thing to build.
 
 
-But, that being said, the code within this repo branch should make it easier.
+But, that being said, the code within this repo branch should make it easier. 
