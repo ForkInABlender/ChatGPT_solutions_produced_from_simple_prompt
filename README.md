@@ -79,4 +79,4 @@ be a stumbling block impeding development. It also had to be run offline before 
 While limited, it can run docker containers within itself with a docker-in-docker solution. Meaning it can still be useful in other ways while passing the docker socket to the udocker instance of that [D-in-D] solution to the limitations of udocker.
 
 Sadly, I may have made it every OS compatible......
-Forunately, this is open source code. So, "yay, it can run everywhere including a cell-phone". Unfortunately, that was found on a very high up on a steep gradient.
+Forunately, this is open source code. So, "yay, it can run everywhere including a cell-phone". Unfortunately, that was found on a very high up on a steep gradient. So it is a very (vuuury) hard thing to build.
