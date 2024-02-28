@@ -85,3 +85,7 @@ Forunately, this is open source code. So, "yay, it can run everywhere including 
 But, that being said, the code within this repo branch should make it easier. if you're having trouble getting your copy of the docker container working correctly with the code:
 
 ``docker run -it --rm -v $PWD/:/app/ de3343/ai_mods_py3.10:transformers sh -c "mv /string.py /usr/local/lib/python3.10/string.py; python3 /app/updated_main.py"`` within the cloned repo on your machine or phone. Because the code within it is python3.10 compatible, anything kept compatible in 3.10+ will still work. If you need help getting it to work on your android phone, ask chatgpt and check the docs for your android version. If your android OS is a x86_64 build, the default docker build should work.
+
+# Why would you use GPT to aide in the modeling of an AI? Why not just use the GPT model and not care?
+
+A human mind does more than just parse tokens.
