@@ -82,4 +82,6 @@ Sadly, I may have made it every OS compatible......
 Forunately, this is open source code. So, "yay, it can run everywhere including a cell-phone". Unfortunately, that was found on a very high up on a steep gradient. So it is a very (vuuury) hard thing to build.
 
 
-But, that being said, the code within this repo branch should make it easier. 
+But, that being said, the code within this repo branch should make it easier. if you're having trouble getting your copy of the docker container working correctly with the code:
+
+``docker run -it --rm -v $PWD/:/app/ de3343/ai_mods_py3.10:transformers sh -c "mv /string.py /usr/local/lib/python3.10/string.py; python3 /app/updated_main.py"`` within the cloned repo on your machine or phone.
