@@ -68,4 +68,7 @@ The reasoning for such is that it must also use real values for biological funct
 
 # Are you planning on making snapshots of each using xml documents?
 
-Yes. This keeps it simple enough for loading each region separate enough to make it more modular and readily loadable. 
+Yes. This keeps it simple enough for loading each region separate enough to make it more modular and readily loadable. Once I fix the bug in its saving mechanry as well as loading mechanry.In the meantime, the python module "pickle" will be useful to save and load ones models.
+
+
+
