@@ -27,3 +27,8 @@ Because real data works better than faked or stolen data, token parsing isn't en
 Among other things, AI should make use of eeg or the like data in live time with live, asynchronous training on the new data.
 Now, resetting the dataset used for training while training it on something new allows for more degrees of freedom, keeping the window of error small.
 In some cases, it will come down to manually tuning the knobs and dials to get EPICAC level of conscious machine then retooling the functions to automate this process a little without optimizing.
+
+# Which `updated_main.py` should I use?
+
+The default is fine to use as well as the latest one containing 3 layers each with their own 3-d orient. The ``dim3_neuronlayer.py`` has also been updated so it can optimally run
+ based on the number of heads. This model could be adjusted for your needs. For instance, it could be configured to show what it is doing with the data as it attempts to respond.
