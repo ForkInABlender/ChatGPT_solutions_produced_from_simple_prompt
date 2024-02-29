@@ -23,3 +23,5 @@ If you need more information, look to, https://chat.openai.com/share/1c475f8e-1f
 # Why does AI require brain emulation and data from a live host?
 
 Because real data works better than faked or stolen data, token parsing isn't enough, and why not how to learn faster from a AI version that learned from you [you]? 
+
+Among other things, AI should make use of eeg or the like data in live time with live, asynchronous training on the new data.
