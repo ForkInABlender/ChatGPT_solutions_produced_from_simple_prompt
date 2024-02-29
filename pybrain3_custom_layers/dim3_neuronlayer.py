@@ -130,3 +130,5 @@ class Dim3NeuronLayer(NeuronLayer):
         self.W_k -= dW_k
         self.W_v -= dW_v
         self.W_o -= dW_o
+        dattention_output = np.concatenate(dattention_output, axis=-1)
+        outbuf[:] = np.dot(dattention_output.reshape(batch_size, -1), self.W_o)
