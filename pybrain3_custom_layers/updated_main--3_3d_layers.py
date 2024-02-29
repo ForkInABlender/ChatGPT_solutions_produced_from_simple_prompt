@@ -19,8 +19,8 @@ From here, it is a matter of finding a dataset that doesn't use fake or stolen d
 
 from pybrain3.structure import LinearLayer, RecurrentNetwork, FeedForwardNetwork, FullConnection
 from dim3_neuronlayer import Dim3NeuronLayer  # Ensure this matches your file structure
+from pybrain3.tools.xml.networkwriter import NetworkWriter
 
-import pickle
 import tiktoken
 
 class DynamicNet(RecurrentNetwork):
@@ -68,30 +68,24 @@ def generate_response(model, input_text, tokenizer):
 
 if __name__ == "__main__":
     tokenizer = tiktoken.encoding_for_model("gpt-4")
-    vocab_size = 50256
+    vocab_size = 50257
     hidden_dim = 128
     num_heads = 16 # Example number of heads for the custom 3D layer
     model = DynamicNet(vocab_size, hidden_dim, num_heads)
     input_text = "Hello, how are you?"
     response = generate_response(model, input_text, tokenizer)
     print("Response:", response)
-    with open('dynamic_net.pkl', 'wb') as file:
-        pickle.dump(model, file)
-    print("Network configuration saved as JSON string to dynamic_net.pkl")
+    NetworkWriter.writeToFile(model, '/app/dynamic_net.xml')
+    print("Network configuration saved as xml file: '/app/dynamic_net.xml'")
     print("saving complete")
-    
-    
-    """
-To unpickle the model:
+
+"""
+To load the model from pybrain3's xml files:
 
 ``
-import pickle
+from pybrain3.tools.customxml.networkreader import NetworkReader
+model = NetworkReader.readFrom('/app/dynamic_net.xml')
 
-# Load the model from disk
-with open('dynamic_net.pkl', 'rb') as file:
-    loaded_model = pickle.load(file)
-
-print("Model loaded from 'dynamic_net.pkl'")
 ``
 
-    """
+"""
