@@ -22,21 +22,32 @@ https://chat.openai.com/share/837e66b0-6ff7-458b-9489-5eb950449ae8
 
 Enjoy :)
 
-You will not be missed!
 
 """
 
 import numpy as np
 from pybrain3.structure.modules.neuronlayer import NeuronLayer # forgot `.neuronlayer`.... oops
+from concurrent.futures import ThreadPoolExecutor
+
+def compute_attention_for_head(args):
+    Q, K, V, dk = args
+    matmul_qk = np.dot(Q, K.swapaxes(-2, -1))
+    scaled_attention_logits = matmul_qk / np.sqrt(dk)
+    logits_max = np.max(scaled_attention_logits, axis=-1, keepdims=True)
+    exp_logits = np.exp(scaled_attention_logits - logits_max)
+    attention_weights = exp_logits / np.sum(exp_logits, axis=-1, keepdims=True)
+    output = np.dot(attention_weights, V)
+    return output, attention_weights
 
 class Dim3NeuronLayer(NeuronLayer):
-    def __init__(self, indim, outdim, num_heads):
+    def __init__(self, indim, outdim, num_heads, name):
         assert indim % num_heads == 0, "indim must be divisible by num_heads"
         super(Dim3NeuronLayer, self).__init__(indim, outdim)
         self.indim = indim
         self.outdim = outdim
         self.num_heads = num_heads
         self.depth = indim // num_heads
+        self.name=name
 
         # Initialize weights for the projections
         self.W_q = np.random.randn(indim, indim)
@@ -46,17 +57,21 @@ class Dim3NeuronLayer(NeuronLayer):
         self.W_o = np.random.randn(self.depth * num_heads, outdim)
 
     def scaled_dot_product_attention(self, Q, K, V):
-        matmul_qk = np.dot(Q, K.swapaxes(-2, -1))
         dk = Q.shape[-1]
-        scaled_attention_logits = matmul_qk / np.sqrt(dk)
-
-        # Log-sum-exp trick for numerical stability
-        logits_max = np.max(scaled_attention_logits, axis=-1, keepdims=True)
-        exp_logits = np.exp(scaled_attention_logits - logits_max)
-        attention_weights = exp_logits / np.sum(exp_logits, axis=-1, keepdims=True)
-
-        output = np.dot(attention_weights, V)
-        return output, attention_weights
+        # Prepare arguments for parallel processing
+        args_list = [(Q[:, i, :, :], K[:, i, :, :], V[:, i, :, :], dk) for i in range(Q.shape[1])]
+        
+        # Use multiprocessing pool to compute attention in parallel across heads
+        with ThreadPoolExecutor(max_workers=self.num_heads) as executor:  # Adjust number of processes based on your environment
+            results = list(executor.map(compute_attention_for_head, args_list))
+        
+        # Separate outputs and attention weights from the results
+        outputs, attention_weights = zip(*results)
+        
+        # Combine outputs from all heads
+        output = np.stack(outputs, axis=1)
+        
+        return output, attention_weights  # Return both combined output and attention weights
 
     def _forwardImplementation(self, inbuf, outbuf):
         if inbuf.ndim == 1:
@@ -74,11 +89,7 @@ class Dim3NeuronLayer(NeuronLayer):
         K = K.transpose(0, 2, 1, 3)
         V = V.transpose(0, 2, 1, 3)
 
-        attention_outputs, attention_weights = [], []
-        for i in range(self.num_heads):
-            attention_output, attention_weight = self.scaled_dot_product_attention(Q[:, i, :, :], K[:, i, :, :], V[:, i, :, :])
-            attention_outputs.append(attention_output)
-            attention_weights.append(attention_weight)
+        attention_outputs, attention_weights = self.scaled_dot_product_attention(Q, K, V)
 
         attention_output = np.concatenate(attention_outputs, axis=-1)
         outbuf[:] = np.dot(attention_output.reshape(batch_size, -1), self.W_o)
