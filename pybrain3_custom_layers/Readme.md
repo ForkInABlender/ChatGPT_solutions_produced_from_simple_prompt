@@ -17,3 +17,9 @@ However, I will give the docker container I would recommend building off of.
 https://hub.docker.com/repository/docker/de3343/ai_mods_py3.10/general
 
 read the readme for the tag name for the latest build as it is not "latest" as listed on docker hub.
+
+If you need more information, look to, https://chat.openai.com/share/1c475f8e-1fec-4348-9318-e65cdac45882, for frame of reference.
+
+# Why does AI require brain emulation and data from a live host?
+
+Because real data works better than faked or stolen data, token parsing isn't enough, and why not how to learn faster from a AI version that learned from you [you]? 
