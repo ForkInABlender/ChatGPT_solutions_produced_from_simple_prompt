@@ -9,6 +9,13 @@ This basically lets you make use of the hardware minimally needed to use it. Tha
 
 The way to make use of this copy is by updating your updated_main.py
 
+Then run 
+
+``docker run -it --rm -v $PWD/pybrain_networks/network\ pieces/:/app/ de3343/ai_mods_py3.10:numba_included sh -c "mv /string.py /usr/local/lib/python3.10/string.py; python3 
+ /app/updated_main.py"``
+
+to make use of it during hand modeling your version.
+
 
 """
 
