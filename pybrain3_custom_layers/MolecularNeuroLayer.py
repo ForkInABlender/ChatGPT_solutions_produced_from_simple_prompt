@@ -5,6 +5,10 @@
 This is for a layer that can be used with other neuron layers. This allows for dynamic neural patterns for molecular emulation of neural patterns based on the transmitter and
  reception plus some noise applied by the environment ( data passing through the transmitter and receptor ) per neuron in that layer. 
 
+Now the singular change it needs is the ability to switch chemical descriptor to emulate a different receptor & transmitter bundle.
+
+This is useful if you want it to have a layer with a single transmitter and receptor for each biochemical responses.
+ 
 """
 
 
