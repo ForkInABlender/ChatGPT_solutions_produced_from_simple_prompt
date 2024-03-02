@@ -3,6 +3,9 @@
 """
 Now it is updated with a neural network layer incorporating functions to emulate neurological responses chemically as well as their activation states.
 
+Now it can be trained on a large corpus of data, in practice, be useful for giving it, while emulated, the neurochemical equivalent to that of humans.
+
+The last edits to make require edits to the ``MolecularNeuroModule`` class so one can assign them to assign specific chemicals used for signalling by the brain.
 
 """
 
