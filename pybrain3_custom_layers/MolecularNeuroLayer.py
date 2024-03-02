@@ -7,7 +7,8 @@ This is for a layer that can be used with other neuron layers. This allows for d
 
 Now the singular change it needs is the ability to switch chemical descriptor to emulate a different receptor & transmitter bundle.
 
-This is useful if you want it to have a layer with a single transmitter and receptor for each biochemical responses.
+This is useful if you want it to have a layer with a single transmitter and receptor for each biochemical responses. Now the real reason to use this with multihead & 3d modeled
+ neurons is to allow for dynamic cell modeling. Then you'd be selecting the chemical it processed & 
  
 """
 
@@ -29,6 +30,8 @@ class MolecularNeuroModule(NeuronLayer):
         self.eqns = 'dv/dt = (I - v)/tau : 1 (unless refractory)'
         self.G = NeuronGroup(indim, self.eqns, threshold='v > 1', reset='v = 0', method='exact', refractory=100*ms)
         self.M = StateMonitor(self.G, 'v', record=True)
+        self.G.add_attribute('tau')
+        self.G.add_attribute('I')
         self.G.tau = '20*ms'
         
         # Example weights and biases, initialized randomly
@@ -46,14 +49,12 @@ class MolecularNeuroModule(NeuronLayer):
         self.G.I = (mol_weight + logp) * 0.1  # Simplified scaling
         run(self.duration)
 
-        # Use the last value of the membrane potential as part of the input
-        neural_output = np.mean(self.M.v[0])  # Simplified; in practice, would use a more nuanced approach
-
         # Combine neural output with other inputs (here, simply adding; in practice, could be more complex)
-        combined_input = np.array([neural_output] + list(inbuf))
+        combined_input = np.hstack([self.M.v[0], inbuf])
         
         # Linear transformation as an example of neural computation
         outbuf[:] = np.dot(self.weights.T, combined_input) + self.biases
+        
 
     def _backwardImplementation(self, outerr, inerr, outbuf, inbuf):
         # Simplified gradient calculation; in practice, this would need to account for the Brian2 model's dynamics
