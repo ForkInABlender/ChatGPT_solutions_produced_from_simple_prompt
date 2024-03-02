@@ -23,7 +23,7 @@ class MolecularNeuroModule(NeuronLayer):
         self.name=name
         self.duration = 100*ms
         self.eqns = 'dv/dt = (I - v)/tau : 1 (unless refractory)'
-        self.G = NeuronGroup(1, self.eqns, threshold='v > 1', reset='v = 0', method='exact', refractory=100*ms)
+        self.G = NeuronGroup(indim, self.eqns, threshold='v > 1', reset='v = 0', method='exact', refractory=100*ms)
         self.M = StateMonitor(self.G, 'v', record=True)
         self.G.tau = '20*ms'
         
