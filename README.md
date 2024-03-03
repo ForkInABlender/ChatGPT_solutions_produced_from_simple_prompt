@@ -67,7 +67,8 @@ The reasoning for such is that it must also use real values for biological funct
 
 # Are you planning on making snapshots of each using xml documents?
 
-Yes. This keeps it simple enough for loading each region separate enough to make it more modular and readily loadable. Once I fix the bug in its saving mechanry as well as loading mechanry. In the meantime, the python module ``pickle`` will be useful to save and load ones models.
+Yes. The key to valid and savable layers is the ``self.name`` has to be manually assigned in any custom layer, connection, etcetera, that you design from here. As long as it has
+ a name to be saved by. 
 
 # why `udocker` and why Android OS? Why not use the apps on the android market and just use ssh?
 
