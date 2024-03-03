@@ -89,4 +89,4 @@ But, that being said, the code within this repo branch should make it easier. if
 
 # Why would you use GPT to aide in the modeling of an AI? Why not just use the GPT model and not care?
 
-A human mind does more than just parse tokens. Or as Terry Pratchett put it in his discworld series "from the outside, infinity is blue".
+A human mind does more than just parse tokens. Or as Terry Pratchett put it in his discworld series "from the outside, infinity is blue; it is only black while you're standing inside it".
