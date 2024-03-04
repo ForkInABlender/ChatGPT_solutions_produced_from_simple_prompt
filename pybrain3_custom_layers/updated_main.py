@@ -7,6 +7,8 @@ Now it can be trained on a large corpus of data, in practice, be useful for givi
 
 The last edits to make require edits to the ``MolecularNeuroModule`` class so one can assign them to assign specific chemicals used for signalling by the brain.
 
+But it now also runs entirely offline as well.
+
 """
 
 
