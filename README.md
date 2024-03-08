@@ -89,4 +89,9 @@ But, that being said, the code within this repo branch should make it easier. if
 
 # Why would you use GPT to aide in the modeling of an AI? Why not just use the GPT model and not care?
 
-A human mind does more than just parse tokens. Or as Terry Pratchett put it in his discworld series "from the outside, infinity is blue; it is only black while you're standing inside it". And a human mind as dynamic neurochemical responses to its environment. It equally needs to emulate or imitate, if not be part of, a living host. GPT can also be gainsayed in a way that a human can't be coerced. 
+A human mind does more than just parse tokens. Or as Terry Pratchett put it in his discworld series "from the outside, infinity is blue; it is only black while you're standing inside it". And a human mind as dynamic neurochemical responses to its environment. It equally needs to emulate or imitate, if not be part of, a living host. GPT can also be gainsayed in a way that a human can't be coerced.  When it comes down to AI at its core, lots of math is great but if it can't think as a human does even in the smallest degree,
+ it isn't even an imitation of life or AI.
+
+As GPT has no things for feeling and reasoning, it cannot be called AI, as it doesn't think, feel, or comprehend, so much as just string parse a stream of data.
+
+AI is more complex than GPT-4, gemini, and the like. 
