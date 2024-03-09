@@ -1,6 +1,8 @@
 # Dylan Kenneth Eliot & GPT-4-Plugins ( Alpha Edition )
 
 """
+This file, with other mac SDK files, allows for "MacTypes" to be imported using their c++ headers.
+
 
 
 """
