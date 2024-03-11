@@ -29,4 +29,6 @@ I'd say it would take someone from this point on 3 months flat with a kubernetes
 
 Yes, actually. It's one function of the brain. Our genetics in our heads change and why should the AI templates do any different in that respect? Sure, there are bound to be errors, but those errors will be easier to pinpoint as human error rather than assuming it to be natural phenomenon. If a person changes IQ ranges, the genes governing that reshape due to the alternative which would be death (in this case, it decreases rather than increases..."death"....).
 
-However, this would also give more insight to how diseases, disorders, and the like. It would be more useful to know with a higher degree of precision on what is failing and where to look rather than guessing. 
+However, this would also give more insight to how diseases, disorders, and the like. It would be more useful to know with a higher degree of precision on what is failing and where to look rather than guessing.
+
+By the same token, AI based off of a human mind including the neurochemical and biological functions at play for it would be just as human. In realistic terms, it should have a genetic map using the same 4 base pairs we use.
