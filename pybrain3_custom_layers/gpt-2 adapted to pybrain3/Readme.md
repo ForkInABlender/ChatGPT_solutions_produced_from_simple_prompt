@@ -27,4 +27,4 @@ I'd say it would take someone from this point on 3 months flat with a kubernetes
 
 # Then what, have it map their neural patterns to genetic templates?
 
-Yes, actually. It's one function of the brain. Our genetics in our heads change and why should the AI templates do any different in that respect? Sure, there are bound to be errors, but those errors will be easier to pinpoint as human error rather than assuming it to be natural phenomenon. If a person changes IQ ranges, the genes governing that reshape due to the alternative which would be death.
+Yes, actually. It's one function of the brain. Our genetics in our heads change and why should the AI templates do any different in that respect? Sure, there are bound to be errors, but those errors will be easier to pinpoint as human error rather than assuming it to be natural phenomenon. If a person changes IQ ranges, the genes governing that reshape due to the alternative which would be death (in this case, it decreases rather than increases..."death"....).
