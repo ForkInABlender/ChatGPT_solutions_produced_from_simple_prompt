@@ -63,7 +63,7 @@ def sample_model(
             model_weights=my_model_weights,  # Pass the loaded model weights
             hparams=hparams,
             length=length,
-            start_token=enc.encoder[''],
+            start_token=enc.encoder['<|endoftext|>'],
             batch_size=batch_size,
             temperature=temperature,
             top_k=top_k,
