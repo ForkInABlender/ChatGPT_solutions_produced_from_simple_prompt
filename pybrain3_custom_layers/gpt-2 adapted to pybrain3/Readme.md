@@ -7,4 +7,4 @@ The version here uses numpy & Scipy instead of tensorflow. The choice was for si
 As the model I am building, while it touches on similar approach, it requires the neurochemical and biochemical simulator bits and eeg/bci data for genuine AI to be modeled.
 Token parsing is not good enough as token parsing, as gpt-2, 3, & 4, as presently built by openAI developers, is nothing more than a suffisticated form of the Eliza project, designed to defeat the purpose of the turing test with the intent on fooling the user with clever symbolic references. 
 
-Due to openAI's, and many others who failed to pay attention to what Alan Turing said, Alan Turing's version of AI will be built by open source developers like myself.
+Due to openAI's, and many others who failed to pay attention to what Alan Turing said, Alan Turing's version of AI, AI will be built by open source developers like myself.
