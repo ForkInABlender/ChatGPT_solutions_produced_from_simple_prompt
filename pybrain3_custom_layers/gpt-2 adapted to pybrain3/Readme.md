@@ -24,3 +24,7 @@ Depends, really. I am aiming for a AI development job. So, It will take signific
 
 I'd say it would take someone from this point on 3 months flat with a kubernetes cluster at their disposal. If they're using k3d/l3s on their laptop or cell phone, probably a bit longer. Even then, it has to go through the same tests a normal human would ( think of how a neurologist & psychologist break down problems ). It would take just as long to to train. For instance, it needs to be able to emulate a GABA, CB1, & CB2 junctors most if not all living beings with a brain would. In this case, I'm aiming for it to have enough
  to emulate/simulate til it isn't a simulated or emulated version and proves to have a 1:1 ratio to human nerve cells work. 
+
+# Then what, have it map their neural patterns to genetic templates?
+
+Yes, actually. It's one function of the brain. Our genetics in our heads change and why should the AI templates do any different in that respect? Sure, there are bound to be errors, but those errors will be easier to pinpoint as human error rather than assuming it to be natural phenomenon. If a person changes IQ ranges, the genes governing that reshape due to the alternative which would be death.
