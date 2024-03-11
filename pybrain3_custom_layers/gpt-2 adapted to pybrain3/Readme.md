@@ -16,4 +16,4 @@ Sure, if one is developing it, but, that lacks emotional reasoning and argues th
 
 # So the hype about "AI" and what's on the market currently isn't AI?
 
-Correct. It's as useful as the Eliza projects in conversation and "reasoning" *ahem*. 
+Correct. It's as useful as the Eliza projects in conversation and "reasoning" **ahem**. 
