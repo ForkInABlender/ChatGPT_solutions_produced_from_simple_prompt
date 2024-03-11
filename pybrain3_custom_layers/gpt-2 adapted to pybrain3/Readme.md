@@ -36,4 +36,4 @@ By the same token, AI based off of a human mind including the neurochemical and 
 # How would you know if you got it right?
 
 There is only one way to find out :)
-minimum going rate for genuine AI development by a developer such as myself: $1000/hr, minimum.
+minimum going rate for genuine AI development by a developer such as myself: $1000/hr, minimum. Otherwise, the results you get are likely guess and check, and probably more agonizing than finding the one qualified with a fair going rate. 
