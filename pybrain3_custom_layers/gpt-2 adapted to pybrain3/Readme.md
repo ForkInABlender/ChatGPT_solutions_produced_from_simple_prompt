@@ -32,3 +32,7 @@ Yes, actually. It's one function of the brain. Our genetics in our heads change 
 However, this would also give more insight to how diseases, disorders, and the like. It would be more useful to know with a higher degree of precision on what is failing and where to look rather than guessing.
 
 By the same token, AI based off of a human mind including the neurochemical and biological functions at play for it would be just as human. In realistic terms, it should have a genetic map using the same 4 base pairs we use.
+
+# How would you know if you got it right?
+
+There is only one way to find out :)
