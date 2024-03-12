@@ -862,4 +862,4 @@ pkg:deb/debian/gnupg2@2.2.40-1.1?os_distro=bookworm&amp;os_name=debian&amp;os_ve
       Fixed version  : <font color="#FF8787">not fixed</font> </pre>
 
 
-This will mean I have to remove or update a few things within the container, jinja2 and ssh to say the least.
+This will mean I have to remove or update a few things within the container, jinja2 and ssh to say the least. This might mean one is in the next docker image going to have none of those issues as the offending 41 will removed. The 2 python ones can be removed but likely easier to just update in place. 
