@@ -37,3 +37,9 @@ By the same token, AI based off of a human mind including the neurochemical and 
 
 There is only one way to find out :)
 minimum going rate for genuine AI development by a developer such as myself: $1000/hr, minimum. Otherwise, the results you get are likely guess and check, and probably more agonizing than finding the one qualified with a fair going rate. 
+
+ # Why does this work with ``de3343/ai_mods_py3.10:numba_with_fire_included``? Why can't I use torch, torchaudio, or torchvision like I used to in the prior image?
+
+That was by design. Simplicity and flexibility. Torch is valuable but it is heavier, oversimplifies via optimization, versus simply not reinventing the wheel...
+
+Instead use python3.10's native RPC libraries with the correct port and ip exposes so it can be able to use those functions between containers. 
