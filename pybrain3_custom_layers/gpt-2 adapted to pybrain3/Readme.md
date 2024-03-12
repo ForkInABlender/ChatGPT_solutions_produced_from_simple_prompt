@@ -52,3 +52,6 @@ While ``pybrain3`` is 12 years out of date, it still can do the dynamic computat
 
 Yes, it is about efficiency, but, no, modern day libraries use a lot of boilerplate (dead wood) that is poorly maintained which I can not accept usage of. Poor design by abstracting away the complex parts, making using the modern-day ML libraries inefficient and bloatware I typically discard.
 
+# what is a code graveyard?
+
+Often a code grave yard is a graveyard full of tomb stones with QR codes on them. It is also often referred to as a place where code goes and is expected to have no use or little to no potential for refactor due to wrong approach to a problem ( like a trash bin for chunking notes you'd crumple up and toss rather than burn because maybe you missed something; but maybe one thought it the dumb way and simply overlooked a small detail said prior note or "code" did not account for; that'd be reason to turn the trash bin upside down knowing it contained only crumpled up notes )
