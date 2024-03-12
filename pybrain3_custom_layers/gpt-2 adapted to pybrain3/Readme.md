@@ -47,3 +47,8 @@ Instead use python3.10's native RPC libraries with the correct port and ip expos
 ( Maybe like ``pybrain3`` it isn't fully dead, but, if you don't poke it with a stick, you won't be sure if it is deadwood or still a viable codebase to work with; and  ``pybrain3`` is 2008 old and still able to outperform current libraries by its developer's design choice. I only checked one thing about python3.6 string.py and python3.10 then hit run. Which brought ``pybrain3`` back to its feet and regrow its skin for analogies sake. )
 
 While ``pybrain3`` is 12 years out of date, it still can do the dynamic computation and transformer logic wtih some clever/intelligent application of elbow grease. Even though its initial developers probably had not thought it possible to use a static computational graph to perform similar to a dynamic one. None the less, I figured out how it could be done in a practical sense.
+
+# Why not use the modern day ML libraries for python over ``pybrain/pybrain3``? Isn't the point efficiency?
+
+Yes, it is about efficiency, but, no, modern day libraries use a lot of boilerplate (dead wood) that is poorly maintained which I can not accept usage of. Poor design by abstracting away the complex parts, making using the modern-day ML libraries inefficient and bloatware I typically discard.
+
