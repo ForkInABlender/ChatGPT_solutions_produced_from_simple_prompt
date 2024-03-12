@@ -42,4 +42,4 @@ minimum going rate for genuine AI development by a developer such as myself: $10
 
 That was by design. Simplicity and flexibility. Torch is valuable but it is heavier, oversimplifies via optimization, versus simply not reinventing the wheel...
 
-Instead use python3.10's native RPC libraries with the correct port and ip exposes so it can be able to use those functions between containers. 
+Instead use python3.10's native RPC libraries with the correct port and ip exposes so it can be able to use those functions between containers. While RPC can be an insecure way to make use of those libraries defined in the prior docker image, it is recommended over excessive optimization producing dead wood. Torch, in this case, is the dead wood.
