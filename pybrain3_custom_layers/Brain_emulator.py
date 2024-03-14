@@ -6,8 +6,14 @@ The point of this was to display the 2-dimensional layout of a poly-dimensional 
  human values. What it isn't for? Video games. :) In fact, it is intentionally not for video games. :) A human mind is not for video games.
   And I will not condone an AI being added into a video game based on my code. I will, however, condone the use of my code for scientific purposes; up to
    and including raising the dead as AI until they can have their physical body regrown even in a lab.
+
+This file, however, does need some retooling.
+
+For instance, the information has to go to the weinrick is to connect with the prefrontal and frontal, then the hippocampus and temporal lobe, then generate a response.
+Or another example, The ACC and mirror network, which are built wrong.
 """
 
+"""
 from sympy import symbols, lambdify, sin
 # Define a symbolic variable
 x = symbols('x')
@@ -18,6 +24,7 @@ f_lambdified = lambdify(x, f, 'numpy')
 # Use the function
 result = f_lambdified(2)  # Should return sin(2) + 2^2 = 4.909297426825681
 print("Result:", result)
+"""
 
 ####
 # Dylan Kenneth Eliot & GPT-4-Plugins (Alpha Edition)
