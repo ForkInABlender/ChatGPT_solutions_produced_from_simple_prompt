@@ -1,27 +1,12 @@
-# Dylan Kenneth Eliot & GPT-4-Plugins (Beta Edition)
+# Dylan Kenneth Eliot & GPT-4-Plugins (Beta Edition) & Google-Gemini
 
 """
 
-What this allows for is neural networks to make use of 3-d information.
+Now that the 3-d Layer works properly,
 
-This is useful for when one is modeling the hippocampus, temporal, or paradial lobes as well as the visual cortex.
+One can begin 3-d compute for each region with that needs it.
 
-This is also meant for allowing lightweight LLMs using pybrain3 to make use of visual, auditorial, or sensory data essential to having an imagination or free thinking.
-
-This also means that it must have a 3-dimensional modeling of even the cerebral cortex.
-
-
-Sadly, this isn't meant to replace modern-day GPUs. However, if you find a use for it in that domain, more power to you. But it is to make use of the CPU as it "thinks" on a 
- thing it is looking at, listening to, or trying to reason about, when it comes to AI development. (Alan Turings' definition is the only acceptable definition. tough, cope. 
-
-Token parsing is not AI.  And any failure to accept that will not be treated with respect as the Eliza projects on the market aren't AI. )
-
-For more information, please read through
-
-https://chat.openai.com/share/837e66b0-6ff7-458b-9489-5eb950449ae8
-
-Enjoy :)
-
+This was fixed due to an error I failed to spot. During training, this network now works as well.
 
 """
 
