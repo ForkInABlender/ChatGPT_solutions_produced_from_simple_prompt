@@ -8,6 +8,11 @@ One can begin 3-d compute for each region with that needs it.
 
 This was fixed due to an error I failed to spot. During training, this network now works as well.
 
+
+* update note: had to be fixed for training and saving purposes. Reversion of optimizations for now. Apologies to those relying on optimizations. This is as optimized as it
+ is likely to get. 
+
+
 """
 
 import numpy as np
