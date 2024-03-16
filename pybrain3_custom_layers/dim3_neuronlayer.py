@@ -10,53 +10,19 @@ This was fixed due to an error I failed to spot. During training, this network n
 
 """
 
-from pybrain3.structure.modules.neuronlayer import NeuronLayer
-from concurrent.futures import ThreadPoolExecutor
-from numba import prange, jit
-from numba.experimental import jitclass
 import numpy as np
-import numba
-from numba import njit
+from pybrain3.structure.modules.neuronlayer import NeuronLayer # forgot `.neuronlayer`.... oops
+from concurrent.futures import ThreadPoolExecutor
 
-@jit(parallel=True, nopython=True, nogil=True)
-def manual_max(arr, axis=-1):
-    if axis != -1:
-        raise ValueError("This implementation only supports axis=-1.")
-    
-    if arr.ndim != 3:
-        raise ValueError("This implementation only supports 3D arrays.")
-
-    batch_size, seq_length, _ = arr.shape
-    max_vals = np.empty((batch_size, seq_length), dtype=arr.dtype)
-
-    for i in prange(batch_size):
-        for j in prange(seq_length):
-            max_val = arr[i, j, 0]
-            for k in prange(arr.shape[2]):
-                if arr[i, j, k] > max_val:
-                    max_val = arr[i, j, k]
-            max_vals[i, j] = max_val
-    return max_vals.reshape(batch_size, seq_length, 1)
-
-@jit(parallel=True, looplift=True)
 def compute_attention_for_head(args):
     Q, K, V, dk = args
-    K_transposed = np.transpose(K, axes=(0, 2, 1))
-    batch_size, seq_length, _ = Q.shape
-    matmul_qk = np.empty((batch_size, seq_length, seq_length), dtype=np.float64)
-    for i in prange(batch_size):
-        matmul_qk[i] = np.dot(Q[i], K_transposed[i])
+    matmul_qk = np.dot(Q, K.swapaxes(-2, -1))
     scaled_attention_logits = matmul_qk / np.sqrt(dk)
-    # Use the manual_max function instead of np.max
-    logits_max = manual_max(scaled_attention_logits, axis=-1)
+    logits_max = np.max(scaled_attention_logits, axis=-1, keepdims=True)
     exp_logits = np.exp(scaled_attention_logits - logits_max)
-    sum_exp_logits = np.sum(exp_logits, axis=-1).reshape(batch_size, seq_length, 1)
-    attention_weights = exp_logits / sum_exp_logits
-    output = np.empty_like(V)
-    for i in prange(batch_size):
-        output[i] = np.dot(attention_weights[i], V[i])
+    attention_weights = exp_logits / np.sum(exp_logits, axis=-1, keepdims=True)
+    output = np.dot(attention_weights, V)
     return output, attention_weights
-
 
 class Dim3NeuronLayer(NeuronLayer):
     def __init__(self, indim, outdim, num_heads, name):
@@ -134,17 +100,16 @@ class Dim3NeuronLayer(NeuronLayer):
         dW_q = np.zeros_like(self.W_q)
         dW_k = np.zeros_like(self.W_k)
         dW_v = np.zeros_like(self.W_v)
-        features = self.num_heads * self.depth
-        for i in prange(self.num_heads):
+
+        for i in range(self.num_heads):
             dattention_output = dout_attention[:, :, i, :]
             dW_q_partial = np.dot(inbuf.reshape(-1, self.indim).T, dattention_output.reshape(-1, self.depth))
             dW_k_partial = np.dot(inbuf.reshape(-1, self.indim).T, dattention_output.reshape(-1, self.depth))
             dW_v_partial = np.dot(inbuf.reshape(-1, self.indim).T, dattention_output.reshape(-1, self.depth))
 
-            # Sum across sequence length dimension
-            dW_q += np.sum(dW_q_partial, axis=1)
-            dW_k += np.sum(dW_k_partial, axis=1)
-            dW_v += np.sum(dW_v_partial, axis=1)
+            dW_q += -dW_q_partial
+            dW_k += -dW_k_partial
+            dW_v += -dW_v_partial
 
         self.W_q -= dW_q
         self.W_k -= dW_k
