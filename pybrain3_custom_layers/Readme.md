@@ -38,4 +38,4 @@ The default is fine to use as well as the latest one containing 3 layers each wi
 This is to save the networks that are stable, with layers that work even for training the model by layer they're attached to.
 
 The reason to use pickle is to save and reload the entire model. This may be temporary as the pybrain3 xml library for writing and reading xml snapshots is broken currently.
- Until a patch is fixed and found, 
+ Until a patch is used to fix it, the ``pickle`` module will have to do for now. 
