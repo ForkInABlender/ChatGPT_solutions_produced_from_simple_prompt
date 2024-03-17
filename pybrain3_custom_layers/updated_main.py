@@ -14,83 +14,77 @@ But it now also runs entirely offline as well.
 
 import os
 
-tiktoken_cache_dir = "./"
+tiktoken_cache_dir = "/app/"
 os.environ["TIKTOKEN_CACHE_DIR"] = tiktoken_cache_dir
 assert os.path.exists(os.path.join(tiktoken_cache_dir,"9b5ad71b2ce5302211f9c61530b329a4922fc6a4"))
 
-from pybrain3.structure import LinearLayer, RecurrentNetwork, FeedForwardNetwork, FullConnection
-from dim3_neuronlayer import Dim3NeuronLayer  # Ensure this matches your file structure
-from MolecularNeuroLayer import MolecularNeuroModule
-from pybrain3.tools.xml.networkwriter import NetworkWriter
 
+from pybrain3.structure import LinearLayer, SigmoidLayer, TanhLayer, RecurrentNetwork, FeedForwardNetwork, FullConnection
+from pybrain3.datasets import SupervisedDataSet
+from pybrain3.supervised.trainers import BackpropTrainer
+from dim3_neuronlayer import Dim3NeuronLayer
+from numba import prange
+import numpy as np
 import tiktoken
+import pickle
+
+def pad_encoded_sequence(encoded_sequence, max_length, pad_value=0):
+    num_padding = max_length - len(encoded_sequence)
+    padded_sequence = encoded_sequence + [pad_value] * num_padding
+    return np.array(padded_sequence, dtype=np.int32)
+
+def generate_response(model, input_text, tokenizer):
+    input_tokens = tokenizer.encode(input_text)
+    input_vector = pad_encoded_sequence(input_tokens, vocab_size)
+    output_tokens = model.activate(input_vector)
+    return tokenizer.decode([int(output_tokens.argmax())]), [output_tokens]
+
 
 class DynamicNet(RecurrentNetwork):
     def __init__(self, vocab_size, hidden_dim, num_heads=10):  # Added num_heads parameter with a default value
         super(DynamicNet, self).__init__()
         # Layers
         self.inLayer = LinearLayer(vocab_size)
-        
-        self.dim3Layer1 = Dim3NeuronLayer(hidden_dim, hidden_dim, num_heads, name="d3_layer1")
-        self.caffinespiderdance = MolecularNeuroModule(hidden_dim, hidden_dim, name="nice_web")
-        self.dim3Layer = Dim3NeuronLayer(hidden_dim, hidden_dim, num_heads, name="d3_layer")  # Custom 3D layer
-        self.dim3Layer3 = Dim3NeuronLayer(hidden_dim, hidden_dim, num_heads, name="d3_layer3")
+        self.dim3Layer = Dim3NeuronLayer(hidden_dim, hidden_dim, num_heads, name="3d")  # Custom 3D layer
         self.outLayer = LinearLayer(vocab_size)
-        
         # Adding modules and connections
         self.addInputModule(self.inLayer)
-        
-        self.addModule(self.dim3Layer1)
-        self.addModule(self.caffinespiderdance)
         self.addModule(self.dim3Layer)  # Add the custom 3D layer to the network
-        self.addModule(self.dim3Layer3)
-        
         self.addOutputModule(self.outLayer)
-        
-        self.in_to_dim3 = FullConnection(self.inLayer, self.dim3Layer1)  # Connection to the custom 3D layer
-        self.dim3o1_to_niceweb = FullConnection(self.dim3Layer1, self.caffinespiderdance)
-        self.dim3o1_to_dim3_h = FullConnection(self.caffinespiderdance, self.dim3Layer)
-        self.dim3_h_to_dim3o3 = FullConnection(self.dim3Layer, self.dim3Layer3)
-        
-        self.dim3_to_out = FullConnection(self.dim3Layer3, self.outLayer)
-        
+        self.in_to_dim3 = FullConnection(self.inLayer, self.dim3Layer)  # Connection to the custom 3D layer
+        self.dim3_to_out = FullConnection(self.dim3Layer, self.outLayer)
         self.addConnection(self.in_to_dim3)
-        self.addConnection(self.dim3o1_to_niceweb)
-        self.addConnection(self.dim3o1_to_dim3_h)
         self.addRecurrentConnection(FullConnection(self.dim3Layer, self.dim3Layer))
-        self.addConnection(self.dim3_h_to_dim3o3)
         self.addConnection(self.dim3_to_out)
-        
         self.sortModules()
 
-def generate_response(model, input_text, tokenizer):
-    input_tokens = tokenizer.encode(input_text)
-    input_vector = [0] * vocab_size
-    for token in input_tokens:
-        input_vector[token] = 1
-    output_tokens = model.activate(input_vector)
-    return tokenizer.decode([int(output_tokens.argmax())])  # Ensure decoding is compatible with your tokenizer's API
+tokenizer = tiktoken.encoding_for_model("gpt-4")
+vocab_size = 50257
+hidden_dim = 29
+num_heads = 1 # 1 head per hidden dimension squared. 
+scale=vocab_size**3
+model = DynamicNet(vocab_size, hidden_dim, num_heads)
+model.randomize()
+ds = SupervisedDataSet(vocab_size, vocab_size)
+in_enc, out_enc = tokenizer.encode("Hello, how are you?"), tokenizer.encode("Fine. How are you?")
+ds.addSample(pad_encoded_sequence(in_enc, vocab_size)/scale, pad_encoded_sequence(out_enc, vocab_size)/scale)
 
-if __name__ == "__main__":
-    tokenizer = tiktoken.encoding_for_model("gpt-4")
-    vocab_size = 50257
-    hidden_dim = 128
-    num_heads = 16 # Example number of heads for the custom 3D layer
-    model = DynamicNet(vocab_size, hidden_dim, num_heads)
-    input_text = "Hello, how are you?"
-    response = generate_response(model, input_text, tokenizer)
-    print("Response:", response)
-    NetworkWriter.writeToFile(model, '/app/dynamic_net.xml')
-    print("Network configuration saved as xml file: '/app/dynamic_net.xml'")
-    print("saving complete")
+trainer = BackpropTrainer(model, ds)
+for epoch in prange(1000000):
+    print(epoch, trainer.train(), generate_response(model, "Hello, how are you?", tokenizer))
+    
+pickle.dump(model, open("/app/dynamic_net.pickle", "wb"))
+print("saving complete")
+print("done")
+
 
 """
-To load the model from pybrain3's xml files:
+To load the model from pickle files:
 
 ``
-from pybrain3.tools.customxml.networkreader import NetworkReader
-model = NetworkReader.readFrom('/app/dynamic_net.xml')
-
+import pickle
+model = pickle.load(open("/app/dynamic_net.pickle", "rb"))
 ``
+
 
 """
