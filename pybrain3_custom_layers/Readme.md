@@ -32,3 +32,10 @@ In some cases, it will come down to manually tuning the knobs and dials to get E
 
 The default is fine to use as well as the latest one containing 3 layers each with their own 3-d orient. The ``dim3_neuronlayer.py`` has also been updated so it can optimally run
  based on the number of heads. This model could be adjusted for your needs. For instance, it could be configured to show what it is doing with the data as it attempts to respond.
+
+# Why are you using the python ``pickle`` module?
+
+This is to save the networks that are stable, with layers that work even for training the model by layer they're attached to.
+
+The reason to use pickle is to save and reload the entire model. This may be temporary as the pybrain3 xml library for writing and reading xml snapshots is broken currently.
+ Until a patch is fixed and found, 
