@@ -44,6 +44,9 @@ def generate_response(model, input_text, tokenizer):
 #  attention head while pertaining to 3-d conceptualization of information or otherwise to a value of 100000. 
 # Modifying either the hidden_dim value and this number can also tell you how much memory & CPU is used. 
 #
+# If you are on linux or WSL and using htop, you'll be able to see how much it is using. On my host desktop machine, it runs slower due to this it-factor of how it runs.
+#  Because of how small it is, overtime, it should be efficient enough to be useful after training has taken place. Meaning it can be run inside of a google cloud enviornment
+#   or run right on GKE or AWS and the like using docker.
 #
 #
 #
