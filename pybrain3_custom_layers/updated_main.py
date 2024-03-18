@@ -37,7 +37,7 @@ def generate_response(model, input_text, tokenizer):
     input_tokens = tokenizer.encode(input_text)
     input_vector = pad_encoded_sequence(input_tokens, vocab_size)
     output_tokens = model.activate(input_vector)
-    return tokenizer.decode([int(output_tokens.argmax())]), [output_tokens]
+    return tokenizer.decode([abs(int(a.tolist()))//100 for a in output_tokens]) # This change allows it to actually give more than one word responses....
 
 
 class DynamicNet(RecurrentNetwork):
