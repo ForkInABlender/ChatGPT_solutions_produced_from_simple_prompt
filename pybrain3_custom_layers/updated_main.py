@@ -38,8 +38,11 @@ def generate_response(model, input_text, tokenizer):
     input_vector = pad_encoded_sequence(input_tokens, vocab_size)
     output_tokens = model.activate(input_vector)
     return tokenizer.decode([abs(int(a.tolist()))//100 for a in output_tokens]) # This change allows it to actually give more than one word responses....
-
-
+#                                                   ^
+#                                                   |
+# Increase this number as the number of heads within the hidden dimension are used. For instance, 768 hidden dimensions in the 3-d layer will mean each node is treated as an
+#  attention head while pertaining to 3-d conceptualization of information or otherwise to a value of 100000. 
+#
 class DynamicNet(RecurrentNetwork):
     def __init__(self, vocab_size, hidden_dim, num_heads=10):  # Added num_heads parameter with a default value
         super(DynamicNet, self).__init__()
