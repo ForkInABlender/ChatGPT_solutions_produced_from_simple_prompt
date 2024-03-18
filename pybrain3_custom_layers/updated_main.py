@@ -42,7 +42,13 @@ def generate_response(model, input_text, tokenizer):
 #                                                   |
 # Increase this number as the number of heads within the hidden dimension are used. For instance, 768 hidden dimensions in the 3-d layer will mean each node is treated as an
 #  attention head while pertaining to 3-d conceptualization of information or otherwise to a value of 100000. 
+# Modifying either the hidden_dim value and this number can also tell you how much memory & CPU is used. 
 #
+#
+#
+#
+#
+
 class DynamicNet(RecurrentNetwork):
     def __init__(self, vocab_size, hidden_dim, num_heads=10):  # Added num_heads parameter with a default value
         super(DynamicNet, self).__init__()
