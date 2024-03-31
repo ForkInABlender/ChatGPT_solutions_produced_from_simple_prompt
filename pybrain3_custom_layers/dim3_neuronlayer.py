@@ -97,16 +97,11 @@ class Dim3NeuronLayer(NeuronLayer):
         ##
         d_concat_heads = np.dot(outerr, self.W_o.T)
         d_attention_heads = np.split(d_concat_heads, self.num_heads, axis=2)
-        dQ_total, dK_total, dV_total = 0, 0, 0
         for i in prange(self.num_heads):
-            d_out = d_attention_heads[i]
-            dV = np.dot(self.attention_weights[i].T, d_out)
-            dV_total += dV
             d_attention_weights = np.dot(self.attention_weights, i)
             dQK = d_attention_weights * (1 - self.attention_weights[i]) * self.attention_weights[i]
             dQ = np.dot(dQK, self.K[:, i, :, :])
             dK = np.dot(dQK, self.Q[:, i, :, :])
-            dV_total += dV
             dW_q += dQ.reshape(dW_q.shape[0])
             dW_k += dK.reshape(dW_k.shape[0])
         ##
