@@ -102,8 +102,10 @@ class Dim3NeuronLayer(NeuronLayer):
             dQK = d_attention_weights * (1 - self.attention_weights[i]) * self.attention_weights[i]
             dQ = np.dot(dQK, self.K[:, i, :, :])
             dK = np.dot(dQK, self.Q[:, i, :, :])
+            dV = np.dot(dQK, self.V[:, i, :, :])
             dW_q += dQ.reshape(dW_q.shape[0])
             dW_k += dK.reshape(dW_k.shape[0])
+            dW_v += dV.reshape(dW_v.shape[0])
         ##
         self.W_q -= dW_q
         self.W_k -= dW_k
