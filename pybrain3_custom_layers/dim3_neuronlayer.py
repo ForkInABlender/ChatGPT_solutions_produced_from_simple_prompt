@@ -94,21 +94,22 @@ class Dim3NeuronLayer(NeuronLayer):
         dW_q = np.zeros_like(self.W_q)
         dW_k = np.zeros_like(self.W_k)
         dW_v = np.zeros_like(self.W_v)
-        ##
         d_concat_heads = np.dot(outerr, self.W_o.T)
         d_attention_heads = np.split(d_concat_heads, self.num_heads, axis=2)
         for i in prange(self.num_heads):
-            d_attention_weights = np.dot(self.attention_weights, i)
-            dQK = d_attention_weights * (1 - self.attention_weights[i]) * self.attention_weights[i]
+            d_out = d_attention_heads[i]
+            dV_o = np.dot(self.attention_weights[i].T, d_out)
+            d_attention_weights = np.dot(d_out+self.V[:, i, :, :], i)
+            dQK = np.dot(self.attention_weights, i) * (1 - self.attention_weights[i]) * self.attention_weights[i]
             dQ = np.dot(dQK, self.K[:, i, :, :])
             dK = np.dot(dQK, self.Q[:, i, :, :])
-            dV = np.dot(dQK, self.V[:, i, :, :])
-            dW_q += dQ.reshape(dW_q.shape[0])
-            dW_k += dK.reshape(dW_k.shape[0])
-            dW_v += dV.reshape(dW_v.shape[0])
-        ##
-        self.W_q -= dW_q
-        self.W_k -= dW_k
-        self.W_v -= dW_v
-        self.W_o -= dW_o
+            dV = (dQK/dV_o).reshape(1, -2)
+            dW_q += dQ.reshape(dW_q.shape[0])+d_attention_weights.reshape(-1)[i%4]
+            dW_k += dK.reshape(dW_k.shape[0])+d_attention_weights.reshape(-1)[i%4]
+            dW_v += dV.reshape(dW_v.shape[0])+d_attention_weights.reshape(-1)[i%4]
+        self.W_q += dW_q
+        self.W_k += dW_k
+        self.W_v += dW_v
+        self.W_o += dW_o
+        inerr[:] = (dout_attention.reshape(batch_size, -1) ** 3) // 100 
         outbuf[:] = np.dot(self.attention_output.reshape(batch_size, -1), self.W_o)
