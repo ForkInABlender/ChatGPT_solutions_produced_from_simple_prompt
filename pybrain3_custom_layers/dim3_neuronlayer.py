@@ -48,7 +48,7 @@ class Dim3NeuronLayer(NeuronLayer):
         self.num_heads = num_heads
         self.depth = indim // num_heads
         self.name=name
-        self.W_q, self.W_k = np.random.randn(indim, indim)
+        self.W_q = np.random.randn(indim, indim)
         self.W_k = np.random.randn(indim, indim)
         self.W_v = np.random.randn(indim, indim)
         # Adjust the output dimension for concatenated heads
