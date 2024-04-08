@@ -118,22 +118,40 @@ class FeedForwardLayer(NeuronLayer):
 				self.bias -= outerr
 				inerr[:] = outerr @ self.weights.T
 
-class EmbeddingLayer(LinearLayer):
-		def __init__(self, vocab_size, embedding_dim):
-				super().__init__(embedding_dim)
+class EmbeddingLayer(NeuronLayer):
+		def __init__(self, vocab_size, embedding_dim, name):
+				super().__init__(vocab_size, embedding_dim)
 				self.embeddings = np.random.randn(vocab_size, embedding_dim)
+				self.name = name
+				self.vocab_size = vocab_size
+				self.embedding_dim = embedding_dim
 		def _forwardImplementation(self, inbuf, outbuf):
-				self.token_idx = np.argmax(inbuf)
-				if self.token_idx <= len(self.embeddings):
-						outbuf[:] = self.embeddings[self.token_idx]
-				else:
-						self.token_idx = len(self.embeddings)-1
-						outbuf[:] = self.embeddings[self.token_idx]
+				i = 0
+				for x in range(self.vocab_size):
+					for y in range(self.embedding_dim):
+						if i == self.vocab_size:
+							break
+						elif i < self.vocab_size:
+							self.embeddings[x, y] = inbuf[i]
+							outbuf[i] = self.embeddings[x, y]
+						else:
+							break
+						i+=1
 		def _backwardImplementation(self, outerr, inerr, outbuf, inbuf):
 				gradient = np.zeros_like(self.embeddings)
-				gradient[self.token_idx] = outerr
-				self.embeddings -= gradient
-				inerr[:] = self.embeddings.T @ outerr
+				i = 0
+				for x in range(self.vocab_size):
+					for y in range(self.embedding_dim):
+						if i == self.vocab_size:
+							break
+						elif i < self.vocab_size:
+							gradient[x, y] += outerr[i]
+							self.embeddings[x, y] -= gradient[x, y]  #self.embeddings[x, y] = inbuf[i]
+							inerr[i] = np.dot(outerr[i], self.embeddings[x, y]) #outbuf[i] = self.embeddings[x, y]
+						else:
+							break
+						i += 1
+				#
 
 class GeLULayer(NeuronLayer):
 		def __init__(self, dim):
