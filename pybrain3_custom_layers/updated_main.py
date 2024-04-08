@@ -22,6 +22,7 @@ assert os.path.exists(os.path.join(tiktoken_cache_dir,"9b5ad71b2ce5302211f9c6153
 from pybrain3.structure import LinearLayer, SigmoidLayer, TanhLayer, GaussianLayer, LSTMLayer, RecurrentNetwork, FeedForwardNetwork, FullConnection
 from pybrain3.datasets import SupervisedDataSet
 from pybrain3.supervised.trainers import BackpropTrainer
+from main__GPT_Model import EmbeddingLayer
 from dim3_neuronlayer import Dim3NeuronLayer
 from numba import prange
 import numpy as np
@@ -52,23 +53,26 @@ def generate_response(model, input_text, tokenizer):
 #
 #
 
-class DynamicNet(RecurrentNetwork):
-    def __init__(self, vocab_size, hidden_dim, num_heads=10):  # Added num_heads parameter with a default value
-        super(DynamicNet, self).__init__(vocab_size)
-        # Layers
-        self.num_heads = num_heads ##
+class DynamicNet(FeedForwardNetwork):
+    def __init__(self, vocab_size, hidden_dim, num_heads, embedding_layer):
+        super(DynamicNet, self).__init__()
+        # Define the layers
         self.inLayer = LinearLayer(vocab_size)
-        self.dim3Layer = Dim3NeuronLayer(hidden_dim, hidden_dim, num_heads, name="3d")  # Custom 3D layer
-        self.outLayer = LinearLayer(vocab_size) 
+        self.embeddingLayer = embedding_layer  # Add the embedding layer
+        self.dim3Layer = Dim3NeuronLayer(hidden_dim, hidden_dim, num_heads=num_heads)
+        self.outLayer = LinearLayer(vocab_size)
         # Adding modules and connections
         self.addInputModule(self.inLayer)
-        self.addModule(self.dim3Layer)  # Add the custom 3D layer to the network
+        self.addModule(self.embeddingLayer)  # Add the embedding layer to the network
+        self.addModule(self.dim3Layer)
         self.addOutputModule(self.outLayer)
-        self.in_to_dim3 = FullConnection(self.inLayer, self.dim3Layer)  # Connection to the custom 3D layer
-        self.dim3_to_out = FullConnection(self.dim3Layer, self.outLayer)
-        self.addConnection(self.in_to_dim3)
+        self.in_to_embedding = FullConnection(self.inLayer, self.embeddingLayer)  # Connection to the embedding layer
+        self.embedding_to_dim3 = FullConnection(self.embeddingLayer, self.dim3Layer)  # Connection from embedding to custom 3D layer
+        self.addConnection(self.in_to_embedding)
+        self.addConnection(self.embedding_to_dim3)
         for a in range(num_heads):
             self.addRecurrentConnection(FullConnection(self.dim3Layer, self.dim3Layer))
+        self.dim3_to_out = FullConnection(self.dim3Layer, self.outLayer)
         self.addConnection(self.dim3_to_out)
         self.sortModules()
 
@@ -78,7 +82,8 @@ hidden_dim = 768
 num_heads = 16 # number of heads per hidden dimension cubed. Or roughly 452 billion neurons for 768 heads (all heads) allotted
 scale=int(vocab_size**3.61)
 ds = SupervisedDataSet(vocab_size, vocab_size)
-model = DynamicNet(vocab_size, hidden_dim, num_heads) ## model = pickle.load(open("/app/dynamic_net.pickle", "rb")) # for loading from a pickle file.
+embedding_layer = embedding_layer = EmbeddingLayer(vocab_size, 128)
+model = DynamicNet(vocab_size, hidden_dim, num_heads, embedding_layer) ## model = pickle.load(open("/app/dynamic_net.pickle", "rb")) # for loading from a pickle file.
 trainer = BackpropTrainer(model, ds, learningrate=.0931) # Give it a 9.31% learning rate to keep it from committing to over-fitting.
 
 def gen_qa(user, machine): # develop Q&A for the response type it should have. Including function calls. This means that function calls will need to watch for 'function_call',
