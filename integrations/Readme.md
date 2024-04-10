@@ -15,3 +15,6 @@ https://github.com/ForkInABlender/-and-so-sayeth-the-math-nerds-1-1-5-/blob/main
 
 Not only can numerics be reassigned, but functions entirely swapped from compiled ones to non-compiled versions, etcetera. Meaning if you know what you're doing, you can
 easily override a sub function of how kubernetes or docker's backend works.
+
+In addition, one can also use this to dynamically compile portions of dockerd, kubernetes, and docker's source golang for fine grain control and interaction
+ with containers they represent and manage.
