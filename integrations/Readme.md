@@ -1,6 +1,6 @@
 # Are these integrations for python specifically?
 
-``Yes. They're the raw form of integration. As long as the types match when used as demonstrated in the integration example .py files.
+Yes. They're the raw form of integration. As long as the types match when used as demonstrated in the integration example .py files.
 These are also proof of how to interact with things like kubernetes and its runtime in a dynamic manner. Meaning you can compile bits of how you interact with
  kubernetes.
 
