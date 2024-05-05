@@ -1,9 +1,6 @@
 import ctypes
 import unicorn
 
-# load unicorn library
-uc = ctypes.CDLL("libunicorn.so")
-
 # define architecture for x86_64
 ARCH_X86_64 = unicorn.UC_ARCH_X86
 MODE_64 = unicorn.UC_MODE_64
