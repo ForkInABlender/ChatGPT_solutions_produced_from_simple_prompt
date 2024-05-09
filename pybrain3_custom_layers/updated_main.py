@@ -58,7 +58,7 @@ class DynamicNet(RecurrentNetwork):
         super(DynamicNet, self).__init__()
         # Define the layers
         self.inLayer = LinearLayer(vocab_size)
-        self.embeddingLayer = embedding_layer  # Add the embedding layer
+        #self.embeddingLayer = embedding_layer  # Add the embedding layer
         self.dim3Layer = Dim3NeuronLayer(hidden_dim, hidden_dim, num_heads=num_heads)
         self.outLayer = LinearLayer(vocab_size)
         # Adding modules and connections
@@ -66,10 +66,10 @@ class DynamicNet(RecurrentNetwork):
         self.addModule(self.embeddingLayer)  # Add the embedding layer to the network
         self.addModule(self.dim3Layer)
         self.addOutputModule(self.outLayer)
-        self.in_to_embedding = FullConnection(self.inLayer, self.embeddingLayer)  # Connection to the embedding layer
-        self.embedding_to_dim3 = FullConnection(self.embeddingLayer, self.dim3Layer)  # Connection from embedding to custom 3D layer
+        self.in_to_embedding = FullConnection(self.inLayer, self.dim3Layer)  # Connection to the embedding layer
+        #self.embedding_to_dim3 = FullConnection(self.embeddingLayer, self.dim3Layer)  # Connection from embedding to custom 3D layer
         self.addConnection(self.in_to_embedding)
-        self.addConnection(self.embedding_to_dim3)
+        #self.addConnection(self.embedding_to_dim3)
         for a in range(num_heads):
             self.addRecurrentConnection(FullConnection(self.dim3Layer, self.dim3Layer))
         self.dim3_to_out = FullConnection(self.dim3Layer, self.outLayer)
