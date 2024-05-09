@@ -54,7 +54,7 @@ def generate_response(model, input_text, tokenizer):
 #
 
 class DynamicNet(RecurrentNetwork):
-    def __init__(self, vocab_size, hidden_dim, num_heads, embedding_layer):
+    def __init__(self, vocab_size, hidden_dim, num_heads):
         super(DynamicNet, self).__init__()
         # Define the layers
         self.inLayer = LinearLayer(vocab_size)
@@ -82,8 +82,8 @@ hidden_dim = 768
 num_heads = 16 # number of heads per hidden dimension cubed. Or roughly 452 billion neurons for 768 heads (all heads) allotted
 scale=int(vocab_size**3.61)
 ds = SupervisedDataSet(vocab_size, vocab_size)
-embedding_layer = embedding_layer = EmbeddingLayer(vocab_size, 128)
-model = DynamicNet(vocab_size, hidden_dim, num_heads, embedding_layer) ## model = pickle.load(open("/app/dynamic_net.pickle", "rb")) # for loading from a pickle file.
+#embedding_layer = embedding_layer = EmbeddingLayer(vocab_size, 128)
+model = DynamicNet(vocab_size, hidden_dim, num_heads) ## model = pickle.load(open("/app/dynamic_net.pickle", "rb")) # for loading from a pickle file.
 trainer = BackpropTrainer(model, ds, learningrate=.0931) # Give it a 9.31% learning rate to keep it from committing to over-fitting.
 
 def gen_qa(user, machine): # develop Q&A for the response type it should have. Including function calls. This means that function calls will need to watch for 'function_call',
