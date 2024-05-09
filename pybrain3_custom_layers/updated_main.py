@@ -59,7 +59,7 @@ class DynamicNet(RecurrentNetwork):
         # Define the layers
         self.inLayer = LinearLayer(vocab_size)
         #self.embeddingLayer = embedding_layer  # Add the embedding layer
-        self.dim3Layer = Dim3NeuronLayer(hidden_dim, hidden_dim, num_heads=num_heads)
+        self.dim3Layer = Dim3NeuronLayer(hidden_dim, hidden_dim, num_heads=num_heads, name="3d layer")
         self.outLayer = LinearLayer(vocab_size)
         # Adding modules and connections
         self.addInputModule(self.inLayer)
