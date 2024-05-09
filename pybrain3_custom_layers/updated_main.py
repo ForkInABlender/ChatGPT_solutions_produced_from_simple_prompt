@@ -53,7 +53,7 @@ def generate_response(model, input_text, tokenizer):
 #
 #
 
-class DynamicNet(FeedForwardNetwork):
+class DynamicNet(RecurrentNetwork):
     def __init__(self, vocab_size, hidden_dim, num_heads, embedding_layer):
         super(DynamicNet, self).__init__()
         # Define the layers
