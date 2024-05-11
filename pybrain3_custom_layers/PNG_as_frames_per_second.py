@@ -20,12 +20,12 @@ Later it will be used to generate images using pybrain3, numpy, numba, brian2, a
 from PIL import Image
 import numpy as np
 
-def generate_updates_from_image(image_path):
+def generate_updates_from_image(image_path, i):
     img = Image.open(image_path)
     img_array = np.array(img)
     
     updates = []
-    frame_index = 0  # Assuming there is only one frame
+    frame_index = i  # Assuming there is only one frame
     
     # Iterate over each pixel in the image
     for x in range(img_array.shape[0]):
@@ -37,6 +37,6 @@ def generate_updates_from_image(image_path):
     return updates
 
 # Example usage
-image_path = 'path_to_your_image.png'
-updates = generate_updates_from_image(image_path)
+image_path = 'path_to_your_image_representing_frame0.png'
+updates = generate_updates_from_image(image_path, 0)
 print(updates)
