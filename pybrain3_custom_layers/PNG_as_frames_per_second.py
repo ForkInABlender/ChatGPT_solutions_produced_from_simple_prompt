@@ -12,6 +12,10 @@ Because all unit, assert, and mock testing are done by hand manually,
 Later it will be used to generate images using pybrain3, numpy, numba, brian2, and rdkit with smile groups.
 
 
+Soon to follow will audio as wav file data in similar format.
+Such will be extracted from mp4 files as will the image frames.
+This will be done using the MELT framework.
+
 """
 
 
