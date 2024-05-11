@@ -19,7 +19,7 @@ This is useful for if you're emulating the weinrick or bits of it used for
 import numpy as np
 import wave
 
-def read_wav_file(filename):
+def read_wav_file(i, filename):
     # Open the WAV file
     with wave.open(filename, 'r') as wav_file:
         # Check if the audio is 1 second long (assuming standard sample rate of 44100 Hz)
@@ -53,9 +53,9 @@ def read_wav_file(filename):
         elif dtype == np.int32:
             audio_array = audio_array / 2147483648.0
         
-        return audio_array
+        return (i, audio_array)
 
 # Usage example
-filename = 'path_to_your_1_second_long_wave_file.wav'
-wav_array = read_wav_file(filename)
+filename = 'path_to_your_1_second_long_wave_frame0.wav'
+wav_array = read_wav_file(0, filename)
 print(wav_array)
