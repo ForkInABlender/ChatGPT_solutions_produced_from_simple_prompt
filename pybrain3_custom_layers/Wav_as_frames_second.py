@@ -6,7 +6,7 @@
 From this part, development is straight forward.
 
 Each wav file 1 second long can be used to, upon reshape to proper format,
- be used to interleave left and right audio input.
+ interleave left and right audio input.
 
 For pybrain3, this works well enough.
 This is useful for if you're emulating the weinrick or bits of it used for
