@@ -12,6 +12,9 @@ with all security stripped away, however, it is that simple, plus some api calls
 
 the last part is the security measure applied to all hotel keys and college student IDs,
  magnetic strip writing, aka card minting plus some encryption.
+
+and if the last bit is security, card minting, and data persistence, plus a flask server,
+ that carves down to size the needed hardware before implementation.
 """
 
 import uuid
