@@ -4,6 +4,14 @@
 This is the basics before security rules, data persistence, and OFX protocol
  a normal bank uses.
 
+
+with all security stripped away, however, it is that simple, plus some api calls
+ into the setup to run that same purchase and go 'i got a valid ticket' for online
+  purchases via said bank.
+
+
+the last part is the security measure applied to all hotel keys and college student IDs,
+ magnetic strip writing, aka card minting plus some encryption.
 """
 
 import uuid
