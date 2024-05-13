@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Brython and React Integration</title>
+    <!-- Load React and ReactDOM -->
+    <script src="https://unpkg.com/react@17/umd/react.development.js"></script>
+    <script src="https://unpkg.com/react-dom@17/umd/react-dom.development.js"></script>
+    <!-- Load Brython -->
+    <script src="https://cdn.jsdelivr.net/npm/brython@3.9.5/brython.min.js"></script>
+</head>
+<body onload="brython()">
+    <div id="app"></div>
+    <script type="text/python">
+        from browser import window
+
+        # Access React and ReactDOM from the window object
+        React = window.React
+        ReactDOM = window.ReactDOM
+
+        # Define a Python class for the React component
+        class MyComponent:
+            def render(self):
+                # Create a React element
+                return React.createElement('div', None, 'Hello from React and Brython!')
+
+        # Convert the Python class to a React Component
+        MyComponent = React.Component.new(MyComponent)
+
+        def render_component():
+            # Create an instance of the component
+            element = React.createElement(MyComponent, None)
+            container = window.document.getElementById("app")
+            # Render the component
+            ReactDOM.render(element, container)
+
+        # Call the function to render the component
+        render_component()
+    </script>
+</body>
+</html>
