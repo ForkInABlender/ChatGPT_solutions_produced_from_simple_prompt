@@ -9,6 +9,7 @@ This also allows one to make use of multiple pretrained
   advantage of the approach while correcting for openAI's
    purposeful error in judgement. namely templating away
   stolen or faked data until openAI goes out of business.
+Failure by openAI to comply will get it done for $3.94/feature/month.
 """
 
 
