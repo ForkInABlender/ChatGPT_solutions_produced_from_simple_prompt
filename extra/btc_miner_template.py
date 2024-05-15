@@ -1,8 +1,22 @@
 # Dylan Kenneth Eliot & GPT-4 ( Alpha Edition )
 
+
+"""
+
+This also works within an Ubuntu image within UserLAnd apk using python3.10+.
+ This is desugned to work so one can mine Bitcoin hardware agnostically.
+
+
+
+
+"""
+
+
+
 import ctypes
 import struct
 import time
+from bitcoin.rpc import RawProxy
 
 # Define uint32 and uint8 types
 uint32 = ctypes.c_uint32
@@ -83,9 +97,42 @@ def mine(block_header, target):
     while True:
         block_with_nonce = block_header + struct.pack('>I', nonce).hex()
         hash_result = sha256(block_with_nonce)
-        if int(hash_result, 16) < target:
-            elapsed_time = time.time() - start_time
-            print(f"Nonce: {nonce}, Hash: {hash_result}")
-            print(f"Successfully mined a block in {elapsed_time} seconds")
-            return nonce, hash_result
+        elapsed_time = time.time() - start_time
+        print(f"Nonce: {nonce}, Hash: {hash_result}")
+        print(f"Successfully mined a block in {elapsed_time} seconds")
+        """
+
+        This is where the code below for submitting proof of work goes.
+
+        """
         nonce += 1
+
+
+
+""""
+# Your block header (in hex)
+block_header = "your_block_header_here"
+
+# Your target (difficulty target)
+target = int("00000000ffffffffffffffffffffffffffffffffffffffffffffffffffffffff", 16)  # Example target
+
+if __name__ == "__main__":
+    nonce, hash_result = mine(block_header, target)
+    print(f"Nonce: {nonce}")
+    print(f"Hash: {hash_result}")
+
+    # Submit the mined block using python-bitcoinlib
+    rpc_user = "your_rpc_user"
+    rpc_password = "your_rpc_password"
+    rpc_host = "127.0.0.1"
+    rpc_port = "8332"
+
+    rpc_connection = RawProxy(service_port=rpc_port, btc_conf_file="/path/to/bitcoin.conf")
+
+    block_with_nonce = block_header + struct.pack('>I', nonce).hex()
+    response = rpc_connection.submitblock(block_with_nonce)
+    print(response)
+
+
+
+""""
