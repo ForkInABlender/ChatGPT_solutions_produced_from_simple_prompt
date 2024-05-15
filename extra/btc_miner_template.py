@@ -5,9 +5,9 @@
 
 This also works within an Ubuntu image within UserLAnd apk using python3.10+.
  This is desugned to work so one can mine Bitcoin, hardware agnostically.
+This will also require an NowNode api key. 
 
-
-
+https://nownodes.io/for-developers
 
 """
 
