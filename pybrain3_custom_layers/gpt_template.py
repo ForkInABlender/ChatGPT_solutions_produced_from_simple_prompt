@@ -6,9 +6,11 @@ WARNING: TEST IN A AIR-GAPPED NETWORK OR OFFLINE IS RECOMMENDED UNLESS YOU KNOW 
 
 The given code could be refactored with { https://github.com/ForkInABlender/ChatGPT_solutions_produced_from_simple_prompt/blob/2024_02/pybrain3_custom_layers/main__GPT_Model.py }
  for a more functional version.
+
 This otherwise should be tested offline with unique datasets or otherwise real data, preferrably.
 
-
+And practically, using tiktoken offline also would be useful. Now, what I am likely to do is use numpy, numba cuda simulator, docker, a google spreadsheet, and a flask server,
+ Imitating GPT with pybrain3 should be a little bit of elbow grease.
 """
 
 import numpy as np
