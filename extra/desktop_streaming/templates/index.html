@@ -1,0 +1,88 @@
+<!-- Dylan Kenneth Eliot & GPT-4o ( Alpha Edition ) -->
+<!-- 
+Simple front end that works with flask backend for desktop streaming done simpler.
+
+
+-->
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Remote Desktop with Audio</title>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.0.1/socket.io.js"></script>
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/brython@3.9.5/brython.min.js"></script>
+</head>
+<body onload="brython()">
+    <h1>Remote Desktop with Audio</h1>
+    <img id="screenshot" width="800" />
+    <script type="text/python">
+        from browser import document, window
+        import javascript
+
+        socket = window.io()
+        audio_buffer = []
+
+        def request_screenshot():
+            socket.emit('request_screenshot')
+
+        def update_screenshot(data):
+            document['screenshot'].attrs['src'] = 'data:image/jpeg;base64,' + data
+            window.setTimeout(request_screenshot, 1000)
+
+        def handle_mouse_event(event):
+            rect = document['screenshot'].getBoundingClientRect()
+            x = event.clientX - rect.left
+            y = event.clientY - rect.top
+            socket.emit('mouse_event', {'type': 'move', 'x': x, 'y': y})
+
+        def handle_mouse_click(event):
+            rect = document['screenshot'].getBoundingClientRect()
+            x = event.clientX - rect.left
+            y = event.clientY - rect.top
+            socket.emit('mouse_event', {'type': 'click', 'x': x, 'y': y, 'button': 'left'})
+
+        def handle_keyboard_event(event):
+            key = event.key
+            if event.type == 'keydown':
+                socket.emit('keyboard_event', {'action': 'press', 'key': key})
+            elif event.type == 'keyup':
+                socket.emit('keyboard_event', {'action': 'release', 'key': key})
+
+        def handle_audio_stream(msg):
+            audio_data = msg
+            float_array = window.Float32Array.new(javascript.py2js(audio_data))
+            audio_buffer.extend(float_array)
+
+        def request_audio():
+            socket.emit('request_audio')
+
+        def audio_callback(event):
+            output_buffer = event.outputBuffer
+            left_channel = output_buffer.getChannelData(0)
+            right_channel = output_buffer.getChannelData(1)
+            
+            for i in range(len(left_channel)):
+                if len(audio_buffer) > 0:
+                    left_channel[i] = audio_buffer.pop(0)
+                    right_channel[i] = left_channel[i]
+                else:
+                    left_channel[i] = 0
+                    right_channel[i] = 0
+
+        document['screenshot'].bind('mousemove', handle_mouse_event)
+        document['screenshot'].bind('click', handle_mouse_click)
+        document.bind('keydown', handle_keyboard_event)
+        document.bind('keyup', handle_keyboard_event)
+
+        socket.on('update_screenshot', update_screenshot)
+        socket.on('audio_stream', handle_audio_stream)
+
+        audio_context = window.AudioContext.new()
+        script_node = audio_context.createScriptProcessor(1024, 1, 2)
+        script_node.onaudioprocess = audio_callback
+        script_node.connect(audio_context.destination)
+
+        window.setInterval(request_audio, 100)  # Request audio data every 100 ms
+        request_screenshot()
+    </script>
+</body>
+</html>
