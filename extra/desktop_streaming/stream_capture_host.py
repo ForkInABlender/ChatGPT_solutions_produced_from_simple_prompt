@@ -29,7 +29,7 @@ For windows10+ systems using WSL2 with an ubuntu image or linux image with pulse
 
 then run ``pulseaudio --start`` within WSL2 if you're using windows.
 
-The used template/index.html will be in this folder under {template/index.html}. Without this, the development will need to be done by hand.
+The used templates/index.html will be in this folder under {templates/index.html}. Without this, the development will need to be done by hand.
 
 """
 
