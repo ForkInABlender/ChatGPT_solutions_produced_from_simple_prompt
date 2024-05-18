@@ -1,0 +1,37 @@
+<!-- Dylan Kenneth Eliot & GPT-4o ( Alpha Edition )
+
+
+
+
+This allows one to functionally create as many "GPUs" as one needs....
+ This can also be used with math.js to support the math operations used by common neural network libraries. Namely emulating numpy on the front end to use 
+  pybrain3 also on the front end. 
+
+-->
+
+
+<html>
+<head>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/brython/3.9.5/brython.min.js"></script>
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/gpu.js@latest/dist/gpu-browser.min.js"></script>
+</head>
+<body onload="brython()">
+    <button id="run_button">Run GPU.js</button>
+    <div id="output"></div>
+
+    <script type="text/python">
+        from browser import document, window
+        def run_gpu_js(event):
+            # Initialize GPU.js
+            GPU = window.GPU.GPU.new()
+            kernel_function = window.Function("a", "b", "return a[this.thread.x] + b[this.thread.x];")
+            add = GPU.createKernel(kernel_function).setOutput([100])
+            a = [i for i in range(100)]
+            b = [i * 2 for i in range(100)]
+            result = add(a, b)
+            result_list = [result[i] for i in range(100)]
+            document["output"].innerHTML = f'Result: {result_list}'
+        document["run_button"].bind("click", run_gpu_js)
+    </script>
+</body>
+</html>
