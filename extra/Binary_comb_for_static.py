@@ -108,7 +108,7 @@ def parse_symbols(binary_data, symtab_header, strtab_header):
             name_offset += 1
 
         try:
-            decoded_name = name.decode('utf-8')
+            decoded_name = name.decode('ascii') # program may have some issue using utf-8 but it still works even if it is not ideal.
             symbols.append(decoded_name)
         except UnicodeDecodeError as e:
             print(f"Unicode decoding error at offset {name_offset}: {e}")
