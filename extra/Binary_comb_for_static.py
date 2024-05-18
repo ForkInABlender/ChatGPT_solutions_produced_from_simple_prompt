@@ -1,3 +1,19 @@
+# Dylan Kenneth Eliot & GPT-4o ( Alpha Edition )
+
+"""
+This analyzes static binaries. This can be used with tools like cheat-engine to find a segment register or function one wishes to override from the outside.
+ Now looking at dockerd specifically, it has many data points. 
+
+What it is beneficial for is when you have to know what it does without using nm, readelf, ldd, gdb or objdump.
+ Because it recycles their python knowledge base, it keeps it simple for any root user to do as well as any nonroot user.
+  Because it is entirely python code being used to analyze a binary, it saves time for finding the essential bits needed to use with unicorn-engine.
+ It also makes it ideal to adapt to python through the raw assembly calls via ld, as, ar, or nasm.
+   
+
+
+"""
+
+
 import os
 import struct
 
