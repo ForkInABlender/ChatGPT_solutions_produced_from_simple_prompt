@@ -13,9 +13,10 @@ What it is beneficial for is when you have to know what it does without using nm
 
 """
 
-
 import os
 import struct
+from capstone import *
+
 
 # Function to read the binary file into memory
 def read_binary_file(file_path):
@@ -57,6 +58,26 @@ def parse_section_headers(binary_data, elf_header):
         section_headers.append(struct.unpack('IIQQQQIIQQ', binary_data[offset:offset + shentsize]))
 
     return section_headers
+
+
+def get_section_names(binary_data, section_headers, shstrtab_header):
+    shstrtab_offset = shstrtab_header[4]
+    section_names = []
+
+    for header in section_headers:
+        name_offset = shstrtab_offset + header[0]
+        name = b''
+        while binary_data[name_offset] != 0:
+            name += bytes([binary_data[name_offset]])
+            name_offset += 1
+
+        try:
+            section_names.append(name.decode('utf-8'))
+        except UnicodeDecodeError:
+            section_names.append(name)
+
+    return section_names
+
 
 # Function to find a section by its type
 def find_section_by_type(section_headers, section_type):
@@ -108,18 +129,39 @@ def parse_symbols(binary_data, symtab_header, strtab_header):
             name_offset += 1
 
         try:
-            decoded_name = name.decode('ascii') # program may have some issue using utf-8 but it still works even if it is not ideal.
+            decoded_name = name.decode('utf-8')
             symbols.append(decoded_name)
         except UnicodeDecodeError as e:
-            print(f"Unicode decoding error at offset {name_offset}: {e}")
-            symbols.append(f"<invalid utf-8 name at offset {name_offset}>")
+            decoded_name = name #.decode('ascii')
+            symbols.append(decoded_name)
+            pass
+            #print(f"Unicode decoding error at offset {name_offset}: {e}")
+            #symbols.append(f"<invalid utf-8 name at offset {name_offset}>")
 
     return symbols
+
+
+def find_section_by_name(section_headers, section_names, name):
+    for header, section_name in zip(section_headers, section_names):
+        if section_name == name:
+            return header
+    return None
+
+def disassemble_section(binary_data, section_header):
+    section_offset = section_header[4]
+    section_size = section_header[5]
+    code = binary_data[section_offset:section_offset + section_size]
+    
+    md = Cs(CS_ARCH_X86, CS_MODE_64)
+    for i in md.disasm(code, section_header[2]):
+        print("0x%x:\t%s\t%s" % (i.address, i.mnemonic, i.op_str))
 
 # Main execution to read the binary and parse symbols
 binary_data = read_binary_file('/usr/bin/dockerd')
 elf_header = parse_elf_header(binary_data)
 section_headers = parse_section_headers(binary_data, elf_header)
+shstrtab_header = section_headers[elf_header['e_shstrndx']]
+section_names = get_section_names(binary_data, section_headers, shstrtab_header)
 
 SHT_SYMTAB = 2
 SHT_STRTAB = 3
@@ -127,9 +169,24 @@ SHT_STRTAB = 3
 symtab_header = find_section_by_type(section_headers, SHT_SYMTAB)
 strtab_header = find_section_by_type(section_headers, SHT_STRTAB)
 
+
 if symtab_header and strtab_header:
     symbols = parse_symbols(binary_data, symtab_header, strtab_header)
     for symbol in symbols:
         print(symbol)
 else:
     print("Symbol table or string table not found")
+
+sections_to_find = ['.text', '.data', '.rodata']
+
+for section_name in sections_to_find:
+    section_header = find_section_by_name(section_headers, section_names, section_name)
+    if section_header:
+        print(f"Section {section_name}:")
+        print(f"  Offset: 0x{section_header[4]:x}")
+        print(f"  Size: {section_header[5]} bytes")
+        if section_name == '.text':
+            print(f"Disassembly of {section_name} section:")
+            disassemble_section(binary_data, section_header)
+    else:
+        print(f"Section {section_name} not found")
