@@ -1,0 +1,52 @@
+<!-- Dylan Kenneth Eliot & GPT-4o ( Alpha Edition )
+
+-->
+
+<!DOCTYPE html>
+<html>
+<head>
+    <script type="text/javascript" src="{{ url_for('static', filename='brython.js') }}"></script>
+    <script type="text/javascript" src="{{ url_for('static', filename='brython_stdlib.js') }}"></script>
+</head>
+<body onload="brython()">
+    <script type="text/python">
+        from browser import ajax, console, window, timer
+
+        fetched_code = None  # Global variable to store the fetched code
+
+        def fetch_file(file_url):
+            req = ajax.ajax()
+            req.bind('complete', on_complete)
+            req.open('POST', '/fetch_file', True)
+            req.set_header('Content-Type', 'application/json')
+            req.send(window.JSON.stringify({'file_url': file_url}))
+
+        def on_complete(req):
+            global fetched_code
+            if req.status == 200:
+                response = window.JSON.parse(req.text)
+                if response['status'] == 'success':
+                    fetched_code = response['content']
+                    console.log("Code fetched successfully")
+                    execute_fetched_code()  # Execute the fetched code
+                else:
+                    console.log(f"Error: {response['message']}")
+            else:
+                console.log(f"Error: {req.status} - {req.statusText}")
+
+        def execute_fetched_code():
+            global fetched_code
+            if fetched_code:
+                try:
+                    exec(fetched_code, globals())
+                    print(example_function())  # Call the function from the fetched code
+                except Exception as e:
+                    console.log(f"Execution error: {e}")
+            else:
+                console.log("No code fetched to execute")
+
+        file_url = 'https://4bd3-2a09-bac5-80cc-1c64-00-2d4-8d.ngrok-free.app/file:///home/john/go_test_docker/test_by_u.py'
+        fetch_file(file_url)
+    </script>
+</body>
+</html>
