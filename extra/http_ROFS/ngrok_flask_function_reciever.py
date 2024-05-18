@@ -18,7 +18,7 @@ from flask_cors import CORS
 import subprocess
 
 app = Flask(__name__)
-CORS(app, resources={r"/*": {"origins": ["https://4bd3-2a09-bac5-80cc-1c64-00-2d4-8d.ngrok-free.app"]}})
+CORS(app, resources={r"/*": {"origins": ["https://{your ngrok hash goes here}.ngrok-free.app"]}})
 
 @app.route('/')
 def index():
@@ -27,8 +27,8 @@ def index():
 @app.after_request
 def apply_headers(response):
 		response.headers["Content-Security-Policy"] = (
-				"connect-src 'self' https://4bd3-2a09-bac5-80cc-1c64-00-2d4-8d.ngrok-free.app; "
-				"script-src 'self' 'unsafe-eval' 'unsafe-inline' https://4bd3-2a09-bac5-80cc-1c64-00-2d4-8d.ngrok-free.app; "
+				"connect-src 'self' https://{your ngrok hash goes here}.ngrok-free.app; "
+				"script-src 'self' 'unsafe-eval' 'unsafe-inline' https://{your ngrok hash goes here}.ngrok-free.app; "
 				"style-src 'self' 'unsafe-inline';"
 		)
 		response.headers["X-Content-Type-Options"] = "nosniff"
