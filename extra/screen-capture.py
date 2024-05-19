@@ -9,7 +9,8 @@ This also allows for mouse events. Later I'll add in the keyboard and mouse cont
  The reasoning for this was that remote desktops got more complicated than they needed to normally be.
   So to simplify search, I'd found the minimal code path that would be useful to use with pyngrok & docker containers.
  This is especially useful if you're hosting a VPC images used by many machines, where all it needs to do is pass { keyboard, mouse, display, audio }
-  between the client and the remote server.
+  between the client and the remote server. While Citrix is useful, it is clunky and has many hang ups. And once compiled down the way Citrix is, it
+   becomes harder to make use of something like Citrix.
 
 
 
