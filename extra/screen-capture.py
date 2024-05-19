@@ -12,7 +12,8 @@ This also allows for mouse events. Later I'll add in the keyboard and mouse cont
   between the client and the remote server. While Citrix is useful, it is clunky and has many hang ups. And once compiled down the way Citrix is, it
    becomes harder to make use of something like Citrix.
 
-
+With a little bit of retooling, It would work well with brython.js & ajax/web-socket calls back to a flask server to display such on the front end.
+ This makes it easier to integrate with hand built neural networks using libraries like pybrain3 for AI development. 
 
 """
 
