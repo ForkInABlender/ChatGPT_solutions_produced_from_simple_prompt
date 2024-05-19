@@ -40,7 +40,7 @@ def capture_frame():
     # Store the frame
     frames.append(frame)
     # Limit the number of stored frames to avoid memory issues
-    if len(frames) > 300:  # Adjust the buffer size as needed
+    if len(frames) > 3:  # Adjust the buffer size as needed
         frames.pop(0)
 
 # Function to update the frame in the animation
@@ -62,7 +62,7 @@ def on_click(event):
             print(f"Right click at ({desktop_x}, {desktop_y}) on the desktop.")
 
 # Set the interval (in milliseconds) for the animation
-animation_interval = 100  # Change this value as needed
+animation_interval = 1  # Change this value as needed
 
 # Create the Matplotlib figure and axis
 fig, ax = plt.subplots()
@@ -76,4 +76,4 @@ fig.canvas.mpl_connect('button_press_event', on_click)
 # Continuously capture frames and display them
 while True:
     capture_frame()
-    plt.pause(0.01)  # Short pause to keep the display updating
+    plt.pause(0.0000000000000001)  # Short pause to keep the display updating
