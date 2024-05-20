@@ -32,7 +32,7 @@ https://pypi.org/project/javascript/
 from javascript import require
 
 # Load the JavaScript file
-gpu_browser = require('js/libraries/gpu.js/gpu-browser.js')
+gpu_browser = require('js/gpu.js/gpu-browser.js')
 
 # Create a GPU instance
 gpu_instance = gpu_browser.GPU()
