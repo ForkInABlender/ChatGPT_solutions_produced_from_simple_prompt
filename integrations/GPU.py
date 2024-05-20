@@ -18,7 +18,7 @@ For developers of pytorch, it could mean remodeling the gpu specific code it nor
 
 
 
-
+https://pypi.org/project/javascript/
 
 
 
