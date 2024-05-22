@@ -1,6 +1,12 @@
 # Dylan Kenneth Eliot & GPT-4o ( Alpha Edition )
 
+"""
+Welcome to the basics of what openai looks like with the final part.
 
+This will be used for features available later on as one decides on more formidable layout of charge. Each feature will be billed separate but the 
+ base bill will be based on what they use.
+
+"""
 
 
 from flask import Flask, render_template, request, redirect, url_for, session, flash
