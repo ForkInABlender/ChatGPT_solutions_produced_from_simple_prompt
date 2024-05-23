@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>POS System</title>
+</head>
+<body>
+    <h1>Products</h1>
+    <ul>
+        {% for product in products %}
+            <li>
+                {{ product.name }} - ${{ product.price / 100 }}
+                <a href="/add_to_cart/{{ product.id }}">Add to Cart</a>
+            </li>
+        {% endfor %}
+    </ul>
+    <a href="/cart">View Cart</a>
+    <a href="/restricted_feature">Access Restricted Feature</a>
+    <a href="/logout">Logout</a>
+</body>
+</html>
