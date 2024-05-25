@@ -67,10 +67,6 @@ class PyBrainService:
 
 # Create the server
 with SimpleXMLRPCServer(("localhost", 8000)) as server:
-    # Register functions
-    server.register_function(pow)
-    server.register_function(lambda x, y: x + y, 'add')
-    
     # Register an instance with nested classes
     server.register_instance(PyBrainService(), allow_dotted_names=True)
     
