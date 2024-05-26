@@ -150,5 +150,7 @@ def main():
     for player in players:
         print(f"{player}: {player.points} points")
 
-if __name__ == "__main__":
-    main()
+
+
+
+main()
