@@ -19,6 +19,24 @@ Good websites to draw from are listed below:
 * https://www.ncbi.nlm.nih.gov/gene/
 * https://useast.ensembl.org/index.html
 * https://genome.ucsc.edu/
+
+Product is considered safe for offline development and offline use, mainly personal use. This product is meant for scientific and educational purposes. As well as advanced AI
+ development. Due note it is not for profiling other users of the net, online or offline. If you misuse said product as described in the sentence before, you own the
+  consequence it garners for said misuse.
+
+
+Public is authorized, including class-d & citizen usage of product, approved.
+Governmental use for investation of a crime or proofing someone's innocence -- approved.
+
+Limitations:
+
+ The following are barred from using said code:
+   * FBI * NSA * CIA
+ 
+  Said orgs do not get authorization and are not qualified to use said code. As they're known for profiling.
+
+
+
 """
 
 
