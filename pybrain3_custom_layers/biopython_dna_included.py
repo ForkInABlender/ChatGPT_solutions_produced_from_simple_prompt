@@ -20,11 +20,6 @@ from brian2 import *
 dna_seq = Seq("ATGGCCATTGTAATGGGCCGCTGAAAGGGTGCCCGATAG")
 mrna_seq = dna_seq.transcribe()
 protein_seq = mrna_seq.translate()
-protein_seq_3 = seq3(protein_seq)
-print(f"DNA sequence: {dna_seq}")
-print(f"mRNA sequence: {mrna_seq}")
-print(f"Protein sequence: {protein_seq}")
-print(f"Three-letter protein sequence: {protein_seq_3}")
 
 # Dictionary of amino acids and their SMILES representations including stop codon
 amino_acid_smiles = {
@@ -38,10 +33,8 @@ amino_acid_smiles = {
 }
 
 # Set peptide sequence to the translated protein sequence
-peptide = str(protein_seq)
-
-# Generate SMILES for the peptide, excluding stop codons
-peptide_smiles = ".".join([amino_acid_smiles[aa] for aa in peptide if aa in amino_acid_smiles and amino_acid_smiles[aa]])
+# Generate SMILES for the peptide
+peptide_smiles = ".".join([amino_acid_smiles[aa] for aa in str(protein_seq) if aa in amino_acid_smiles and amino_acid_smiles[aa]])
 print("Peptide SMILES:", peptide_smiles)
 
 # RDKit: Compute molecular properties
