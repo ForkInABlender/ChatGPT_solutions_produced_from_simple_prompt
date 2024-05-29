@@ -37,6 +37,10 @@ Limitations:
 
 
 
+O5 & O7 protocol usage is advised during imitation of this product.
+
+ -- Head of counsel, ajourned
+
 """
 
 
