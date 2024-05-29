@@ -10,8 +10,15 @@ The next step is to go from this model, and develop the inverse process from a r
  like neurosky or BCI DIY hardware. The same trick could be achieved from MEGAN & mMRI & fMRI scans.
 
 
+Good websites to draw from are listed below:
 
-
+* https://www.genecards.org/
+* https://www.omim.org/
+* https://www.kegg.jp/
+* https://www.uniprot.org/
+* https://www.ncbi.nlm.nih.gov/gene/
+* https://useast.ensembl.org/index.html
+* https://genome.ucsc.edu/
 """
 
 
