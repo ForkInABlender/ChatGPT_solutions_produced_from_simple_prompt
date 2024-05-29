@@ -1,7 +1,16 @@
 # Dylan Kenneth Eliot & GPT-4o ( Alpha Edition )
 
 """
-Not quite done editing. Please wait, calminating in progress...
+
+This translates a genetic sequence into something usable via pybrain3.
+
+What it does is it takes a DNA strand, and then "makes a protein", then uses it to emulate neurochemical pickup and response of the neuron or neuron group using it.
+
+The next step is to go from this model, and develop the inverse process from a running model. The type of model I'm referring to will have to use biopython with something
+ like neurosky or BCI DIY hardware. The same trick could be achieved from MEGAN & mMRI & fMRI scans.
+
+
+
 
 """
 
