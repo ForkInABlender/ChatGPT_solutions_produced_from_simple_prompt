@@ -2,7 +2,7 @@
 
 """
 
-This now exists for the purposes of making a singular 
+This now exists, it is easier to develop a remote desktop. The thing I didn't add is a way to pass that desktop's audio to the browser.
 
 
 """
