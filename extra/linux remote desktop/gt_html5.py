@@ -1,3 +1,13 @@
+# Dylan Kenneth Eliot & GPT-4o ( Alpha Edition )
+
+"""
+The exists as a more formal bridge between javascript land and python land of execution and embedding the web in applications. 
+
+
+
+"""
+
+
 from PyQt5.QtWidgets import QApplication, QMainWindow, QVBoxLayout, QWidget
 from PyQt5.QtWebEngineWidgets import QWebEngineView
 from PyQt5.QtWebChannel import QWebChannel
