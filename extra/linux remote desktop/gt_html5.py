@@ -56,7 +56,7 @@ class MainWindow(QMainWindow):
         }
     </script>
 </head>
-<body onload="brython(); setupChannel();">
+<body onload="setupChannel(); brython();">
     <h1>Hello, World!</h1>
     <p>This is a sample HTML page generated using Python.</p>
     <a href="https://www.example.com" id="my_link">Click this link</a>
