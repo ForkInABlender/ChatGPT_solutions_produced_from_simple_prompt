@@ -2,7 +2,14 @@
 
 """
 
-This is how you monitor the assembly between system calls based on the {rip} register value
+This is how you monitor the assembly between system calls based on the {rip} register value. This is an example of how to use docker with it and see what
+ some of it is doing. From here, working backwards from the problem space becomes easier.
+
+The reasoning was I needed docker to run on an android, dockerd included. And to do so, I'd need unicorn engine, flask, uwsgi, and clever programming.
+ I dislike udocker as it leaves out many features as does the python library for using docker. However, this seemed simpler as it would make using
+  python interfaces & namespaces easier to do with unicorn-engine & sys.argv + ctypes. This in turn would also allow docker to have an emulated, custom
+ linux kernel separate from the host system it would be running on.
+
 
 capstone-engine for python3 required to use this script.
 
