@@ -10,6 +10,9 @@ Product class:
      rating: kepler/nebulus; otherwise considered safe for development
      potential: limit unknown
 
+The purpose was to explore an option that was more conformant the the logic of docker and not so much as be stuck to architectural limitations.
+ But instead have a clear path that allowed for running even on a cellphone running python inside android.  
+
 """
 
 
