@@ -7,7 +7,8 @@ This allows for imitation of dockerd.
 For more information, consult the documentation: https://docs.docker.com/engine/api/v1.45/
 
 Product class: 
-     rating: kepler/nebulus
+     rating: kepler/nebulus; otherwise considered safe for development
+     potential: limit unknown
 
 """
 
