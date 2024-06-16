@@ -27,12 +27,17 @@ import time
 import tarfile
 import os
 import io
+from collections import deque
+
+# Global event queue
+event_queue = deque()
 
 class HexConverter(BaseConverter):
     regex = r'[0-9a-fA-F\/]+'
 
 app = Flask(__name__)
 socketio = SocketIO(app)
+
 app.url_map.converters['hex'] = HexConverter
 
 
