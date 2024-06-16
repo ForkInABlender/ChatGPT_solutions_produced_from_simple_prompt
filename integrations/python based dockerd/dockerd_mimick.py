@@ -14,7 +14,8 @@ The purpose was to explore an option that was more conformant the the logic of d
  But instead have a clear path that allowed for running even on a cellphone running python inside android. With that being said, dockerd's remaining logic
   could be implemented in python with golang & ctypes interfacing now that I've figured out the hard part.
 
-The next steps is it needs unicorn-engine and kernel emulation. Plus more documentation surfing. 
+The next steps is it needs unicorn-engine and kernel emulation. Plus more documentation surfing. Imagine if you will the bash operator from hell had a 
+ protege. 
 
 """
 
