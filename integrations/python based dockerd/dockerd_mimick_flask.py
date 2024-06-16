@@ -21,14 +21,20 @@ The next steps is it needs unicorn-engine and kernel emulation. Plus more docume
 
 from flask import Flask, jsonify, request, make_response, Response, send_file
 from flask_socketio import SocketIO, emit
+from werkzeug.routing import BaseConverter
 import json
 import time
 import tarfile
 import os
 import io
 
+class HexConverter(BaseConverter):
+    regex = r'[0-9a-fA-F\/]+'
+
 app = Flask(__name__)
 socketio = SocketIO(app)
+app.url_map.converters['hex'] = HexConverter
+
 
 # Global state to store containers
 containers = {
@@ -326,7 +332,7 @@ def start_container(container_id):
         return '', 204
     return '', 404
 
-@app.route('/v1.24/containers/<container_id>/kill', methods=['POST'])
+@app.route('/v1.24/containers/<hex:container_id>/kill', methods=['POST'])
 def kill_container(container_id):
     signal = request.args.get('signal')
     if container_id in containers and signal:
@@ -336,14 +342,14 @@ def kill_container(container_id):
         return '', 204
     return '', 400
 
-@app.route('/v1.24/containers/<container_id>/json', methods=['GET'])
+@app.route('/v1.24/containers/<hex:container_id>/json', methods=['GET'])
 def inspect_container(container_id):
     container = containers.get(container_id)
     if container:
         return jsonify(container), 200
     return '', 404
 
-@app.route('/v1.24/containers/<container_id>/exec', methods=['POST'])
+@app.route('/v1.24/containers/<hex:container_id>/exec', methods=['POST'])
 def exec_create(container_id):
     if container_id in containers:
         exec_id = f"{container_id}-exec"
