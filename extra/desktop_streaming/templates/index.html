@@ -30,8 +30,8 @@ Simple front end that works with flask backend for desktop streaming done simple
 
         def handle_mouse_event(event):
             rect = document['screenshot'].getBoundingClientRect()
-            x = event.clientX - rect.left
-            y = event.clientY - rect.top
+            x = event.clientX + rect.left
+            y = event.clientY + rect.top
             socket.emit('mouse_event', {'type': 'move', 'x': x, 'y': y})
 
         def handle_mouse_click(event):
