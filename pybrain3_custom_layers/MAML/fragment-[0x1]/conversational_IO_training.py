@@ -28,7 +28,7 @@ def ascii_list_to_sentence(ascii_list):
 def pad_list(ascii_list, max_length):
     return ascii_list + [0] * (max_length - len(ascii_list))
 
-sentence = "how many times can you fuck a corndog?"+" "*47000+"\n"
+sentence = "Hi. How can I help you today?"+" "*47000+"\n"
 ascii_list = sentence_to_ascii_list(sentence)
 
 max_length = 50256
