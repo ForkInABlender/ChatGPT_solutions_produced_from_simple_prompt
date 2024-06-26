@@ -12,6 +12,8 @@ The command itself will allow for using mesa instead of your GPU hardware. Now, 
 
 Currently, this script is setup so a display is not dependent on how it functions.
 
+This is best used with the docker hub container (https://hub.docker.com/r/de3343/ai_mods_py3.10). 
+
 """
 
 
