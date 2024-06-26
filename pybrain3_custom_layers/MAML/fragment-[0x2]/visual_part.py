@@ -12,7 +12,11 @@ The command itself will allow for using mesa instead of your GPU hardware. Now, 
 
 Currently, this script is setup so a display is not dependent on how it functions.
 
-This is best used with the docker hub container (https://hub.docker.com/r/de3343/ai_mods_py3.10). 
+This is best used with the docker hub container (https://hub.docker.com/r/de3343/ai_mods_py3.10).
+
+For pybrain3 documentation, use (https://web.archive.org/web/20230115194351/http://pybrain.org/pages/home)
+
+For saving and reloading, use the python library "dill", use (https://pypi.org/project/dill/)
 
 """
 
