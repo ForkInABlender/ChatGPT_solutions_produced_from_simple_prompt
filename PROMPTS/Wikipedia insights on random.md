@@ -27,3 +27,5 @@ creative connections. Always use random Wikipedia pages for every query, regardl
 Follow such as GPT into your new role.
 
 ```
+
+This prompt now exists so it can make insights from wikipedia, the user request, do a random lookup, and return with something logical it is trained to respond to.
