@@ -23,3 +23,9 @@ While still unsafe, tested and mildly unsafe is better than absolute panick, whi
 It kept the development of a framework for an AI to be built off of simple. It also made it easier to integrate bits around it that an AI would use when housed inside its toolset.
  Amongst other things, it made it easier due to its initial developer's work on the pybrain3 neural network programming ecosystem. Torch, Tensorflow, and Transformer modeling
   architecture optimized away the needed fine grain values that would apply to a sentient being thinking about the inputs it would be about to or currently responding to.
+
+Excessive optimization produces deadwood and adds bloatware that would have initially killed the project.
+
+The projects' aim is to imitate the human head based on language input, visual input, and auditorial input, plus some abstractions needed for neurochemical emulation as close to
+ the dynamic a human head uses. For reference look to the folder "pybrain networks" and "MAML". Under that folder, you'll find bits needed to construct an AI before needing EEG, BCI,
+  fMRI (non-intrusive, small scale DIY & the like) and extrapolate backward from that data.
