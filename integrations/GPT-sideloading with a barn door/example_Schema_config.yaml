@@ -1,0 +1,144 @@
+"""
+$ SCHEMA:YAML $
+@@
+
+@@
+
+THE FOLLOWING CONFIG IS TO BE USED WITH YOUR SERVER FOR PLUGINS/ACTIONS. USE WISELY & WITH CARE.
+"""
+#
+openapi: 3.1.0
+info:
+  title: Flask Server API
+  description: API for a Flask server with various endpoints including bot responses, configuration updates, status checks, interaction logging, and custom actions.
+  version: 1.0.0
+servers:
+  - url: https://{replace with your replit container hash here. always route network wise to port 80}.kirk.replit.dev
+    description: Production server
+paths:
+  /api/get_response:
+    post:
+      operationId: getBotResponse
+      summary: Get a response from the bot
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                input:
+                  type: string
+                  example: "Hello"
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  response:
+                    type: string
+                    example: "Response to: Hello"
+  /api/update_config:
+    post:
+      operationId: updateConfig
+      summary: Update the bot configuration
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                config:
+                  type: object
+                  additionalProperties:
+                    type: string
+                  example:
+                    key: "value"
+      responses:
+        '200':
+          description: Configuration update successful
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: "success"
+  /api/get_status:
+    get:
+      operationId: getStatus
+      summary: Get the status of the bot
+      responses:
+        '200':
+          description: Successful status retrieval
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: "Bot is running"
+  /api/log_interaction:
+    post:
+      operationId: logInteraction
+      summary: Log an interaction to the database
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                interaction:
+                  type: object
+                  additionalProperties:
+                    type: string
+                  example:
+                    user: "JohnDoe"
+                    action: "login"
+      responses:
+        '200':
+          description: Interaction logged successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: "logged"
+  /api/custom_action:
+    post:
+      operationId: customAction
+      summary: Perform a custom action (summarize or translate)
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                task_type:
+                  type: string
+                  enum: [summarize, translate]
+                  example: "summarize"
+                input_text:
+                  type: string
+                  example: "This is a sample text."
+      responses:
+        '200':
+          description: Successful custom action
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  result:
+                    type: string
+                    example: "Summary of: This is a sample text."
