@@ -14,3 +14,7 @@ There will also by content on my youtube channel so you may also use it as a gui
 
 A lot of the code is from the bot itself. Test and use at your own discression. Note that reporting bugs will help some. The rest of the bugs you'll have to hunt and manage yourself depending on the thing you're trying to do. 
 </p>
+
+# Why not merge to main?
+
+Because that would not be professional development, even of AI.
