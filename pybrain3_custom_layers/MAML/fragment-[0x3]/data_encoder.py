@@ -25,3 +25,9 @@ def rgba_to_ordinal(r, g, b, a):
     ordinal = (a << 24) | (b << 16) | (g << 8) | r
     
     return ordinal
+
+def str_to_rgba_list(s):
+    return [ordinal_to_rgba(ord(a)) for a in s]
+
+def rgba_to_str_list(s):
+    return ''.join([chr(rgba_to_ordinal(*a)) for a in s])
