@@ -45,11 +45,11 @@ def callback(in_data, frame_count, time_info, status):
     audio_data = np.frombuffer(in_data, dtype=np.int16)
     # Ensure the audio data has the correct length
     if len(audio_data) == 4096:
-        generated_audio = network.activate(audio_data)
+        generated_audio = network.activate(audio_data) # Where it generates the "speech" after taking input. To be separated later on. 
+                                                       # Good enough for a basic template to work from before further modeling. 
         generated_audio = (generated_audio*32767).astype(np.int16).tobytes()  # Convert to 16-bit PCM format
         return (generated_audio, pyaudio.paContinue)
     else:
-        print("here 4")
         return (in_data, pyaudio.paContinue)
 
 input_device_index = 8  # Replace with your input device index
