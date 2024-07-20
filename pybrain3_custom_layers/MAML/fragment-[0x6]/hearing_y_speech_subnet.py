@@ -7,6 +7,7 @@ This will be used later on with more layers used and audio data. But it is where
 Basic text is a visual representation. But it needs to also be able to think and reason as humans do even if it is just emulating some
  neurochemistry and biological functions.
 
+The TTS gen will be worked on in addition.
 
 """
 
@@ -45,7 +46,6 @@ def callback(in_data, frame_count, time_info, status):
     # Ensure the audio data has the correct length
     if len(audio_data) == 4096:
         generated_audio = network.activate(audio_data)
-        print((generated_audio).astype(np.int16).tolist())
         generated_audio = (generated_audio*32767).astype(np.int16).tobytes()  # Convert to 16-bit PCM format
         return (generated_audio, pyaudio.paContinue)
     else:
