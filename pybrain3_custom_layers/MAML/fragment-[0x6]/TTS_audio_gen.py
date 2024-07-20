@@ -4,6 +4,9 @@
 This is for templating audio recognition of speech. Later these generated pieces will be replaced. However, this will allow for the open door to
  better develop a MAML that can also listen and respond like a human.
 
+This method is also the freemium template for doing speech synthesis. The other template uses brython html components which may be retooled for
+ altering expression of expression later on. The other option is recording reach fragment expressed as their own mp3 file.
+
 """
 
 from gtts import gTTS
