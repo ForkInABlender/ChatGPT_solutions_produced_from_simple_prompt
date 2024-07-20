@@ -4,7 +4,8 @@
 This is the basics for the auditory & speech centers before the rest is involved.
 
 This will be used later on with more layers used and audio data. But it is where I'd start for NLP training beyond basic text prompt training.
-Basic text is a visual representation. But it needs to also be able to think and reason as humans do. 
+Basic text is a visual representation. But it needs to also be able to think and reason as humans do even if it is just emulating some
+ neurochemistry and biological functions.
 
 
 """
