@@ -2,7 +2,10 @@
 
 """
 
+This is setup for basic demonstration of how to emulate the GPU. This is useful for when you don't have a GPU or need to stick to CPU
+ computations. This is also advantageous for projects not meant to rely on the GPU, or meant to be as hardware agnostic as possible.
 
+This approach makes you define the logic for opengl & GPU commands. This includes the appropriate response to each call.
 
 
 
