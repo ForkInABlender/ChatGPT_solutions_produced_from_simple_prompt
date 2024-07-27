@@ -1,7 +1,7 @@
 # Dylan Kenneth Eliot & GPT-4o ( Alpha Edition )
 
 """
-Adds to integers
+Adds 2 integers
 """
 
 from unicorn import *
