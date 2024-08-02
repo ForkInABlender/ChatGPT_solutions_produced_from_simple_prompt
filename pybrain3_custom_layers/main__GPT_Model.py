@@ -23,88 +23,6 @@ from rdkit import Chem
 from rdkit.Chem import Descriptors
 import numpy as np
 
-class Brian2SymPyRDKitLayer(NeuronLayer):
-		def __init__(self, indim, outdim):
-				super().__init__(indim, outdim)
-				# Initialize Brian2 model
-				self.start_scope()
-				tau = 10*ms
-				self.eqns = '''
-				dv/dt = (1-v)/tau : 1
-				'''
-				self.G = NeuronGroup(1, self.eqns, method='exact')
-				self.M = StateMonitor(self.G, 'v', record=True)
-				# Initialize SymPy
-				self.x, self.y = symbols('x y')
-				self.func = self.x**2 + self.y**2  # Example function
-				self.func_prime = diff(self.func, self.x)  # Derivative
-				self.lambdified_func = lambdify((self.x, self.y), self.func, 'numpy')
-				self.lambdified_func_prime = lambdify((self.x, self.y), self.func_prime, 'numpy')
-
-		def start_scope(self):
-				start_scope()
-
-		def run_brian2(self, duration):
-				run(duration)
-
-		def get_molecular_descriptor(self, smiles):
-				mol = Chem.MolFromSmiles(smiles)
-				return Descriptors.MolWt(mol)
-
-		def _forwardImplementation(self, inbuf, outbuf):
-				# Brian2 simulation
-				self.G.v = inbuf[0]  # Initialize membrane potential with input
-				self.run_brian2(100*ms)
-				brian2_output = self.M.v[0][-1]  # Take the last value
-				# RDKit calculations
-				smiles = "CCO"  # Example SMILES string
-				mol_descriptor = self.get_molecular_descriptor(smiles)
-				# SymPy calculations
-				x, y = brian2_output, mol_descriptor  # Using last value from Brian2 and molecular descriptor
-				outbuf[:] = self.lambdified_func(x, y)
-
-		def _backwardImplementation(self, outerr, inerr, outbuf, inbuf):
-				x, y = self.M.v[0][-1], self.get_molecular_descriptor("CCO")  # Using last value from Brian2 and molecular descriptor
-				inerr[:] = self.lambdified_func_prime(x, y) * outerr
-
-class Brian2SymPyLayer(NeuronLayer):
-		def __init__(self, indim, outdim):
-				super().__init__(indim, outdim)
-
-				# Initialize Brian2 model
-				self.start_scope()
-				tau = 10*ms
-				self.eqns = '''
-				dv/dt = (1-v)/tau : 1
-				'''
-				self.G = NeuronGroup(1, self.eqns, method='exact')
-				self.M = StateMonitor(self.G, 'v', record=True)
-
-				# Initialize SymPy
-				self.x, self.y = symbols('x y')
-				self.func = self.x**2 + self.y**2  # Example function
-				self.func_prime = diff(self.func, self.x)  # Derivative
-				self.lambdified_func = lambdify((self.x, self.y), self.func, 'numpy')
-				self.lambdified_func_prime = lambdify((self.x, self.y), self.func_prime, 'numpy')
-
-		def start_scope(self):
-				start_scope()
-
-		def run_brian2(self, duration):
-				run(duration)
-
-		def _forwardImplementation(self, inbuf, outbuf):
-				# Brian2 simulation
-				self.G.v = inbuf[0]  # Initialize membrane potential with input
-				self.run_brian2(100*ms)
-				brian2_output = self.M.v[0][-1]  # Take the last value
-				# SymPy calculations
-				x, y = brian2_output, inbuf[1]  # Example: using last value from Brian2 and another input value
-				outbuf[:] = self.lambdified_func(x, y)
-
-		def _backwardImplementation(self, outerr, inerr, outbuf, inbuf):
-				x, y = self.M.v[0][-1], inbuf[1]  # Example: using last value from Brian2 and another input value
-				inerr[:] = self.lambdified_func_prime(x, y) * outerr
 
 class FeedForwardLayer(NeuronLayer):
 		def __init__(self, indim, outdim):
@@ -118,40 +36,22 @@ class FeedForwardLayer(NeuronLayer):
 				self.bias -= outerr
 				inerr[:] = outerr @ self.weights.T
 
-class EmbeddingLayer(NeuronLayer):
-		def __init__(self, vocab_size, embedding_dim, name):
-				super().__init__(vocab_size, embedding_dim)
+class EmbeddingLayer(LinearLayer):
+		def __init__(self, vocab_size, embedding_dim):
+				super().__init__(embedding_dim)
 				self.embeddings = np.random.randn(vocab_size, embedding_dim)
-				self.name = name
-				self.vocab_size = vocab_size
-				self.embedding_dim = embedding_dim
 		def _forwardImplementation(self, inbuf, outbuf):
-				i = 0
-				for x in range(self.vocab_size):
-					for y in range(self.embedding_dim):
-						if i == self.vocab_size:
-							break
-						elif i < self.vocab_size:
-							self.embeddings[x, y] = inbuf[i]
-							outbuf[i] = self.embeddings[x, y]
-						else:
-							break
-						i+=1
+				self.token_idx = np.argmax(inbuf)
+				if self.token_idx <= len(self.embeddings):
+						outbuf[:] = self.embeddings[self.token_idx]
+				else:
+						self.token_idx = len(self.embeddings)-1
+						outbuf[:] = self.embeddings[self.token_idx]
 		def _backwardImplementation(self, outerr, inerr, outbuf, inbuf):
 				gradient = np.zeros_like(self.embeddings)
-				i = 0
-				for x in range(self.vocab_size):
-					for y in range(self.embedding_dim):
-						if i == self.vocab_size:
-							break
-						elif i < self.vocab_size:
-							gradient[x, y] += outerr[i]
-							self.embeddings[x, y] -= gradient[x, y]  #self.embeddings[x, y] = inbuf[i]
-							inerr[i] = np.dot(outerr[i], self.embeddings[x, y]) #outbuf[i] = self.embeddings[x, y]
-						else:
-							break
-						i += 1
-				#
+				gradient[self.token_idx] = outerr
+				self.embeddings -= gradient
+				inerr[:] = self.embeddings.T @ outerr
 
 class GeLULayer(NeuronLayer):
 		def __init__(self, dim):
@@ -253,15 +153,11 @@ class LayerNorm(NeuronLayer):
 				dinbuf = self.gamma / (N * np.std(inbuf) + self.eps) * (N * outerr - np.sum(outerr) - (inbuf - np.mean(inbuf)) / (np.std(inbuf) + self.eps) * np.sum(outerr * (inbuf - np.mean(inbuf))))
 				inerr[:] = dinbuf
 
-
-"""
-VOCAB_SIZE = 120 # GPT-3 & 4 use that value --> 50257; otherwise, use 120 to interface with this model until retooled.
+VOCAB_SIZE = 50257 # GPT-3 & 4 use that value --> 50257; otherwise, use 120 to interface with this model until retooled.
 D_MODEL = 128
 NUM_BLOCKS = 96 # 94 to 96 for GPT 3 & 4; otherwise set to 4.
 NUM_HEADS = 128
 FFN_DIM = 128
-
-
 net = FeedForwardNetwork()
 inLayer = LinearLayer(VOCAB_SIZE)
 net.addInputModule(inLayer)
@@ -293,4 +189,7 @@ outLayer = SoftmaxLayer(VOCAB_SIZE)
 net.addOutputModule(outLayer)
 net.addConnection(FullConnection(prev_layer, outLayer))
 
-"""
+#from pybrain3.tools.xml.networkwriter import NetworkWriter
+#from pybrain3.tools.xml.networkreader import NetworkReader
+#NetworkWriter.writeToFile(net, 'my_model.xml')
+#loaded_net = NetworkReader.readFrom('my_model.xml')
