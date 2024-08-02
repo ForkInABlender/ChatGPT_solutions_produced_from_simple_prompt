@@ -17,10 +17,6 @@ from pybrain3.datasets import SupervisedDataSet
 from pybrain3.structure import FeedForwardNetwork, FullConnection
 from pybrain3.supervised.trainers import BackpropTrainer
 from pybrain3.structure.modules.neuronlayer import NeuronLayer
-from brian2 import *
-from sympy import symbols, diff, lambdify
-from rdkit import Chem
-from rdkit.Chem import Descriptors
 import numpy as np
 
 
