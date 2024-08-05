@@ -1,4 +1,4 @@
-# Dylan Kenneth Eliot & GPT-4 ( Alpha Edition )
+# Dylan Kenneth Eliot & GPT-4o ( Alpha Edition )
 
 """
 This is the basics before security rules, data persistence, and OFX protocol
@@ -40,12 +40,13 @@ class Account:
     def withdraw(self, amount):
         if amount <= 0:
             print("Withdrawal amount must be greater than zero.")
-            return
+            return False
         if amount > self.balance:
-            print("Insufficient funds.")
-            return
+            print("Insufficient funds in account.")
+            return False
         self.balance -= amount
         self.transactions.append((datetime.now(), "Withdrawal", amount))
+        return True
 
     def check_balance(self):
         return self.balance
@@ -59,6 +60,7 @@ class CreditCard:
         self.cvv = cvv
         self.expiry_date = expiry_date
         self.limit = limit
+        self.available_credit = limit
 
     def validate_card_number(self):
         # Perform validation logic (e.g., Luhn algorithm)
@@ -69,8 +71,14 @@ class CreditCard:
         # Dummy verification for demonstration
         return len(self.cvv) == 3
 
-    def check_transaction_limit(self, amount):
-        return amount <= self.limit
+    def charge(self, amount):
+        if amount <= self.available_credit:
+            self.available_credit -= amount
+            print(f"Charged {amount} to credit card. Remaining credit: {self.available_credit}")
+            return True
+        else:
+            print("Credit card limit exceeded.")
+            return False
 
 class Bank:
     def __init__(self):
@@ -99,17 +107,18 @@ class Bank:
     def withdraw(self, name, amount, credit_card=None):
         account = self.authenticate(name)
         if account:
+            if account.withdraw(amount):
+                return
+            # Try to charge the credit card if insufficient funds in the account
             if credit_card:
                 if not credit_card.validate_card_number() or not credit_card.verify_cvv():
                     print("Invalid credit card details.")
                     return
-                if not credit_card.check_transaction_limit(amount):
-                    print("Transaction limit exceeded.")
+                if not credit_card.charge(amount):
+                    print("Credit card transaction failed.")
                     return
-            if amount > account.check_balance():
-                print("Insufficient funds.")
             else:
-                account.withdraw(amount)
+                print("Insufficient funds and no credit card available.")
 
     def check_balance(self, name):
         account = self.authenticate(name)
@@ -130,7 +139,7 @@ bank.create_account("John", 1000)
 # Dummy credit card details for demonstration
 credit_card = CreditCard("1234567890123456", "123", "12/25", 2000)
 
-bank.deposit("John", 500)
-bank.withdraw("John", 200, credit_card)
+#bank.deposit("John", 500)
+bank.withdraw("John", 1200, credit_card)
 bank.check_balance("John")
 bank.get_transaction_history("John")
