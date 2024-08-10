@@ -5,17 +5,11 @@ This allows for imitation of dockerd.
  As long as types are properly marshelled and unmarshelled, seemless interaction with docker as if it is dockerd itself...
 
 For more information, consult the documentation: https://docs.docker.com/engine/api/v1.45/
-
-Product class: 
-     rating: kepler/nebulus; otherwise considered safe for development
-     potential: limit unknown
-
 The purpose was to explore an option that was more conformant the the logic of docker and not so much as be stuck to architectural limitations.
  But instead have a clear path that allowed for running even on a cellphone running python inside android. With that being said, dockerd's remaining logic
   could be implemented in python with golang & ctypes interfacing now that I've figured out the hard part.
 
-The next steps is it needs unicorn-engine and kernel emulation. Plus more documentation surfing. Imagine if you will the bash operator from hell had a 
- protege. Only it wears the personality of the character "tony stark". "that guy's playing galiga" 
+The next steps is it needs unicorn-engine and kernel emulation with ctypes types. Plus more documentation surfing.
 
 """
 
