@@ -15,101 +15,112 @@ This was fixed due to an error I failed to spot. During training, this network n
 
 """
 
+
+
+
 import numpy as np
-from pybrain3.structure.modules.neuronlayer import NeuronLayer # forgot `.neuronlayer`.... oops
-from concurrent.futures import ThreadPoolExecutor
-from numba import prange
+from pybrain3.structure.modules import Module
 
-def softmax(x, axis=-1):
-    e_x = np.exp(x - np.max(x, axis=axis, keepdims=True))
-    return e_x / e_x.sum(axis=axis, keepdims=True)
-
-def compute_attention_for_head(args):
-    Q, K, V, dk = args
-    dk = max(dk, 1e-9)
-    matmul_qk = np.dot(Q, K.swapaxes(-2, -1))
-    matmul_qk = np.clip(matmul_qk, a_min=None, a_max=1e9)
-    scaled_attention_logits = matmul_qk / np.sqrt(dk)
-    logits_max = np.max(scaled_attention_logits, axis=-1, keepdims=True)
-    logits_max = np.nan_to_num(logits_max, nan=0.0, posinf=1e9, neginf=-1e9)
-    logits_diff = scaled_attention_logits - logits_max
-    exp_logits = np.exp(np.clip(logits_diff, a_min=None, a_max=700))
-    epsilon = 1e-9
-    attention_weights = exp_logits / (np.sum(exp_logits, axis=-1, keepdims=True) + epsilon)
-    output = np.dot(attention_weights, V)
-    return output, attention_weights
-
-class Dim3NeuronLayer(NeuronLayer):
-    def __init__(self, indim, outdim, num_heads, name):
-        assert indim % num_heads == 0, "indim must be divisible by num_heads"
-        super(Dim3NeuronLayer, self).__init__(indim, outdim)
+class Dim3NeuronLayer(Module):
+    def __init__(self, indim, outdim, num_heads, name=None):
+        super(Dim3NeuronLayer, self).__init__(indim, outdim, name=name)
         self.indim = indim
         self.outdim = outdim
         self.num_heads = num_heads
+        assert indim % num_heads == 0, "Input dimension must be divisible by the number of heads"
         self.depth = indim // num_heads
-        self.name=name
-        self.W_q = np.random.randn(indim, indim)
-        self.W_k = np.random.randn(indim, indim)
-        self.W_v = np.random.randn(indim, indim)
-        # Adjust the output dimension for concatenated heads
-        self.W_o = np.random.randn(self.depth * num_heads, outdim)
-    def scaled_dot_product_attention(self, Q, K, V):
-        dk = Q.shape[-1]
-        args_list = [(Q[:, i, :, :], K[:, i, :, :], V[:, i, :, :], dk) for i in range(Q.shape[1])] # Prepare arguments for parallel processing
-        with ThreadPoolExecutor(max_workers=self.num_heads) as executor:  # Use multiprocessing pool to compute attention in parallel across heads # Adjust number of processes based on your environment
-            results = list(executor.map(compute_attention_for_head, args_list))
-        outputs, attention_weights = zip(*results)  # Separate outputs and attention weights from the results
-        output = np.stack(outputs, axis=1) # Combine outputs from all heads
-        return output, attention_weights  # Return both combined output and attention weights
+        self.seq_length = 1
+
+        # Initialize weights for query, key, and value transformations
+        self.W_q = np.random.randn(self.indim, self.indim)
+        self.W_k = np.random.randn(self.indim, self.indim)
+        self.W_v = np.random.randn(self.indim, self.indim)
+        self.W_o = np.random.randn(self.depth * self.num_heads * self.seq_length, self.outdim)
+
+        # Set input and output sizes
+        self.inputbuffer = np.zeros((1, indim * self.seq_length))
+        self.outputbuffer = np.zeros((1, outdim))
 
     def _forwardImplementation(self, inbuf, outbuf):
         if inbuf.ndim == 1:
             inbuf = inbuf.reshape(1, 1, -1)
         elif inbuf.ndim == 2:
             inbuf = inbuf.reshape(inbuf.shape[0], 1, -1)
-        batch_size, seq_length, _ = inbuf.shape
-        Q = np.dot(inbuf.reshape(-1, self.indim), self.W_q).reshape(batch_size, seq_length, self.num_heads, self.depth)
-        K = np.dot(inbuf.reshape(-1, self.indim), self.W_k).reshape(batch_size, seq_length, self.num_heads, self.depth)
-        V = np.dot(inbuf.reshape(-1, self.indim), self.W_v).reshape(batch_size, seq_length, self.num_heads, self.depth)
+        batch_size = inbuf.shape[0]
+
+        # Reshape input to [batch_size, seq_length, indim]
+        if inbuf.size != batch_size * self.seq_length * self.indim:
+            raise ValueError(f"Input size mismatch: expected {batch_size * self.seq_length * self.indim}, got {inbuf.size}")
+
+        inbuf_reshaped = inbuf.reshape(batch_size, self.seq_length, self.indim)
+
+        # Compute Q, K, V matrices
+        Q = np.dot(inbuf_reshaped, self.W_q).reshape(batch_size, self.seq_length, self.num_heads, self.depth)
+        K = np.dot(inbuf_reshaped, self.W_k).reshape(batch_size, self.seq_length, self.num_heads, self.depth)
+        V = np.dot(inbuf_reshaped, self.W_v).reshape(batch_size, self.seq_length, self.num_heads, self.depth)
+
+        # Transpose to [batch_size, num_heads, seq_length, depth]
         self.Q = Q.transpose(0, 2, 1, 3)
         self.K = K.transpose(0, 2, 1, 3)
         self.V = V.transpose(0, 2, 1, 3)
-        attention_outputs, self.attention_weights = self.scaled_dot_product_attention(self.Q, self.K, self.V)
+
+        # Scaled dot-product attention for each head
+        attention_outputs = []
+        for i in range(self.num_heads):
+            dk = self.depth
+            matmul_qk = np.dot(self.Q[:, i, :, :], self.K[:, i, :, :].transpose(0, 2, 1))
+            scaled_attention_logits = matmul_qk / np.sqrt(dk)
+            attention_weights = np.exp(scaled_attention_logits - np.max(scaled_attention_logits, axis=-1, keepdims=True))
+            attention_weights /= np.sum(attention_weights, axis=-1, keepdims=True)
+            output = np.dot(attention_weights, self.V[:, i, :, :])
+            attention_outputs.append(output)
+
+        # Concatenate attention outputs from all heads
         self.attention_output = np.concatenate(attention_outputs, axis=-1)
-        outbuf[:] = np.dot(self.attention_output.reshape(batch_size, -1), self.W_o)
+        self.attention_output = self.attention_output.reshape(batch_size, -1)
+
+        # Output projection
+        outbuf[:] = np.dot(self.attention_output, self.W_o)
+
 
     def _backwardImplementation(self, outerr, inerr, outbuf, inbuf):
-        if inbuf.ndim == 1:
-            inbuf = inbuf.reshape(1, 1, -1)
-        elif inbuf.ndim == 2:
-            inbuf = inbuf.reshape(inbuf.shape[0], 1, -1)
-        batch_size, seq_length, _ = inbuf.shape
-        if outerr.ndim == 1:
-            outerr = outerr.reshape(1, 1, -1)
-        elif outerr.ndim == 2:
-            outerr = outerr.reshape(outerr.shape[0], 1, -1)
-        dW_o = np.dot(outbuf.reshape(-1, self.outdim).T, outerr.reshape(-1, self.outdim))
-        dout_attention = np.dot(outerr, self.W_o.T).reshape(batch_size, self.num_heads, seq_length, self.depth)
-        dout_attention = dout_attention.transpose(0, 2, 1, 3)
+        batch_size = inbuf.shape[0] // self.seq_length
+
+        # Reshape outerr to match the shape of attention_output
+        outerr_reshaped = outerr.reshape(batch_size, self.depth * self.num_heads, self.seq_length)
+
+        # Initialize gradients for weights
+        dW_o = np.zeros_like(self.W_o)
         dW_q = np.zeros_like(self.W_q)
         dW_k = np.zeros_like(self.W_k)
         dW_v = np.zeros_like(self.W_v)
-        d_concat_heads = np.dot(outerr, self.W_o.T)
-        d_attention_heads = np.split(d_concat_heads, self.num_heads, axis=2)
-        for i in prange(self.num_heads):
-            d_out = d_attention_heads[i]
-            dV_o = np.dot(self.attention_weights[i].T, d_out)
-            d_attention_weights = np.dot(d_out+self.V[:, i, :, :], i)
-            dQK = np.dot(self.attention_weights, i) * (1 - self.attention_weights[i]) * self.attention_weights[i]
-            dQ = np.dot(dQK, self.K[:, i, :, :])
-            dK = np.dot(dQK, self.Q[:, i, :, :])
-            dV = (dQK/dV_o).reshape(1, -2)
-            dW_q += dQ.reshape(dW_q.shape[0])+d_attention_weights.reshape(-1)[i%4]
-            dW_k += dK.reshape(dW_k.shape[0])+d_attention_weights.reshape(-1)[i%4]
-            dW_v += dV.reshape(dW_v.shape[0])+d_attention_weights.reshape(-1)[i%4]
-        self.W_q += dW_q
-        self.W_k += dW_k
-        self.W_v += dW_v
-        self.W_o += dW_o
-        inerr[:] = (dout_attention.reshape(batch_size, -1) ** 3) // 100 
-        outbuf[:] = np.dot(self.attention_output.reshape(batch_size, -1), self.W_o)
+
+        # Gradient for output weights
+        dW_o[:] = np.dot(self.attention_output.T, outerr)
+
+        # Calculate gradients for the attention mechanism
+        d_attention_output = np.dot(outerr, self.W_o.T).reshape(batch_size, self.num_heads, self.seq_length, self.depth)
+
+        for i in range(self.num_heads):
+            # Calculate gradients w.r.t. V
+            d_attention_weights = np.dot(d_attention_output[:, i, :, :], self.V[:, i, :, :].transpose(0, 2, 1))
+            dV = np.dot(self.Q[:, i, :, :].transpose(0, 2, 1), d_attention_weights)
+
+            # Calculate gradients w.r.t. Q and K
+            dQ = np.dot(d_attention_weights, self.K[:, i, :, :])
+            dK = np.dot(d_attention_weights.transpose(0, 2, 1), self.Q[:, i, :, :])
+
+            # Sum the gradients across batches
+            dW_q += np.dot(inbuf.transpose(1, 0), dQ.reshape(batch_size * self.seq_length, self.depth))
+            dW_k += np.dot(inbuf.transpose(1, 0), dK.reshape(batch_size * self.seq_length, self.depth))
+            dW_v += np.dot(inbuf.transpose(1, 0), dV.reshape(batch_size * self.seq_length, self.depth))
+
+        # Assign calculated gradients to inerr
+        inerr[:] = np.dot(outerr, self.W_o.T)
+
+        # Update weights with gradients (simple gradient descent)
+        learning_rate = 0.001  # Example learning rate
+        self.W_o -= learning_rate * dW_o
+        self.W_q -= learning_rate * dW_q
+        self.W_k -= learning_rate * dW_k
+        self.W_v -= learning_rate * dW_v
