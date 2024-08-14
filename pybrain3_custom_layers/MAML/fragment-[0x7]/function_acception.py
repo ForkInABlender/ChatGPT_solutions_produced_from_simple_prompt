@@ -1,6 +1,14 @@
 # Dylan Kenneth Eliot & GPT-4o ( Alpha Edition )
 
 
+"""
+
+Accepts functions to be used within a list for each forward and backward pass. 
+
+"""
+
+
+
 from pybrain3.structure.modules.neuronlayer import NeuronLayer
 import numpy as np
 
