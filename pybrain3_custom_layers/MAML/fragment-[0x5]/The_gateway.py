@@ -13,17 +13,36 @@ from flask import Flask, request, redirect, url_for, session, jsonify
 from flask_oauthlib.provider import OAuth2Provider
 import os
 import hashlib
+from functools import wraps
+
 
 app = Flask(__name__)
 app.secret_key = os.urandom(24)
 oauth = OAuth2Provider(app)
+
+def login_required(f):
+		@wraps(f)
+		def decorated_function(*args, **kwargs):
+				if 'username' not in session:
+						return redirect(url_for('login'))
+				return f(*args, **kwargs)
+		return decorated_function
 
 # Unified data store handling users only
 data_store = {
 		'user@example.com': {
 				'password': 'password',
 				'type': 'user',
-				'token':'666'
+				'token':'666',
+				'name':'john doe',
+				'account': {
+							'created on': {
+									'2021-01-01':{
+											'at': '00:00:00',
+									}
+							},
+							'plan':'free',
+				}
 		}
 }
 
@@ -35,9 +54,6 @@ def generate_client_credentials(client_name):
 		client_secret = hashlib.sha256(os.urandom(24)).hexdigest()
 		return client_id, client_secret
 
-# Example client credentials generation
-client_id, client_secret = generate_client_credentials("example_client")
-
 class User:
 	def __init__(self, username):
 			self.username = username
@@ -46,12 +62,12 @@ class User:
 			return self.username
 
 class Client:
-	def __init__(self, client_id, client_secret, redirect_uris):
+	def __init__(self, client_id, client_secret):
 			self.client_id = client_id
 			self.client_secret = client_secret
-			self.redirect_uris = redirect_uris
-			self.default_redirect_uri = redirect_uris[0]
-			self.default_scopes = ['email']
+			self.redirect_uris = 'http://'
+			self.default_redirect_uri = self.redirect_uris
+			self.default_scopes = ['']
 			self.is_confidential = True
 
 	def get_default_redirect_uri(self):
@@ -73,13 +89,11 @@ def current_user():
 	if 'username' in session:
 			return User(session['username'])
 	return None
-	
+
 @oauth.clientgetter
 def load_client(client_id_to_check):
-		# Dynamically check client_id and client_secret
-		if client_id_to_check == client_id:
-				return Client(client_id, client_secret, ['http://localhost:8080/callback'])
-		return None
+		client_id, client_secret = generate_client_credentials(client_id_to_check)
+		return Client(client_id, client_secret)
 
 @oauth.grantgetter
 def load_grant(client_id, code):
@@ -96,20 +110,11 @@ def save_grant(client_id, code, request, *args, **kwargs):
 
 @oauth.tokengetter
 def load_token(access_token=None, refresh_token=None):
-		if access_token:
-				return tokens.get(access_token)
-		return None
+		return []
 
 @oauth.tokensetter
 def save_token(token, request, *args, **kwargs):
-		tokens[token['access_token']] = {
-				'token_type': token['token_type'],
-				'access_token': token['access_token'],
-				'refresh_token': token.get('refresh_token'),
-				'expires_in': token['expires_in'],
-				'scopes': token['scope'],
-				'user': request.user
-		}
+		pass
 
 @app.route('/')
 def index():
@@ -121,13 +126,14 @@ def index():
 
 @app.route('/login', methods=['GET', 'POST'])
 def login():
+		global generate_client_credentials
 		if request.method == 'POST':
 				username = request.form['username']
 				password = request.form['password']
 				user_data = data_store.get(username)
-				if user_data and user_data['type'] == 'user' and user_data['password'] == password:
+				if (username in data_store.keys()) and data_store[username]['password'] == password:
 						session['username'] = username
-						return redirect(url_for('authorize', client_id=client_id, response_type='code'))
+						return redirect(url_for('authorize', client_id=session['username'], response_type='code'))
 				return 'Invalid credentials', 401
 		return '''
 				<form method="post">
@@ -147,18 +153,11 @@ def authorize(*args, **kwargs):
 				confirm = request.form.get('confirm', 'no')
 				user_code = request.form.get('user_code', '')
 				if confirm == 'yes':
-						print(session['username'] == list(data_store.keys())[0], data_store[session['username']]['token'] == user_code)
 						if not user_code:
 								return 'Authorization code is required', 400
-						if user_code == '666':
+						if data_store[session['username']]['token'] == user_code:
 								return 'lammas are on the moon', 200
-						scopes = request.form.get('scopes')
-						if not scopes:
-								# If scopes are not provided, set a default scope
-								scopes = 'email'
-						# Here, you would normally verify the code or take action based on it
-						# For simplicity, we're assuming the code is valid if entered
-						return {'scopes': scopes.split(','), 'code': user_code}
+						return "Invalid Authorization code.<br><br>LOCKOUT!!!", 200
 				return False
 
 		client_id_to_check = kwargs.get('client_id')
@@ -169,18 +168,21 @@ def authorize(*args, **kwargs):
 		return '''
 				<form method="post">
 						<p>Client: {}</p>
-						<p>Do you authorize this application to access your {} data?</p>
+						<p>Do you authorize this application to access your data?</p>
 						<p>Enter Code: <input type="text" name="user_code"></p>
-						<p><input type="hidden" name="scopes" value="{}">
 						<p><input type="submit" name="confirm" value="yes">
 						<p><input type="submit" name="confirm" value="no">
 				</form>
-		'''.format(client_id_to_check, ', '.join(client.get_default_scopes()), ','.join(client.get_default_scopes()))
+		'''.format(client_id_to_check)
 
-@app.route('/protected')
-@oauth.require_oauth('email')
-def protected():
-		return jsonify({'data': 'This is protected data.'})
+@app.route('/oauth/errors')
+def f():
+		return redirect(url_for("login"))
+
+@app.route('/dashboard')
+@login_required
+def dashboard():
+		return 'Welcome to your dashboard'
 
 if __name__ == '__main__':
 		app.run(debug=True, host="0.0.0.0", port=8080)
