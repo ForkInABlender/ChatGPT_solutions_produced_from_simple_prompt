@@ -11,20 +11,24 @@ This will be useful for access control later down the road.
 
 from flask import Flask, request, redirect, url_for, session, jsonify
 from flask_oauthlib.provider import OAuth2Provider
+from flask_jsonrpc import JSONRPC
 import os
 import hashlib
 from functools import wraps
 
 
 app = Flask(__name__)
-app.secret_key = os.urandom(24)
+app.secret_key = [b'']
 oauth = OAuth2Provider(app)
+jsonrpc = JSONRPC(app, '/api', enable_web_browsable_api=True)
 
 def login_required(f):
 		@wraps(f)
 		def decorated_function(*args, **kwargs):
 				if 'username' not in session:
 						return redirect(url_for('login'))
+				elif 'token' not in session:
+						return redirect(url_for('authorize'))
 				return f(*args, **kwargs)
 		return decorated_function
 
@@ -36,12 +40,9 @@ data_store = {
 				'token':'666',
 				'name':'john doe',
 				'account': {
-							'created on': {
-									'2021-01-01':{
-											'at': '00:00:00',
-									}
-							},
 							'plan':'free',
+							'plan initial subscription timestamp cst': '2021-01-01 @ 00:00:00',
+							'plan renewal timestamp': '2021-30-01 @ 00:00:00'
 				}
 		}
 }
@@ -156,6 +157,7 @@ def authorize(*args, **kwargs):
 						if not user_code:
 								return 'Authorization code is required', 400
 						if data_store[session['username']]['token'] == user_code:
+								session['token'] = user_code
 								return 'lammas are on the moon', 200
 						return "Invalid Authorization code.<br><br>LOCKOUT!!!", 200
 				return False
@@ -176,13 +178,23 @@ def authorize(*args, **kwargs):
 		'''.format(client_id_to_check)
 
 @app.route('/oauth/errors')
-def f():
+def f2():
 		return redirect(url_for("login"))
 
 @app.route('/dashboard')
 @login_required
 def dashboard():
+		print(session['username'])
 		return 'Welcome to your dashboard'
+
+
+@app.route('/logout')
+def logout():
+		session.clear()  # Optionally clear all session data
+
+		# Redirect to the login page or home page after logout
+		return redirect(url_for('login')) 
+
 
 if __name__ == '__main__':
 		app.run(debug=True, host="0.0.0.0", port=8080)
