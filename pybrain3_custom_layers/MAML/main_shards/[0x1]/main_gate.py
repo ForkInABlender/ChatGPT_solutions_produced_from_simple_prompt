@@ -1,3 +1,14 @@
+# Dylan Kenneth Eliot
+
+"""
+This is parts 1 of 2 for how it will work.
+
+Part 2 of 2 individual subscriptions for each part of the AI model.
+
+
+
+"""
+
 from flask import Flask, request, redirect, url_for, session, jsonify
 from flask_oauthlib.provider import OAuth2Provider
 from flask_jsonrpc import JSONRPC
@@ -24,8 +35,7 @@ def login_required(f):
 		return decorated_function
 
 # SAMPLE DATA STORE
-data_store = {
-		'user@example.com': { 'password': 'password', 'type': 'user', 'token':'666T212', 'name':'john doe', 'account': { 'plan':'free', 'plan initial subscription timestamp cst': '2021-01-01 @ 00:00:00', 'plan renewal timestamp': '2021-30-01 @ 00:00:00' } } }
+data_store = {'user@example.com':{ 'password':'password', 'type': 'user', 'token':'666T212', 'name':'john doe', 'account': { 'plan':'free', 'plan initial subscription timestamp cst': '2021-01-01 @ 00:00:00', 'plan renewal timestamp': '2021-30-01 @ 00:00:00' } } }
 
 # fake secret/id generation; needed for security rules/roles definition
 
