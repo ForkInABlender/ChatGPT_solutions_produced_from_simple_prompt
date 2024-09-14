@@ -1,7 +1,9 @@
 # Dylan Kenneth Eliot
 
 """
+This will later be used with unicorn engine to run windows applications on linux without the need for wine.
 
+later on, similar will be done for linux binaries so they work with windows without WSL, hypervisor, or other virtualization "technology". 
 
 """
 
