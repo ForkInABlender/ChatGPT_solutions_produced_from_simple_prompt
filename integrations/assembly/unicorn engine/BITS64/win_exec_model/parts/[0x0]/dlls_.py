@@ -6,6 +6,7 @@
 """
 
 import ctypes
+from enum import IntEnum
 
 class COFFHeader(ctypes.Structure):
 		_fields_ = [
@@ -18,3 +19,20 @@ class COFFHeader(ctypes.Structure):
 				("sizeOfOptionalHeader", ctypes.c_uint16),
 				("characteristics", ctypes.c_uint16)
 		]
+
+# Define the pe_subsystem enumeration
+class PeSubsystem(IntEnum):
+    IMAGE_SUBSYSTEM_UNKNOWN = 0x0
+    IMAGE_SUBSYSTEM_NATIVE = 0x1
+    IMAGE_SUBSYSTEM_WINDOWS_GUI = 0x2
+    IMAGE_SUBSYSTEM_WINDOWS_CUI = 0x3
+    IMAGE_SUBSYSTEM_OS2_CUI = 0x5
+    IMAGE_SUBSYSTEM_POSIX_CUI = 0x7
+    IMAGE_SUBSYSTEM_NATIVE_WINDOWS = 0x8
+    IMAGE_SUBSYSTEM_WINDOWS_CE_GUI = 0x9
+    IMAGE_SUBSYSTEM_EFI_APPLICATION = 0xa
+    IMAGE_SUBSYSTEM_EFI_BOOT_SERVICE_DRIVER = 0xb
+    IMAGE_SUBSYSTEM_EFI_RUNTIME_DRIVER = 0xc
+    IMAGE_SUBSYSTEM_EFI_ROM = 0xd
+    IMAGE_SUBSYSTEM_XBOX = 0xe
+    IMAGE_SUBSYSTEM_WINDOWS_BOOT_APPLICATION = 0x10
