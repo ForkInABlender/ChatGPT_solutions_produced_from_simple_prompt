@@ -3,6 +3,8 @@
 """
 This allows for "compiling down" each function into basic assembly, plus some llvm+numba+gnu-gcc boilerplate glue-code.
 
+This is useful for if you need to use the resulting assembly code ( or chunks of it ) regardless of platform with a module like unicorn-engine.
+
 """
 
 import numba
