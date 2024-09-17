@@ -5,6 +5,10 @@ This is how to come close to putting a linux binary inside unicorn engine I got.
 
 With some polish and elbow grease, it will run perfectly fine, as long as all the "right pieces" are linked to the right place.
 
+Underneath it all, it tells me that with the layers fully pulled back, any linux binary can be run inside of unicorn engine like this.
+
+
+
 """
 
 
