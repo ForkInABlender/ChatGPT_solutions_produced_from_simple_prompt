@@ -5,6 +5,8 @@
 In this version of goto.py, it uses exceptions and labels have no arguments. 
 
 
+This version is python2.7 to current compatible, with current stable version of python being [python3.10].
+
 """
 class Goto(Exception):
     pass
