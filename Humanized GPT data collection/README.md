@@ -13,3 +13,5 @@ This is good for when you want your version separate from openai's model. The mo
 <br>[contentatscale.ai](https://contentatscale.ai/ai-content-detector/)
 <br>[writer.com](https://writer.com/ai-content-detector/)
 <br>[zerogpt.cc](https://zerogpt.cc/)
+
+There will also be a file containing the links to currently trusted GPT checkers to aide in humanizing of your datasets without fuzzing or data masking. Making training a breeze.
