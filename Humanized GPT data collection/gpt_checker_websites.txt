@@ -1,0 +1,23 @@
+Below are the links for use with GPT to get it to revise itself with statistics from these sites and by quoting the text that sounds AI generated via these sites.
+
+Your goal is to get GPT to generate content like a human then tell GPT and the like ( such as google-gemini ) to "LOCK!" into that series of data FFT patterning .
+
+https://app.lunchbreak.ai/humanize
+https://bypassai.ai/
+https://serpstat.com/page/ai-content-detection/
+https://quillbot.com/ai-content-detector
+https://detecting-ai.com/
+https://gptradar.com/
+https://unipapers.org/ai-essay-detection-tool
+https://phrasly.ai/ai-detector
+https://www.cramly.ai/ai-detector
+https://www.getmerlin.in/ai-detection
+https://bypass.hix.ai/ai-detector
+https://www.zerogpt.plus/
+https://zerogpt.net/ai-content-detector
+https://www.zerogpt.com/
+https://writer.com/ai-content-detector/
+
+Data to begin such from can include things like the strings below:
+
+"the nature of 'great expectations' of tube shipnose'ting" "such trichinosis, why is it all boogery" "the eye candy tastes like eyeballs?!?! :D " "a lofty fork international, we'd like 5 bags of paruvion 'hogg N DOzz on draft below the radioactive space canoe on pliers marketed to intelligent squirrels with full blown mania" "nothing gets ya outta traffick cysts" "they are making trollish jokes about bipolar disorder, ve don't know what to con, dude; with a jar of flubber on a crane" "and as you can see on the left, a karen having a meltdown of their ego while being mentally decanted 4 times a day"  "Ode to the spirited 'low expectations' of balloon frogwhistling." "Surprise! Laryngitis? More like laughingitis, it's all giggles here." "The gumdrop hails like toenails?!?!" "Envision a lofty rake multinational, craving seven parcels of xyluvion-elk served under the neon asteroid canoe by wrenches vended to savvy raccoons with outright elation." "Nothing sweeps ya out of shadow dimples." "They spin wild yarns about split-personality bees, we don't know which scam to pull, pal; with a can of blubber on a dirigible." "Peek over here, a gerald unraveling a shrinkage of their self-importance while psychically sifted twice by noon."
