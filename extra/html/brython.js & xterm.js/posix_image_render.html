@@ -6,7 +6,7 @@ This trick works for rendering pixel specific to the terminal. If you know how t
 In this case, it is used to render an image based on posix & ansi character escape sequences for placement and color associated with each character. 
 This is ideal if one is working with a custom application that uses something like python's PyQT5 application components where you need a custom graphics renderer that is mostly hardware agnostic.
 
-What it allows for is using a .txt containing posix/ansi escapes to render the image on a pseudo-x11-posix compliant 'terminal'.
+
 """
 
 -->
@@ -27,7 +27,7 @@ What it allows for is using a .txt containing posix/ansi escapes to render the i
         #terminal-container {
             width: 0px;
             height: 0px; /* 70% of the viewport height */
-            border: none;
+            border: 10px;
             resize: none;
             overflow: none; /* Hide the scrollbar */
         }
@@ -47,7 +47,7 @@ What it allows for is using a .txt containing posix/ansi escapes to render the i
         # Initialize xterm.js terminal instance
         Terminal = window.Terminal
         term = Terminal.new({"fontSize": 1})
-        term.resize(1000, 160)
+        term.resize(800, 300)
         
         # Target the div with id terminal-container to attach the terminal
         term.open(document["terminal-container"])
@@ -61,7 +61,7 @@ What it allows for is using a .txt containing posix/ansi escapes to render the i
             # Define what to do when the file is fully read
             def onload(event):
                 content = event.target.result  # Read file content
-                term.write(content.replace('\n', '\r\n'))  # Write to the terminal
+                term.write(content)  # Write to the terminal
 
             # Set the onload handler and read the file as text
             reader.bind("load", onload)
