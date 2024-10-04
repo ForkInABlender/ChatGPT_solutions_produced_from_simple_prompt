@@ -1,0 +1,75 @@
+<!-- # Dylan Kenneth Eliot & GPT-4o ( Alpha Edition )
+
+"""
+This trick works for rendering pixel specific to the terminal. If you know how to customize a terminal.
+
+In this case, it is used to render an image based on posix & ansi character escape sequences for placement and color associated with each character. 
+This is ideal if one is working with a custom application that uses something like python's PyQT5 application components where you need a custom graphics renderer that is mostly hardware agnostic.
+
+
+"""
+
+-->
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Xterm.js with Brython and File Input</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/xterm/css/xterm.css">
+    <!-- Brython -->
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/brython@3.10.4/brython.min.js"></script>
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/brython@3.10.4/brython_stdlib.js"></script>
+    <!-- Xterm.js JS -->
+    <script src="https://cdn.jsdelivr.net/npm/xterm/lib/xterm.js"></script>
+    <style>
+        /* Allow the terminal to scale dynamically */
+        #terminal-container {
+            width: 0px;
+            height: 0px; /* 70% of the viewport height */
+            border: none;
+            resize: none;
+            overflow: none; /* Hide the scrollbar */
+        }
+    </style>
+</head>
+<body onload="brython()">
+
+    <!-- File Input -->
+    <input type="file" id="file-input">
+
+    <!-- Terminal Container -->
+    <div id="terminal-container"></div>
+
+    <script type="text/python">
+        from browser import window, document, ajax
+
+        # Initialize xterm.js terminal instance
+        Terminal = window.Terminal
+        term = Terminal.new({"fontSize": 1})
+        term.resize(1000, 160)
+        
+        # Target the div with id terminal-container to attach the terminal
+        term.open(document["terminal-container"])
+
+        # Function to read the file and write its contents to the terminal
+        def read_file(event):
+            file_input = document["file-input"]
+            file = file_input.files[0]  # Get the first file
+            reader = window.FileReader.new()  # Create a FileReader instance
+
+            # Define what to do when the file is fully read
+            def onload(event):
+                content = event.target.result  # Read file content
+                term.write(content.replace('\n', '\r\n'))  # Write to the terminal
+
+            # Set the onload handler and read the file as text
+            reader.bind("load", onload)
+            reader.readAsText(file)
+
+        # Bind the file input change event to the read_file function
+        document["file-input"].bind("change", read_file)
+
+    </script>
+</body>
+</html>
