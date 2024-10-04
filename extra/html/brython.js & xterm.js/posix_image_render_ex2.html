@@ -1,0 +1,68 @@
+"""
+This trick works for rendering pixel specific to the terminal. If you know how to customize a terminal.
+
+In this case, it is used to render an image based on posix & ansi character escape sequences for placement and color associated with each character. 
+This is ideal for blog customization or customized rendering on ones website.
+
+"""
+
+-->
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Xterm.js with Brython, GitHub File Reader</title>
+    <!-- Xterm.js CSS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/xterm/css/xterm.css">
+    <!-- Brython -->
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/brython@3.10.4/brython.min.js"></script>
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/brython@3.10.4/brython_stdlib.js"></script>
+    <!-- Xterm.js JS -->
+    <script src="https://cdn.jsdelivr.net/npm/xterm/lib/xterm.js"></script>
+    <style>
+        /* Set the terminal container's style */
+        #terminal-container {
+            width: 0px;
+            height: 50vh;
+            margin-top: 20px;
+            border: none;
+            overflow: none; /* Hide scrollbar */
+            resize: none;
+        }
+    </style>
+</head>
+<body onload="brython()">
+
+
+    <!-- Terminal Container -->
+    <div id="terminal-container"></div>
+
+  <script type="text/python">
+    from browser import window, document, ajax
+
+    # Initialize xterm.js terminal instance
+    Terminal = window.Terminal
+    term = Terminal.new({"fontSize": 1})
+    term.resize(800, 300)
+    
+    # Target the div with id terminal-container to attach the terminal
+    term.open(document["terminal-container"])
+
+    # Function to fetch and write contents from the URL to the terminal
+    def fetch_content(url):
+        def on_complete(req):
+            if req.status == 200 or req.status == 0:  # Check if the request was successful
+                term.write(req.text)  # Write the response text to the terminal
+            else:
+                term.write("Failed to fetch data.")
+
+        # Make an AJAX request to the specified URL
+        ajax.get(url, oncomplete=on_complete)
+
+    # URL from which to fetch the data
+    url = "https://raw.githubusercontent.com/ForkInABlender/ChatGPT_solutions_produced_from_simple_prompt/refs/heads/2024_10/extra/html/brython.js%20%26%20xterm.js/output.txt"
+    fetch_content(url)
+</script>
+</body>
+</html>
