@@ -13,9 +13,7 @@ class Goto(Exception):
 
 def goto(label, globals_=None):
     if globals_ is None:
-        import inspect
-        frame = inspect.currentframe().f_back
-        globals_ = frame.f_globals
+        globals_ = __import__("inspect").currentframe().f_back.f_globals
     if label in globals_:
         func = globals_[label]
         if hasattr(func, 'is_label') and func.is_label:
