@@ -17,4 +17,5 @@ The end result should look like c++ code embedded in raw cpython code. This embe
  have an implementation.
 
 In additionally would allow for on-the-fly testing of code, leaving errors during compiling behind. As instead you'd pre-execution-wise check everything as it ran in over of each operation, and caring about errors when it
- occurs. And with a set of config-flags, including other needed directories, macros, etc, it is entirely possible to incorporate files used during normal compiling.  
+ occurs. And with a set of config-flags, including other needed directories, macros, etc, it is entirely possible to incorporate files used during normal compiling.
+This may also mean the results perform 1:1 in terms of execution, utility, and functionality.
