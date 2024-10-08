@@ -92,3 +92,5 @@ int main() {
     return 0;
 }
 ```
+
+This works even for python-{2.7, 3.6, 3.8, 3.9, 3.10} thus far. Meaning it will remain to be forward-compatible, and also capable of supporting backwards compatibility with prior versions of python, etc.
