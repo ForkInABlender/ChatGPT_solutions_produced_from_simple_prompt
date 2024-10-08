@@ -13,4 +13,5 @@ Yes. Unicorn-engine plus the following modules will be used for imitation-crabbi
 
 The purpose is to allow for software that would normally be compiled to have a compatibility & translated layer that executes. The idea is that one templates by keyword usage, then refine from their.
 
-The end result should look like c++ code embedded in raw cpython code.
+The end result should look like c++ code embedded in raw cpython code. This embedded code layer would act as a CPythonC++ version of c++ code to run entirely in cpython or other python like shells. As long as ctypes & _ctypes
+ have an implementation.
