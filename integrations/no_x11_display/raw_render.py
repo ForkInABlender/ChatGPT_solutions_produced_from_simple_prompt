@@ -47,7 +47,7 @@ def set_pixel(fb, x, y, width, color):
     fb.seek(offset)
 
     # Pack the color in RGBA format
-    pixel_data = struct.pack('BBBB', color[0], color[1], color[2], color[3])
+    pixel_data = struct.pack('BBBB', color[2], color[1], color[0], color[3])
 
     # Write the pixel data
     fb.write(pixel_data)
