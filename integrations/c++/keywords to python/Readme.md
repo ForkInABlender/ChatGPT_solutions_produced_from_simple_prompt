@@ -55,7 +55,7 @@ def end_section(): # returning a NoneType; which is the equivalent of using `pas
 #  a function and a 'label' that can be skipped to upon request.
 
 
-with x_namespace: # use namespace x_namespace
+with x_namespace: # using namespace x_namespace
    performAction(int(input("Enter 1 or 2: ")))
 
 ```
