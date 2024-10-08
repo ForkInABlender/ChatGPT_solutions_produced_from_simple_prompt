@@ -51,7 +51,8 @@ def performAction(choice):
 def end_section(): # which is the equivalent of using `pass` or `nop`.
     print("End of section reached.")
 
-# the above function is now a label that can only be used by namespace 'x_namespace' unless commented out. then it is a function and a 'label' that can be skipped to upon request.
+# the above function is now a label that can only be used by namespace 'x_namespace' unless commented out. then it is a function
+#  and a 'label' that can be skipped to upon request.
 
 
 with x_namespace: # use namespace x_namespace
