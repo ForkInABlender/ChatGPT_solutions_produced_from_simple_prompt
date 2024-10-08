@@ -19,3 +19,40 @@ The end result should look like c++ code embedded in raw cpython code. This embe
 In additionally would allow for on-the-fly testing of code, leaving errors during compiling behind. As instead you'd pre-execution-wise check everything as it ran in over of each operation, and caring about errors when it
  occurs. And with a set of config-flags, including other needed directories, macros, etc, it is entirely possible to incorporate files used during normal compiling.
 This may also mean the results perform 1:1 in terms of execution, utility, and functionality.
+
+# How would we use `goto`, `label`, `switch`, `case`, `use`, `namespace` in python?
+
+```
+
+from switch import Switch
+from goto import label, goto
+from namespace import Namespace
+
+x_namespace = Namespace()
+
+@x_namespace
+def performAction(choice):
+    with Switch(choice) as case:
+        while case(1):
+            print("Option 1 selected: Hello")
+            goto("end_section")
+            break
+        while case(2):
+            print("Option 2 selected: World")
+            break
+        while case.default:
+            print("Invalid choice")
+            return
+    goto("end_section")
+
+
+@label
+@x_namespace
+def end_section():
+    print("End of section reached.")
+
+
+with x_namespace: # use namespace x_namespace
+   performAction(int(input("Enter 1 or 2: ")))
+
+```
