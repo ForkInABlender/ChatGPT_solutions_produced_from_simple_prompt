@@ -8,3 +8,9 @@ My reverse ask is "Why compile what will run with a few interchanges to parts la
 
 Yes. Unicorn-engine plus the following modules will be used for imitation-crabbin' c++ via abstraction, and by implementation. Templating will take place so as to make it possible to fully translatate and move
  c/c++ projects from c/c++ native code to python code with syntactic glue/sugar.
+
+## Why use `unicorn-engine`, `namespaces.py`, `goto.py`, `cpypp` and `ctypes` to imitate c++ in an uncompiled state of execution?
+
+The purpose is to allow for software that would normally be compiled to have a compatibility & translated layer that executes. The idea is that one templates by keyword usage, then refine from their.
+
+The end result should look like c++ code embedded in raw cpython code.
