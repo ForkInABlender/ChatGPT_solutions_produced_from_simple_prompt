@@ -4,6 +4,23 @@
 
 This file is not my own works, but a replica of Solomon Ucko's answer that works.
 
+Example usage as noted by the stack-overflow user:
+'''
+with Switch(2) as case:
+    while case(0):
+        print('foo')
+        break
+    while case(1, 2, 3):
+        print('bar')
+        break
+    while case(4, 5):
+        print('baz')
+        break
+    while case.default:
+        print('default')
+        break
+'''
+
 """
 
 class Switch:
