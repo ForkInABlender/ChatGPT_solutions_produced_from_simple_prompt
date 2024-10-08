@@ -11,12 +11,16 @@ This version is python2.7 to current compatible, with current stable version of 
 class Goto(Exception):
     pass
 
-def goto(label, globals_=globals()):
-    if label in globals_:
-        func = globals_[label]
+
+def goto(label, globals_=None):
+    if globals_ is None:
+        # Automatically grab the global scope of the calling module if not provided
+        f_globs = __import__("inspect").currentframe().f_back.f_globals
+    if label in f_globs:
+        func = f_globs[label]
         func()
     else:
-        raise ValueError("Label %s not defined" % label)
+        raise ValueError(f"Label {label} not defined")
 
 def label(func):
     def wrapper(*args, **kwargs):
@@ -29,6 +33,8 @@ def label(func):
                 raise
     return wrapper
 
+
+"""
 # Usage example
 @label
 def start():
@@ -45,3 +51,4 @@ def end():
     print("This is the end.")
 
 start()
+#"""
