@@ -47,8 +47,8 @@ def performAction(choice):
 
 
 @label
-@x_namespace # comment out that namespace annotation, and the function runs as per normal, otherwise it defaults to returning a NoneType; which is the equivalent of using `pass` or `nop`.
-def end_section():
+@x_namespace # comment out that namespace annotation, and the function runs as per normal, otherwise it defaults to returning a NoneType;
+def end_section(): # which is the equivalent of using `pass` or `nop`.
     print("End of section reached.")
 
 
