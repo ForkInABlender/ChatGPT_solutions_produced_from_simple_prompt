@@ -47,12 +47,12 @@ def performAction(choice):
 
 
 @label
-@x_namespace # comment out that namespace annotation, and the function runs as per normal, otherwise it defaults to returning a NoneType;
-def end_section(): # which is the equivalent of using `pass` or `nop`.
+@x_namespace # comment out that namespace annotation, and the function runs as per normal, otherwise it defaults to
+def end_section(): # returning a NoneType; which is the equivalent of using `pass` or `nop`.
     print("End of section reached.")
 
-# the above function is now a label that can only be used by namespace 'x_namespace' unless commented out. then it is a function
-#  and a 'label' that can be skipped to upon request.
+# the above function is now a label that can only be used by namespace 'x_namespace' unless commented out. then it is
+#  a function and a 'label' that can be skipped to upon request.
 
 
 with x_namespace: # use namespace x_namespace
@@ -60,4 +60,35 @@ with x_namespace: # use namespace x_namespace
 
 ```
 
-This works 
+This works similar to the c++ code normally compiled and then used:
+
+```
+#include <iostream>
+
+namespace exampleNamespace {
+    void performAction(int choice) {
+        switch (choice) {
+        case 1:
+            std::cout << "Option 1 selected: Hello" << std::endl;
+            goto end_section;
+        case 2:
+            std::cout << "Option 2 selected: World" << std::endl;
+            break;
+        default:
+            std::cout << "Invalid choice" << std::endl;
+            return; // Return to avoid hitting the goto label
+        }
+
+    end_section:
+        std::cout << "End of section reached." << std::endl;
+    }
+}
+
+int main() {
+    int userChoice;
+    std::cout << "Enter 1 or 2: ";
+    std::cin >> userChoice;
+    exampleNamespace::performAction(userChoice);
+    return 0;
+}
+```
