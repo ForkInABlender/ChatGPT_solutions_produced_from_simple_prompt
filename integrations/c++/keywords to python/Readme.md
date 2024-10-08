@@ -15,3 +15,5 @@ The purpose is to allow for software that would normally be compiled to have a c
 
 The end result should look like c++ code embedded in raw cpython code. This embedded code layer would act as a CPythonC++ version of c++ code to run entirely in cpython or other python like shells. As long as ctypes & _ctypes
  have an implementation.
+
+In additionally would allow for on-the-fly testing of code, leaving errors during compiling behind. As instead you'd pre-execution-wise check everything as it ran in over of each operation.
