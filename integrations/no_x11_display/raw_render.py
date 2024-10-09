@@ -3,6 +3,9 @@
 """
 Render an image without x11 server running or present
 
+This version renders only to tty7 with a commitment to writing only when tty7 is switched to.
+There is a mild glitch that allows for some bleed over into other tty terminals but switching twice fixes that. 
+
 
 
 """
@@ -60,8 +63,8 @@ def render_image_on_framebuffer(image_path):
 
         # Center the image on the screen
         image_width, image_height = image.size
-        x_offset = (width - image_width) // 2
-        y_offset = (height - image_height) // 2
+        x_offset = 0 #(width - image_width) // 2
+        y_offset = 0 #(height - image_height) // 2
 
         # Iterate over every pixel in the image
         for y in range(image_height):
