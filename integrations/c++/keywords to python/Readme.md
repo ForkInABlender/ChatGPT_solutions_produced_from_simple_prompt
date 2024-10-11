@@ -20,6 +20,8 @@ In additionally would allow for on-the-fly testing of code, leaving errors durin
  occurs. And with a set of config-flags, including other needed directories, macros, etc, it is entirely possible to incorporate files used during normal compiling.
 This may also mean the results perform 1:1 in terms of execution, utility, and functionality.
 
+Because `namespaces.py`, `switch_case.py`, `goto.py`, & `pymacros_exec.py` enable me to have _ctypes & unicorn-engine operate in an uncompiled state, this allows for even brython.js to use these libraries.
+
 # How would we use `goto`, `label`, `switch`, `case`, `use`, `namespace` in python?
 
 ```
