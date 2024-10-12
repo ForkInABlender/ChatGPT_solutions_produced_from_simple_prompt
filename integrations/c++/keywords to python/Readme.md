@@ -98,3 +98,8 @@ int main() {
 This works even for python-{2.7, 3.6, 3.8, 3.9, 3.10} thus far. Meaning it will remain to be forward-compatible, and also capable of supporting backwards compatibility with prior versions of python, etc.
 
 More information on types, go to [my blog](https://brython-fly.blogspot.com/2024/10/when-translating-from-c-to-python-make.html).
+
+
+# How do c++ comments work in python?
+
+The same way they do in c++, except c++ does not have a `help` function to see the compiled out comments; there are some comments that get filtered out, like the ones around returns, item assignments of value, etcetera. While not perfect, it gets 99% and the remaining .9% to 1% of the work is miniscule or redundant.
