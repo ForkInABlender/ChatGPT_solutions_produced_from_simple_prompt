@@ -102,4 +102,4 @@ More information on types, go to [my blog](https://brython-fly.blogspot.com/2024
 
 # How do c++ comments work in python?
 
-The same way they do in c++, except c++ does not have a `help` function to see the compiled out comments; there are some comments that get filtered out, like the ones around returns, item assignments of value, etcetera. While not perfect, it gets 99% and the remaining .9% to 1% of the work is miniscule or redundant.
+The same way they do in c++, except c++ does not have a `help` function to see the compiled out comments; there are some comments that get filtered out, like the ones around returns, item assignments of value, etcetera. While not perfect, it gets 99% and the remaining .9% to 1% of the work is miniscule or redundant. Do note, though, that all defined comments above, inside, around a function, parameters included, are of that function's `help` comment-tree. 
