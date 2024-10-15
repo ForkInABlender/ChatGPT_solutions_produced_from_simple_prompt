@@ -51,7 +51,7 @@ class AttentionHead_Layer(NeuronLayer):
             attn_mask = np.random.rand(*activated_output.shape) > self.attn_dropout
             activated_output *= attn_mask / (1 - self.attn_dropout)
         
-        return activated_output
+        outbuf[:] = activated_output # Oops. Was returned instead of proper assignment.
 
     def _backwardImplementation(self, inbuf, outbuf, deltas):
         # Backward pass implementation
