@@ -8,6 +8,8 @@ ChatGPT by openai botched on this one. Do not implement or use until product rel
 
 ERROR ||: -- code will run before training. Attempt to train with this class breaks runtime of model. 
    STAMPED -:||: 2024/15/10 @ 2:28:15 pm 
+
+All other scripts outside of this one for AI development are safe for public use as all code is tested by hand and then retested. All tests done by hand are for quality assurance. 
 """"
 
 
