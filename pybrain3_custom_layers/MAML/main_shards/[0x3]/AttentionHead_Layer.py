@@ -1,5 +1,13 @@
 # Dylan Kenneth Eliot
 
+""""
+PRODUCT VOID: LINE ITEM RECALL ON CONTEXT -- DO NOT EMBED INTO YOUR MODEL AS THIS IS DOES NOT CURRENTLY WORK WITH DIM3LAYER DUE TO SHAPES OF OBJECTIONAL SPACE
+
+ChatGPT by openai botched on this one. Do not implement or use until product release of this file is labelled safe for adaptation. 
+
+""""
+
+
 
 """
 This defines more granular control for network definition at the layer level. This gives a more granular set of controls for when one has to tune a custom FFT block.
