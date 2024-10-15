@@ -17,7 +17,7 @@ If you're looking to make use of classes like this one based on pybrain3, use `d
 from pybrain3.structure.modules.neuronlayer import NeuronLayer
 
 class AttentionHead_Layer(NeuronLayer):
-    def __init__(self, inputdim, outputdim  embed_dropout=0, attn_dropout=0, activation_function='gelu', lr=0.0002, weight_decay=0.1, gradient_clipping=1.0, **kwargs):
+    def __init__(self, inputdim, outputdim  embed_dropout, attn_dropout, activation_function, lr, weight_decay, gradient_clipping, **kwargs):
 
         super(CustomNeuronLayer, self).__init__(outputdim, **kwargs)
 
