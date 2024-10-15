@@ -5,6 +5,8 @@ PRODUCT VOID: LINE ITEM RECALL ON CONTEXT -- DO NOT EMBED INTO YOUR MODEL AS THI
 
 ChatGPT by openai botched on this one. Do not implement or use until product release of this file is labelled safe for adaptation. 
 
+
+ERROR ||: -- code will run before training. Attempt to train with this class breaks runtime of model. 
 """"
 
 
