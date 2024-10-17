@@ -20,7 +20,7 @@ net = FeedForwardNetwork()
 
 input_size = 50257
 output_size = 50257
-num_hidden_layers = 30
+num_hidden_layers = 30 # Max number on (768, 768, 768) spatial layout per 3d hidden layer
 
 indim, outdim, num_heads = 768, 768, 256
 
@@ -47,9 +47,3 @@ net.addConnection(FullConnection(previous_layer, out_layer))
 net.addConnection(FullConnection(bias, out_layer))
 
 net.sortModules()
-
-input_data = [0.0] * input_size
-
-output = net.activate(input_data)
-
-print("Network Output:", output)
