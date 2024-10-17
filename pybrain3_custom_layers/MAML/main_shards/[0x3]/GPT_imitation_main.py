@@ -22,7 +22,7 @@ input_size = 50257
 output_size = 50257
 num_hidden_layers = 30 # Max number on (768, 768, 768) spatial layout per 3d hidden layer
 
-indim, outdim, num_heads = 768, 768, 256
+indim, outdim, num_heads = 768, 768, 256 # Follow normal squares for powers of 2, etcetera. 
 
 in_layer = LinearLayer(input_size)
 out_layer = LinearLayer(output_size)
