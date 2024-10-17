@@ -16,34 +16,42 @@ from dim3_neuronlayer import Dim3NeuronLayer #
 ##############################################
 #from pybrain3.datasets import SupervisedDataSet
 
-net = FeedForwardNetwork()
 
-input_size = 50257
-output_size = 50257
-num_hidden_layers = 30 # Max number on (768, 768, 768) spatial layout per 3d hidden layer
+if __name__ == "__main__":
+    # Create a feed-forward network
+    net = FeedForwardNetwork()
+    dim_s=768
+    layers=96
 
-indim, outdim, num_heads = 768, 768, 256 # Follow normal squares for powers of 2, etcetera. 
+    # Input layer
+    in_layer = LinearLayer(50257)
+    net.addInputModule(in_layer)
 
-in_layer = LinearLayer(input_size)
-out_layer = LinearLayer(output_size)
-bias = BiasUnit()
+    hidden_layers = []
+    for i in range(layers):
+        hidden_layer = Dim3NeuronLayer(dim_s, dim_s, embed_dropout=0, attn_dropout=0, activation_function='gelu', lr=0.0002, weight_decay=0.1, gradient_clipping=1)
+        net.addModule(hidden_layer)
+        hidden_layers.append(hidden_layer)
 
-net.addInputModule(in_layer)
-net.addOutputModule(out_layer)
-net.addModule(bias)
+    # Output layer
+    out_layer = LinearLayer(50257)
+    net.addOutputModule(out_layer)
 
-previous_layer = in_layer
+    # Full connections
+    in_to_hidden = FullConnection(in_layer, hidden_layers[0])
+    net.addConnection(in_to_hidden)
 
-for i in range(num_hidden_layers):
-    hidden_layer = Dim3NeuronLayer(indim=indim, outdim=outdim, num_heads=num_heads, name=f"HiddenLayer_{i+1}")
-    net.addModule(hidden_layer)
+    for i in range(layers-1):
+        net.addConnection(FullConnection(hidden_layers[i], hidden_layers[i + 1]))
 
-    net.addConnection(FullConnection(previous_layer, hidden_layer))
-    net.addConnection(FullConnection(bias, hidden_layer))
+    hidden_to_out = FullConnection(hidden_layers[-1], out_layer)
+    net.addConnection(hidden_to_out)
 
-    previous_layer = hidden_layer
+    # Finalize the network
+    net.sortModules()
+    ############
 
-net.addConnection(FullConnection(previous_layer, out_layer))
-net.addConnection(FullConnection(bias, out_layer))
-
-net.sortModules()
+    # Example input
+    input_data = [0.001] * 50257
+    output_data = net.activate(input_data)
+    print("Output:", output_data)
