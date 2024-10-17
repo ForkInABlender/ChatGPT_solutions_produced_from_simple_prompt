@@ -5,6 +5,8 @@ This creates with the Dim3NeuronLayer as the hidden layers. This should form the
 The Dim3NeuronLayer itself acts as a layer for allowing a 3 dimensional neuron comprised of its 2 dimensional counter parts, using them as anchor corner points.
  This gives the FFT the ability to update the connections and individual data points, allowing for 3d processing, spatial awareness, image processing, and language processing.
 
+language datasets soon to follow as well as brain-emulator code revision.
+
 """
 
 from pybrain3.structure import FeedForwardNetwork, LinearLayer, BiasUnit
@@ -12,7 +14,7 @@ from pybrain3.structure.connections import FullConnection
 ##############################################
 from dim3_neuronlayer import Dim3NeuronLayer #
 ##############################################
-from pybrain3.datasets import SupervisedDataSet
+#from pybrain3.datasets import SupervisedDataSet
 
 net = FeedForwardNetwork()
 
