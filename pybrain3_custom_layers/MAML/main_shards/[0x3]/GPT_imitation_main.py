@@ -21,7 +21,7 @@ if __name__ == "__main__":
     # Create a feed-forward network
     net = FeedForwardNetwork()
     dim_s=768
-    layers=96
+    layers=140
 
     # Input layer
     in_layer = LinearLayer(50257)
