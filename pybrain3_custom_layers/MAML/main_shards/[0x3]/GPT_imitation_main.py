@@ -9,7 +9,7 @@ The Dim3NeuronLayer itself acts as a layer for allowing a 3 dimensional neuron c
 language datasets soon to follow as well as brain-emulator code revision.
 
 
-update 10/19/2024 -- @ 3:01:03 pm -- This file is now for use in AI modeling purposes. For now, this is for imitating GPT-3.5, 4, 4o, & 4+. Or at the very least, the parts that are core to main brain function. 
+update 10/19/2024 -- @ 3:01:03 pm -- This file is now for use in AI modeling purposes. For now, this is for imitating GPT-3.5, 4, 4o, & 4+. Or at the very least, the parts that are core to main brain function of the stoma.
 """
 
 from pybrain3.structure import FeedForwardNetwork, LinearLayer, FullConnection
