@@ -5,6 +5,10 @@ This parses reinterpret_cast<type>(expr) as seen in c++ code.
 
 Yes, this uses regular expression to enforce proper ctypes utilization.
 
+From here, it is a matter of mapping keyword usage over syntax layout and templating so it makes use of each keyword correctly.
+
+Because this is part of the project to remove the need for a compiler, this may also be useful for moving c++ projects from c++ to pure python code instead.
+
 
 """
 
