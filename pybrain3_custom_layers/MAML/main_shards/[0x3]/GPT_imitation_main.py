@@ -1,4 +1,5 @@
 # Dylan Kenneth Eliot
+
 """
 This creates with the Dim3NeuronLayer as the hidden layers. This should form the basic template for GPT knowing that the Dim3NeuronLayer does the QKV as well as 3d, 2d, & 1d processing of data.
 
@@ -12,25 +13,8 @@ language datasets soon to follow as well as brain-emulator code revision.
 from pybrain3.structure import FeedForwardNetwork, LinearLayer, FullConnection
 from pybrain3.structure import SoftmaxLayer
 from pybrain3.structure.modules.neuronlayer import NeuronLayer
-import numpy as np
-
-
 from dim3_neuronlayer import Dim3NeuronLayer
-
-# Custom Layer Implementations
-class FeedForwardLayer(NeuronLayer):
-    def __init__(self, indim, outdim):
-        super().__init__(indim, outdim)
-        self.weights = np.random.randn(indim, outdim)
-        self.bias = np.random.randn(outdim)
-
-    def _forwardImplementation(self, inbuf, outbuf):
-        outbuf[:] = inbuf @ self.weights + self.bias
-
-    def _backwardImplementation(self, outerr, inerr, outbuf, inbuf):
-        self.weights -= inbuf[:, np.newaxis] @ outerr[np.newaxis, :]
-        self.bias -= outerr
-        inerr[:] = outerr @ self.weights.T
+import numpy as np
 
 class EmbeddingLayer(LinearLayer):
     def __init__(self, vocab_size, embedding_dim):
@@ -201,7 +185,3 @@ final_connection = FullConnection(prev_layer, out_layer)
 net.addConnection(final_connection)
 
 net.sortModules()
-
-# Summary
-print("GPT-like Network structure:")
-print(net)
