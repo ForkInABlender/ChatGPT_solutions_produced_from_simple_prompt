@@ -124,7 +124,7 @@ class LayerNorm(NeuronLayer):
 
 # Create the GPT-like network with updated architecture
 VOCAB_SIZE = 50257  # Typical GPT vocabulary size
-D_MODEL = 768  # Embedding size for GPT-like model
+D_MODEL = 128  # Embedding size for GPT-like model; median for x86_64 is 768
 FFN_DIM = 128  # Feed-forward network dimension in GPT blocks
 NUM_HEADS = 12
 NUM_BLOCKS = 96
