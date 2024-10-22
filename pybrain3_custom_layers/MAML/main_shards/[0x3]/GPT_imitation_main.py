@@ -10,13 +10,38 @@ language datasets soon to follow as well as brain-emulator code revision.
 
 
 update 10/19/2024 -- @ 3:01:03 pm -- This file is now for use in AI modeling purposes. For now, this is for imitating GPT-3.5, 4, 4o, & 4+. Or at the very least, the parts that are core to main brain function of the stoma.
+
+update 10/22/2024 -- 2:51:21 pm -- All parts now function as expected.
+
 """
 
-from pybrain3.structure import FeedForwardNetwork, LinearLayer, FullConnection
-from pybrain3.structure import SoftmaxLayer
+
+import numpy as np
+from pybrain3.structure import FeedForwardNetwork, LinearLayer, FullConnection, Module
 from pybrain3.structure.modules.neuronlayer import NeuronLayer
 from dim3_neuronlayer import Dim3NeuronLayer
-import numpy as np
+
+def softmax(x, axis=-1):
+    e_x = np.exp(x - np.max(x, axis=axis, keepdims=True))
+    return e_x / e_x.sum(axis=axis, keepdims=True)
+
+class CustomBatchLayer(Module):
+    """Custom layer to handle batch input with _forwardImplementation and _backwardImplementation."""
+
+    def __init__(self, dim_in, dim_out):
+        super(CustomBatchLayer, self).__init__(dim_in, dim_out)
+
+    def _forwardImplementation(self, inbuf, outbuf):
+        batch_size = inbuf.size // self.indim
+        input_matrix = np.reshape(inbuf, (batch_size, self.indim))
+        activated_matrix = 1 / (1 + np.exp(-np.clip(input_matrix, -700, 700)))  # Sigmoid with clipping
+        np.copyto(outbuf, activated_matrix.flatten())
+
+    def _backwardImplementation(self, outerr, inerr, outbuf, inbuf):
+        batch_size = inbuf.size // self.indim
+        outbuf_matrix = np.reshape(outbuf, (batch_size, self.indim))
+        sigmoid_grad = outbuf_matrix * (1 - outbuf_matrix)
+        np.copyto(inerr, outerr * sigmoid_grad.flatten())
 
 class EmbeddingLayer(LinearLayer):
     def __init__(self, vocab_size, embedding_dim):
@@ -25,11 +50,7 @@ class EmbeddingLayer(LinearLayer):
 
     def _forwardImplementation(self, inbuf, outbuf):
         self.token_idx = np.argmax(inbuf)
-        if self.token_idx <= len(self.embeddings):
-            outbuf[:] = self.embeddings[self.token_idx]
-        else:
-            self.token_idx = len(self.embeddings) - 1
-            outbuf[:] = self.embeddings[self.token_idx]
+        outbuf[:] = self.embeddings[min(self.token_idx, len(self.embeddings) - 1)]
 
     def _backwardImplementation(self, outerr, inerr, outbuf, inbuf):
         gradient = np.zeros_like(self.embeddings)
@@ -37,18 +58,6 @@ class EmbeddingLayer(LinearLayer):
         self.embeddings -= gradient
         inerr[:] = self.embeddings.T @ outerr
 
-class GeLULayer(NeuronLayer):
-    def __init__(self, dim):
-        super().__init__(dim, dim)
-
-    def _forwardImplementation(self, inbuf, outbuf):
-        outbuf[:] = 0.5 * inbuf * (
-            1 + np.tanh(np.sqrt(2 / np.pi) * (inbuf + 0.044715 * inbuf ** 3)))
-
-    def _backwardImplementation(self, outerr, inerr, outbuf, inbuf):
-        cdf = 0.5 * (1 + np.tanh(np.sqrt(2 / np.pi) * (inbuf + 0.044715 * inbuf ** 3)))
-        pd = np.sqrt(2 / np.pi) * (1 + 0.134145 * inbuf ** 2) * (1 / np.cosh(np.sqrt(2 / np.pi) * (inbuf + 0.044715 * inbuf ** 3))) ** 2
-        inerr[:] = outerr * (cdf + inbuf * pd)
 
 class MultiHeadSelfAttention(NeuronLayer):
     def __init__(self, indim, outdim, num_heads):
@@ -122,68 +131,78 @@ class LayerNorm(NeuronLayer):
         # Placeholder backward implementation
         inerr[:] = outerr  # In real cases, more sophisticated differentiation is needed.
 
-# Create the GPT-like network with updated architecture
-VOCAB_SIZE = 50257  # Typical GPT vocabulary size
-D_MODEL = 128  # Embedding size for GPT-like model; median for x86_64 is 768
-FFN_DIM = 128  # Feed-forward network dimension in GPT blocks
-NUM_HEADS = 12
-NUM_BLOCKS = 96
 
+# Constants
+VOCAB_SIZE = 50256
+D_MODEL = 128
+FFN_DIM = 128
+NUM_HEADS = 128
+NUM_BLOCKS = 2100
+
+# Create the GPT-like network
 net = FeedForwardNetwork()
 inLayer = LinearLayer(VOCAB_SIZE)
 net.addInputModule(inLayer)
 
-# Embedding layer to convert input tokens to vector representations
+# Add embedding layer and custom batch layer
 embedding = EmbeddingLayer(VOCAB_SIZE, D_MODEL)
+batch_layer = CustomBatchLayer(D_MODEL, D_MODEL)
 net.addModule(embedding)
+net.addModule(batch_layer)
 net.addConnection(FullConnection(inLayer, embedding))
+net.addConnection(FullConnection(embedding, batch_layer))
 
-# Multi-head attention layer
-attention = MultiHeadSelfAttention(D_MODEL, D_MODEL, NUM_HEADS)
-net.addModule(attention)
-net.addConnection(FullConnection(embedding, attention))
-
-prev_layer = attention
-
-# Add transformer blocks with Dim3NeuronLayer
+# Add multi-head attention and transformer blocks
+prev_layer = batch_layer
 for _ in range(NUM_BLOCKS):
-    # Layer Normalization before Attention
     norm1 = LayerNorm(D_MODEL)
-    net.addModule(norm1)
-    net.addConnection(FullConnection(prev_layer, norm1))
-
-    # Dim3NeuronLayer for multi-dimensional input
-    dim3_layer = Dim3NeuronLayer(in_dim=D_MODEL, out_dim=D_MODEL, embed_dropout=0.1, attn_dropout=0.1, activation_function='gelu', lr=0.0001, weight_decay=0.01, gradient_clipping=1.0)
-    net.addModule(dim3_layer)
-    net.addConnection(FullConnection(norm1, dim3_layer))
-
-    # Feed-Forward Layer 1
-    ffn1 = LinearLayer(FFN_DIM, FFN_DIM)
-    net.addModule(ffn1)
-    net.addConnection(FullConnection(dim3_layer, ffn1))
-
-    # GeLU Activation
-    gelu = GeLULayer(FFN_DIM)
-    net.addModule(gelu)
-    net.addConnection(FullConnection(ffn1, gelu))
-
-    # Feed-Forward Layer 2
-    ffn2 = LinearLayer(FFN_DIM, FFN_DIM)
-    net.addModule(ffn2)
-    net.addConnection(FullConnection(gelu, ffn2))
-
-    # Layer Normalization after Feed-Forward Network
-    norm2 = LayerNorm(FFN_DIM)
-    net.addModule(norm2)
-    net.addConnection(FullConnection(ffn2, norm2))
+    attention = MultiHeadSelfAttention(D_MODEL, D_MODEL, NUM_HEADS)
+    dim3_layer = Dim3NeuronLayer(
+        in_dim=D_MODEL, out_dim=D_MODEL, embed_dropout=0.1, attn_dropout=0.1,
+        activation_function='gelu', lr=0.0001, weight_decay=0.01, gradient_clipping=1.0
+    )
+    norm2 = LayerNorm(D_MODEL)
     
-    # Update previous layer to point to the latest norm layer
+    net.addModule(norm1)
+    net.addModule(attention)
+    net.addModule(dim3_layer)
+    net.addModule(norm2)
+
+    net.addConnection(FullConnection(prev_layer, norm1))
+    net.addConnection(FullConnection(norm1, attention))
+    net.addConnection(FullConnection(attention, dim3_layer))
+    net.addConnection(FullConnection(dim3_layer, norm2))
+    
     prev_layer = norm2
 
 # Add final output layer
-out_layer = LinearLayer(D_MODEL)
+out_layer = LinearLayer(VOCAB_SIZE)
 net.addOutputModule(out_layer)
-final_connection = FullConnection(prev_layer, out_layer)
-net.addConnection(final_connection)
+net.addConnection(FullConnection(prev_layer, out_layer))
 
+# Finalize the network
 net.sortModules()
+
+
+
+
+
+# Pad to cap-length (VOCAB_Size); treat `-1` as filler for word delimination on 'encoding' from ordinal sets of each word, splitting on space only.
+def pad_to_length(array, target_length=VOCAB_SIZE, pad_value=-1):
+    """Pad each word's ordinal array to the target length."""
+    return array + [pad_value] * (target_length - len(array))
+
+
+# Example padded ordinal array
+padded_ordinals = [] # put up to the vocab limit, split by space character, for proper padding before use.
+# Flatten the batch input (required for network activation)
+flat_input = np.array(pad_to_length(padded_ordinals))
+
+# Activate the network with the flattened input
+output = net.activate(flat_input)
+
+# Print the network's output
+print("Network output for the input batch:")
+print(output)
+
+#print(reshaped_output)
