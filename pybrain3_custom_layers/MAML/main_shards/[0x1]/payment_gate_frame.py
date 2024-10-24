@@ -1,16 +1,19 @@
 # Dylan Kenneth Eliot
 
 """
-Basic gateway configuration example for templating.
+Basic payment gateway via flask & stripe
 
 
-Later on, this will be used with stripe to accept and bill, and then allow or deny upon billing failure a feature to be used, or not upon bill pay failure.
 """
 
 
-from flask import Flask, request, render_template_string
+from flask import Flask, request, render_template_string, redirect, url_for
+import stripe
 
 app = Flask(__name__)
+
+# Stripe API configuration
+stripe.api_key = ''
 
 html_form = '''
 <!DOCTYPE html>
@@ -22,7 +25,7 @@ html_form = '''
 		<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/brython@3.9.5/brython.min.js"></script>
 </head>
 <body onload="brython()">
-		<form action="/submit" method="post" onsubmit="return validate_selection()">
+		<form action="/create-checkout-session" method="post" onsubmit="return validate_selection()">
 				<label for="subscription_pack">Choose Subscription Pack (1-6):</label><br>
 				<select id="subscription_pack" name="subscription_pack">
 						<option value="1">Subscription Pack 1</option>
@@ -126,7 +129,17 @@ html_form = '''
 				# Alert if total exceeds $20
 				if total_cost > 20:
 						alert(f"Warning: Selection exceeds $20. Total cost: ${total_cost:.2f}.")
-		document.calculate_total=calculate_total
+
+		def validate_selection():
+				total_cost = 0
+				for option in document.select("input[type=checkbox]"):
+						if option.checked:
+								total_cost += option_costs[option.value]
+
+				if total_cost > 20:
+						alert(f"Selection exceeds $20. Total cost: ${total_cost:.2f}. Please choose fewer options.")
+						return False
+				return True
 		</script>
 </body>
 </html>
@@ -163,8 +176,8 @@ option_costs = {
 def index():
 		return render_template_string(html_form)
 
-@app.route('/submit', methods=['POST'])
-def submit():
+@app.route('/create-checkout-session', methods=['POST'])
+def create_checkout_session():
 		selected_options = request.form.getlist('option')
 		subscription_pack = request.form.get('subscription_pack')
 		total_cost = sum(option_costs[option] for option in selected_options)
@@ -172,7 +185,34 @@ def submit():
 		if total_cost > 20:
 				return f'Selection exceeds $20. Total cost: ${total_cost:.2f}. Please choose fewer options.'
 
-		return f'You selected: {", ".join(selected_options)} under Subscription Pack {subscription_pack}. Total cost: ${total_cost:.2f}'
+		try:
+				# Create Stripe Checkout session
+				session = stripe.checkout.Session.create(
+						payment_method_types=['card'],
+						line_items=[
+								{
+										'price_data': {
+												'currency': 'usd',
+												'product_data': {
+														'name': f'Subscription Pack {subscription_pack} with selected options',
+												},
+												'unit_amount': int(total_cost * 100),  # Convert dollars to cents
+										},
+										'quantity': 1,
+								},
+						],
+						mode='payment',
+						success_url=url_for('success', _external=True) + '?session_id={CHECKOUT_SESSION_ID}',
+						cancel_url=url_for('index', _external=True),
+				)
+				return redirect(session.url, code=303)
+
+		except Exception as e:
+				return str(e)
+
+@app.route('/success')
+def success():
+		return "Payment successful! Thank you for your purchase."
 
 if __name__ == '__main__':
 		app.run(debug=True, host='0.0.0.0', port=5000)
