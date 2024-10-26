@@ -5,6 +5,9 @@ This may mean this can be adapted to operate on the current process itself by pr
 
 This affects the entire actual file-system if you're not careful, so please, use wisely.
 
+
+
+10/26/2024 -- correcting due to OpenAI failing to meet compliance. Failure to comply will not be rewarded.
 """
 
 
