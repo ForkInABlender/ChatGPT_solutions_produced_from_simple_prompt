@@ -24,14 +24,16 @@ class VirtualUSB(Operations):
             'st_ctime': time.time(),
             'st_mtime': time.time(),
             'st_atime': time.time(),
-            'data': b''
+            'data': b'',
+            'xattrs': {}  # Store extended attributes
         })
         self.files['/'] = {
             'st_mode': (stat.S_IFDIR | 0o755),
             'st_nlink': 2,
             'st_ctime': time.time(),
             'st_mtime': time.time(),
-            'st_atime': time.time()
+            'st_atime': time.time(),
+            'xattrs': {}
         }
 
     def getattr(self, path, fh=None):
@@ -44,7 +46,17 @@ class VirtualUSB(Operations):
         """Read directory contents."""
         if path not in self.files or not stat.S_ISDIR(self.files[path]['st_mode']):
             raise OSError(errno.ENOENT, f"{path} not found or not a directory")
-        return ['.', '..'] + [name[1:] for name in self.files if name != '/' and name.startswith(path)]
+        
+        # Ensure to filter entries that are in the current directory
+        directory_content = ['.', '..']
+        for name in self.files:
+            if name != '/' and name.startswith(path.rstrip('/') + '/'):
+                # Extract just the immediate subdirectories/files
+                relative_path = name[len(path.rstrip('/')) + 1:]
+                if '/' not in relative_path:
+                    directory_content.append(relative_path)
+
+        return directory_content
 
     def create(self, path, mode):
         """Create a new file."""
@@ -55,7 +67,8 @@ class VirtualUSB(Operations):
             'st_ctime': time.time(),
             'st_mtime': time.time(),
             'st_atime': time.time(),
-            'data': b''
+            'data': b'',
+            'xattrs': {}
         }
         return 0
 
@@ -66,7 +79,8 @@ class VirtualUSB(Operations):
             'st_nlink': 2,
             'st_ctime': time.time(),
             'st_mtime': time.time(),
-            'st_atime': time.time()
+            'st_atime': time.time(),
+            'xattrs': {}
         }
         parent = '/' if path.count('/') == 1 else path[:path.rfind('/')]
         if parent in self.files:
@@ -136,8 +150,22 @@ class VirtualUSB(Operations):
 
     def flush(self, path, fh):
         """Flush any cached information to storage."""
-        # No actual storage backend, so just a noop.
         return 0
+
+    def getxattr(self, path, name, position=0):
+        """Get an extended attribute."""
+        if path not in self.files:
+            raise OSError(errno.ENOENT, f"{path} not found")
+        xattrs = self.files[path].get('xattrs', {})
+        if name not in xattrs:
+            raise OSError(errno.ENODATA, f"xattr {name} not found")
+        return xattrs[name]
+
+    def listxattr(self, path):
+        """List all extended attributes."""
+        if path not in self.files:
+            raise OSError(errno.ENOENT, f"{path} not found")
+        return list(self.files[path].get('xattrs', {}).keys())
 
 def main(mountpoint):
     """Mount the virtual USB filesystem."""
