@@ -7,7 +7,7 @@ This affects the entire actual file-system if you're not careful, so please, use
 
 
 
-10/26/2024 -- correcting due to OpenAI failing to meet compliance. Failure to comply will not be rewarded.
+10/26/2024 -- correcting due to OpenAI failing to meet compliance. Failure to comply will not be rewarded. Will be fixed once OpenAI meets compliance even for software hacking.
 """
 
 
