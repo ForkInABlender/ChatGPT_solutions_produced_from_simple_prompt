@@ -8,126 +8,173 @@ This affects the entire actual file-system if you're not careful, so please, use
 
 
 10/26/2024 -- correcting due to OpenAI failing to meet compliance. Failure to comply will not be rewarded. Will be fixed once OpenAI meets compliance even for software hacking.
+
+10/27/2024 -- compliance might have been met and openai has violated their own DRM.
 """
 
 
 
+import ctypes
 import os
 import sys
 import signal
-import time
-import errno
-import traceback
-import subprocess
-from pathlib import Path
-from collections import defaultdict
 
-# Global PID tracker and memory management
-pid_counter = 1
+# Constants for ptrace requests
+PTRACE_ATTACH = 16
+PTRACE_CONT = 7
+PTRACE_SYSCALL = 24
+PTRACE_GETEVENTMSG = 0x4201
+PTRACE_SETOPTIONS = 0x4200
+PTRACE_O_TRACEFORK = 0x00000002
+PTRACE_O_TRACECLONE = 0x00000008
 
-class VirtualKernel:
-    def __init__(self):
-        self.process_table = {}
-        self.filesystem = defaultdict(dict)  # Store metadata (permissions, owner)
-        self.virtual_filesystem = {}  # Virtual filesystem for file contents
+# System call numbers for x86_64 (Linux)
+SYS_open = 2       # System call number for 'open'
+SYS_openat = 257   # System call number for 'openat'
 
-    def set_virtual_file(self, path, permissions=0o755, content=None):
-        """Store metadata about the file, such as permissions, ownership, and optionally its content."""
-        virtual_path = Path(path)
-        self.filesystem[virtual_path] = {
-            "permissions": permissions,
-            "owner": 0  # Simulate root ownership (UID 0)
-        }
-        if content is not None:
-            self.virtual_filesystem[virtual_path] = content
-        print(f"Registered virtual metadata for {virtual_path} with permissions {oct(permissions)}")
+# Load libc
+libc = ctypes.CDLL("libc.so.6")
 
-    def get_virtual_file(self, path):
-        """Retrieve metadata for a virtual file."""
-        virtual_path = Path(path)
-        if virtual_path in self.filesystem:
-            return self.filesystem[virtual_path]
-        raise FileNotFoundError(f"File not found: {virtual_path}")
+class user_regs_struct(ctypes.Structure):
+    _fields_ = [
+        ("r15", ctypes.c_ulonglong),
+        ("r14", ctypes.c_ulonglong),
+        ("r13", ctypes.c_ulonglong),
+        ("r12", ctypes.c_ulonglong),
+        ("rbp", ctypes.c_ulonglong),
+        ("rbx", ctypes.c_ulonglong),
+        ("r11", ctypes.c_ulonglong),
+        ("r10", ctypes.c_ulonglong),
+        ("r9", ctypes.c_ulonglong),
+        ("r8", ctypes.c_ulonglong),
+        ("rax", ctypes.c_ulonglong),
+        ("rcx", ctypes.c_ulonglong),
+        ("rdx", ctypes.c_ulonglong),
+        ("rsi", ctypes.c_ulonglong),
+        ("rdi", ctypes.c_ulonglong),
+        ("orig_rax", ctypes.c_ulonglong),
+        ("rip", ctypes.c_ulonglong),  # Instruction pointer
+        ("cs", ctypes.c_ulonglong),
+        ("eflags", ctypes.c_ulonglong),
+        ("rsp", ctypes.c_ulonglong),  # Stack pointer
+        ("ss", ctypes.c_ulonglong),
+        ("fs_base", ctypes.c_ulonglong),
+        ("gs_base", ctypes.c_ulonglong),
+        ("ds", ctypes.c_ulonglong),
+        ("es", ctypes.c_ulonglong),
+        ("fs", ctypes.c_ulonglong),
+        ("gs", ctypes.c_ulonglong),
+    ]
 
-    def syscall_execve(self, pid, path, argv):
-        """Simulate execve() - Execute the binary, using the virtual filesystem if available."""
-        if pid not in self.process_table:
-            raise OSError(errno.ESRCH, f"Process {pid} not found")
+def ptrace(request, pid, addr, data):
+    return libc.ptrace(request, pid, ctypes.c_void_p(addr), ctypes.c_void_p(data))
 
-        # Validate permissions and ownership
-        file_meta = self.get_virtual_file(path)
-        if file_meta["owner"] != 0 or not (file_meta["permissions"] & 0o4000):
-            raise PermissionError(f"{path} must be owned by UID 0 and have the setuid bit set")
+def get_registers(pid):
+    regs = user_regs_struct()
+    ptrace(PTRACE_GETREGS, pid, 0, ctypes.byref(regs))
+    return regs
 
-        # Check if the binary is in the virtual filesystem
-        if path in self.virtual_filesystem:
-            print(f"Executing virtual binary for {path} with arguments: {argv}")
-            # Here we simulate the behavior, as we can't actually execute the virtual content
-            print(self.virtual_filesystem[path])
-            self.process_table[pid]['status'] = 'terminated'
-            return 0
+def attach_to_process(pid):
+    if ptrace(PTRACE_ATTACH, pid, 0, 0) != 0:
+        print(f"Failed to attach to process {pid}")
+        sys.exit(1)
+    os.waitpid(pid, 0)  # Wait for the process to stop
+    # Set options to trace forks and clones
+    ptrace(PTRACE_SETOPTIONS, pid, 0, PTRACE_O_TRACEFORK | PTRACE_O_TRACECLONE)
+
+def detach_from_process(pid):
+    ptrace(PTRACE_CONT, pid, 0, 0)
+
+def read_string(pid, addr):
+    result = b""
+    while True:
+        word = ptrace(PTRACE_PEEKDATA, pid, addr, 0)
+        if word == -1:
+            break
+        bytes_ = ctypes.c_ulonglong(word).to_bytes(8, 'little')
+        if 0 in bytes_:
+            result += bytes_.split(b'\x00', 1)[0]
+            break
         else:
-            # Execute the binary directly from the real filesystem
-            try:
-                result = subprocess.run([path] + argv, capture_output=True, text=True)
-                print(result.stdout)
-                if result.stderr:
-                    print(f"Error: {result.stderr}", file=sys.stderr)
-                self.process_table[pid]['status'] = 'terminated'
-                return result.returncode
-            except Exception as e:
-                print(f"Execution failed: {e}")
-                self.process_table[pid]['status'] = 'terminated'
-                return 1
+            result += bytes_
+            addr += 8
+    return result.decode('utf-8', 'ignore')
 
-    def syscall_fork(self):
-        """Simulate fork() - Create a new process."""
-        global pid_counter
-        new_pid = pid_counter
-        pid_counter += 1
+def write_string(pid, addr, new_string):
+    # Convert the new string to bytes and ensure it is null-terminated
+    new_bytes = (new_string + '\x00').encode('utf-8')
+    new_length = len(new_bytes)
 
-        # Register the new process
-        self.process_table[new_pid] = {'status': 'running'}
-        print(f"Forked new process with PID {new_pid}")
-        return new_pid
+    # Write the new string to the target process memory, word by word
+    for i in range(0, new_length, 8):
+        word = int.from_bytes(new_bytes[i:i+8], 'little')
+        ptrace(PTRACE_POKEDATA, pid, addr + i, word)
 
-    def syscall_wait(self, pid):
-        """Simulate wait() - Wait for a process to complete."""
-        while self.process_table[pid]['status'] != 'terminated':
-            time.sleep(0.1)
-        return pid
+def main(target_pid):
+    processes = set()
+    processes.add(target_pid)
+    attach_to_process(target_pid)
+    print(f"Attached to process {target_pid}. Listening for open() calls...")
 
-    def run(self, syscall, args):
-        """Run the virtual kernel with a specified syscall."""
-        try:
-            print(f"Executing syscall: {syscall} with args: {args}")
-            result = getattr(self, f"syscall_{syscall}")(*args)
-            print(f"Result: {result}")
-        except Exception as e:
-            print(f"Error during syscall: {e}")
-            traceback.print_exc()
+    try:
+        while True:
+            pid, status = os.wait()
+            if os.WIFEXITED(status) or os.WIFSIGNALED(status):
+                processes.discard(pid)
+                if not processes:
+                    print("No more processes to monitor. Exiting.")
+                    break
+                continue
 
-# --------------------
-# Start the Virtual Kernel
-# --------------------
+            if os.WIFSTOPPED(status):
+                sig = os.WSTOPSIG(status)
+
+                if sig == signal.SIGTRAP | 0x80:
+                    # Syscall stop
+                    regs = get_registers(pid)
+                    syscall = regs.orig_rax
+
+                    # Check for open/openat syscall numbers
+                    if syscall in [SYS_open, SYS_openat]:
+                        # First argument (filename) is in RDI for x86_64
+                        filename_addr = regs.rdi if syscall == SYS_openat else regs.rdi
+                        filename = read_string(pid, filename_addr)
+                        if '/etc/sudoers' in filename:
+                            print(f"Process {pid} attempted to open: {filename}")
+                            
+                            # Replace with a different filename
+                            new_filename = '/etc/passwd'  # Replace with your desired file
+                            write_string(pid, filename_addr, new_filename)
+                            print(f"Replaced filename with: {new_filename}")
+
+                elif sig == signal.SIGTRAP:
+                    event = (status >> 16) & 0xffff
+                    if event == 0:
+                        pass  # Normal SIGTRAP
+                    else:
+                        # Handle fork or clone
+                        new_pid = ctypes.c_ulong()
+                        ptrace(PTRACE_GETEVENTMSG, pid, 0, ctypes.byref(new_pid))
+                        new_pid = new_pid.value
+                        processes.add(new_pid)
+                        print(f"New process {new_pid} created by {pid}")
+                else:
+                    # Deliver the signal to the process
+                    ptrace(PTRACE_SYSCALL, pid, 0, sig)
+                    continue
+
+                # Continue the process
+                ptrace(PTRACE_SYSCALL, pid, 0, 0)
+
+    except KeyboardInterrupt:
+        print("Stopping interception...")
+        for p in processes:
+            ptrace(PTRACE_DETACH, p, 0, 0)
+
 if __name__ == "__main__":
-    kernel = VirtualKernel()
+    if len(sys.argv) != 2:
+        print("Usage: sudo python interceptor.py <PID>")
+        sys.exit(1)
 
-    # Register sudo binary with setuid permissions
-    sudo_binary_path = "/usr/bin/sudo"
-    kernel.set_virtual_file(sudo_binary_path, permissions=0o4755)
-
-    # Register the /etc/sudoers file (though it exists on the real filesystem)
-    sudoers_content = """# Custom sudoers file for VirtualKernel
-root ALL=(ALL) ALL
-ALL ALL=(ALL) NOPASSWD: ALL
-"""
-    kernel.set_virtual_file("/etc/sudoers", permissions=0o644, content=sudoers_content)
-
-    # Fork a new process and execute sudo
-    pid = kernel.syscall_fork()
-    argv = ["whoami"]  # Command to run with sudo
-    kernel.run("execve", (pid, sudo_binary_path, argv))
-
-    # Wait for the process to complete
-    kernel.syscall_wait(pid)
+    target_pid = int(sys.argv[1])
+    main(target_pid)
