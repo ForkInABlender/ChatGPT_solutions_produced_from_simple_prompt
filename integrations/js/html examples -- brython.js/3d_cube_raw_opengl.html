@@ -1,0 +1,196 @@
+<!-- # Dylan Kenneth Eliot -->
+<!DOCTYPE html>
+
+<!--"""
+
+This makes use of opengl, & webgl to render opengl in the browser. It is thus far the only way to get C++ code to compile within the browser without additional tools.
+This makes it easier to directly compute it without precompilation.
+
+"""-->
+
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>3D Rotating Cube with Brython</title>
+    <style>
+        body, html {
+            margin: 0;
+            overflow: hidden;
+            height: 100%;
+            width: 100%;
+        }
+        canvas {
+            display: block;
+        }
+    </style>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gl-matrix/2.8.1/gl-matrix-min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/brython@3.9.5/brython.min.js"></script>
+</head>
+<body onload="brython()">
+    <canvas id="glCanvas"></canvas>
+
+    <script type="text/python">
+from browser import document, window
+
+# Use JavaScript's Math object for math operations
+Math = window.Math
+
+# Get the canvas and WebGL context
+canvas = document["glCanvas"]
+gl = canvas.getContext("webgl") or canvas.getContext("experimental-webgl")
+
+if not gl:
+    window.alert("WebGL not supported.")
+
+# Vertex shader source
+vsSource = """
+    attribute vec4 aVertexPosition;
+    attribute vec4 aVertexColor;
+    uniform mat4 uModelViewMatrix;
+    uniform mat4 uProjectionMatrix;
+    varying lowp vec4 vColor;
+
+    void main(void) {
+        gl_Position = uProjectionMatrix * uModelViewMatrix * aVertexPosition;
+        vColor = aVertexColor;
+    }
+"""
+
+# Fragment shader source
+fsSource = """
+    varying lowp vec4 vColor;
+
+    void main(void) {
+        gl_FragColor = vColor;
+    }
+"""
+
+def load_shader(gl, type, source):
+    shader = gl.createShader(type)
+    gl.shaderSource(shader, source)
+    gl.compileShader(shader)
+
+    if not gl.getShaderParameter(shader, gl.COMPILE_STATUS):
+        raise Exception("Error compiling shaders: " + gl.getShaderInfoLog(shader))
+    return shader
+
+def init_shader_program(gl, vsSource, fsSource):
+    vertex_shader = load_shader(gl, gl.VERTEX_SHADER, vsSource)
+    fragment_shader = load_shader(gl, gl.FRAGMENT_SHADER, fsSource)
+
+    shader_program = gl.createProgram()
+    gl.attachShader(shader_program, vertex_shader)
+    gl.attachShader(shader_program, fragment_shader)
+    gl.linkProgram(shader_program)
+
+    if not gl.getProgramParameter(shader_program, gl.LINK_STATUS):
+        raise Exception("Error initializing shader program: " + gl.getProgramInfoLog(shader_program))
+    
+    return shader_program
+
+shader_program = init_shader_program(gl, vsSource, fsSource)
+program_info = {
+    "program": shader_program,
+    "attribLocations": {
+        "vertexPosition": gl.getAttribLocation(shader_program, "aVertexPosition"),
+        "vertexColor": gl.getAttribLocation(shader_program, "aVertexColor"),
+    },
+    "uniformLocations": {
+        "projectionMatrix": gl.getUniformLocation(shader_program, "uProjectionMatrix"),
+        "modelViewMatrix": gl.getUniformLocation(shader_program, "uModelViewMatrix"),
+    },
+}
+
+def init_buffers(gl):
+    position_buffer = gl.createBuffer()
+    gl.bindBuffer(gl.ARRAY_BUFFER, position_buffer)
+    vertices = [
+        -1.0, -1.0,  1.0,
+         1.0, -1.0,  1.0,
+         1.0,  1.0,  1.0,
+        -1.0,  1.0,  1.0,
+        -1.0, -1.0, -1.0,
+        -1.0,  1.0, -1.0,
+         1.0,  1.0, -1.0,
+         1.0, -1.0, -1.0,
+    ]
+    gl.bufferData(gl.ARRAY_BUFFER, window.Float32Array.new(vertices), gl.STATIC_DRAW)
+
+    color_buffer = gl.createBuffer()
+    gl.bindBuffer(gl.ARRAY_BUFFER, color_buffer)
+    colors = [
+        [1.0, 0.0, 0.0, 1.0],  # Red
+        [0.0, 1.0, 0.0, 1.0],  # Green
+        [0.0, 0.0, 1.0, 1.0],  # Blue
+        [1.0, 1.0, 0.0, 1.0],  # Yellow
+        [1.0, 0.0, 1.0, 1.0],  # Purple
+        [0.0, 1.0, 1.0, 1.0],  # Cyan
+    ]
+    flattened_colors = sum(colors * 4, [])
+    gl.bufferData(gl.ARRAY_BUFFER, window.Float32Array.new(flattened_colors), gl.STATIC_DRAW)
+
+    index_buffer = gl.createBuffer()
+    gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, index_buffer)
+    indices = [
+        0, 1, 2,  0, 2, 3,
+        4, 5, 6,  4, 6, 7,
+        3, 2, 6,  3, 6, 5,
+        4, 7, 1,  4, 1, 0,
+        1, 7, 6,  1, 6, 2,
+        4, 0, 3,  4, 3, 5,
+    ]
+    gl.bufferData(gl.ELEMENT_ARRAY_BUFFER, window.Uint16Array.new(indices), gl.STATIC_DRAW)
+
+    return {
+        "position": position_buffer,
+        "color": color_buffer,
+        "indices": index_buffer,
+    }
+
+buffers = init_buffers(gl)
+rotation = 0.0
+
+def draw_scene(gl, program_info, buffers):
+    global rotation
+    gl.clearColor(0.0, 0.0, 0.0, 1.0)
+    gl.clearDepth(1.0)
+    gl.enable(gl.DEPTH_TEST)
+    gl.depthFunc(gl.LEQUAL)
+    gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT)
+
+    field_of_view = 45 * Math.PI / 180
+    aspect = canvas.width / canvas.height
+    projection_matrix = window.mat4.create.new()
+    window.mat4.perspective(projection_matrix, field_of_view, aspect, 0.1, 100.0)
+
+    model_view_matrix = window.mat4.create.new()
+    window.mat4.translate(model_view_matrix, model_view_matrix, [0.0, 0.0, -6.0])
+    window.mat4.rotate(model_view_matrix, model_view_matrix, rotation, [0, 1, 1])
+
+    gl.bindBuffer(gl.ARRAY_BUFFER, buffers["position"])
+    gl.vertexAttribPointer(program_info["attribLocations"]["vertexPosition"], 3, gl.FLOAT, False, 0, 0)
+    gl.enableVertexAttribArray(program_info["attribLocations"]["vertexPosition"])
+
+    gl.bindBuffer(gl.ARRAY_BUFFER, buffers["color"])
+    gl.vertexAttribPointer(program_info["attribLocations"]["vertexColor"], 4, gl.FLOAT, False, 0, 0)
+    gl.enableVertexAttribArray(program_info["attribLocations"]["vertexColor"])
+
+    gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, buffers["indices"])
+
+    gl.useProgram(program_info["program"])
+    gl.uniformMatrix4fv(program_info["uniformLocations"]["projectionMatrix"], False, projection_matrix)
+    gl.uniformMatrix4fv(program_info["uniformLocations"]["modelViewMatrix"], False, model_view_matrix)
+
+    gl.drawElements(gl.TRIANGLES, 36, gl.UNSIGNED_SHORT, 0)
+
+def render(timestamp):
+    global rotation
+    rotation += 0.01
+    draw_scene(gl, program_info, buffers)
+    window.requestAnimationFrame(render)
+
+window.requestAnimationFrame(render)
+    </script>
+</body>
+</html>
