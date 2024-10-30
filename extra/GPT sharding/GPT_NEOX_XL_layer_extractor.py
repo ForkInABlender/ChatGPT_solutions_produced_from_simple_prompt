@@ -7,6 +7,8 @@ This checks through the checkpoints, and all in the layer parameter list are che
 
 That file will also exist within this repository sub-folder.
 
+For more information, and to test it yourself, the-eye.eu/public/AI/gptneo-release/GPT3_XL
+
 """
 
 import os
