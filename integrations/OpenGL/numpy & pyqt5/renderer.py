@@ -9,6 +9,12 @@ from PyQt5.QtCore import Qt, QTimer
 
 """
 
+Now compiling OpenGL libaries for hardware is unneccessary.
+
+Use opengl without the GPU, ctypes library, or opengl-faker lib for linux.
+
+If your install is setup correctly, this works regardless of operating system. 
+
 """
 
 
