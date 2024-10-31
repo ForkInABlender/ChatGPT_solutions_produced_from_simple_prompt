@@ -13,6 +13,8 @@ This was fixed due to an error I failed to spot. During training, this network n
  is likely to get. 
 
 10/15/2024 -- This file is here for demonstration with the prior class within the same subdirectory { [0x3] }. Nothing has changed about this file.
+
+10/31/2024 -- This now works for processing 3d inputs
 """
 from pybrain3.structure.modules.neuronlayer import NeuronLayer
 import numpy as np
@@ -52,7 +54,8 @@ class Dim3NeuronLayer(NeuronLayer):
         elif len(original_shape) == 2:
             output_data = output_data.reshape(original_shape[0], -1)
 
-        outbuf[:len(output_data)] = output_data
+        # Ensure the output buffer size matches the output data
+        outbuf[:output_data.shape[0]] = output_data[:outbuf.shape[0]]
 
     def _backwardImplementation(self, outerr, inerr, outbuf, inbuf):
         # Backward pass implementation to handle 1D, 2D, and 3D inputs
@@ -74,32 +77,12 @@ class Dim3NeuronLayer(NeuronLayer):
         elif len(original_shape) == 2:
             grad_input = grad_input.reshape(original_shape[0], -1)
 
-        inerr[:len(grad_input)] = grad_input
-
-    def _process1D(self, input_data):
-        # Processing logic for 1D input
-        output = np.dot(input_data, self.weights) + self.bias
-        return self._apply_activation(output)
-
-    def _process2D(self, input_data):
-        # Processing logic for 2D input
-        output = np.dot(input_data, self.weights) + self.bias
-        return self._apply_activation(output)
+        inerr[:grad_input.shape[0]] = grad_input[:inerr.shape[0]]
 
     def _process3D(self, input_data):
         # Processing logic for 3D input
         output = np.tensordot(input_data, self.weights, axes=([-1], [0])) + self.bias
         return self._apply_activation(output)
-
-    def _backward1D(self, outerr):
-        # Gradient calculation for 1D input
-        grad_output = outerr * self._activation_derivative(outerr)
-        return grad_output
-
-    def _backward2D(self, outerr):
-        # Gradient calculation for 2D input
-        grad_output = outerr * self._activation_derivative(outerr)
-        return grad_output
 
     def _backward3D(self, outerr):
         # Gradient calculation for 3D input
@@ -132,3 +115,53 @@ class Dim3NeuronLayer(NeuronLayer):
             )
         else:
             raise NotImplementedError("Only GELU derivative is currently implemented")
+
+class Dim3InputLayer(Dim3NeuronLayer):
+    def __init__(self, in_dim, embed_dropout, attn_dropout, activation_function, lr, weight_decay, gradient_clipping):
+        # Use the base class constructor with out_dim set to in_dim for an input layer
+        super(Dim3InputLayer, self).__init__(in_dim, in_dim, embed_dropout, attn_dropout, activation_function='gelu', lr=0, weight_decay=0, gradient_clipping=0)
+        self.name = "Dim3InputLayer"
+
+    def _forwardImplementation(self, inbuf, outbuf):
+        # As an input layer, the forward implementation simply passes the data through
+        input_data = np.array(inbuf)
+        original_shape = input_data.shape
+
+        # Reshape to 3D if needed
+        if input_data.ndim == 1:
+            input_data = input_data.reshape(1, 1, -1)
+        elif input_data.ndim == 2:
+            input_data = input_data.reshape(1, *input_data.shape)
+
+        # No processing is needed for an input layer, simply copy input to output
+        output_data = input_data
+
+        # Reshape back to original shape if needed
+        if len(original_shape) == 1:
+            output_data = output_data.flatten()
+        elif len(original_shape) == 2:
+            output_data = output_data.reshape(original_shape[0], -1)
+
+        outbuf[:output_data.shape[0]] = output_data[:outbuf.shape[0]]
+
+    def _backwardImplementation(self, outerr, inerr, outbuf, inbuf):
+        # Backward pass implementation for input layer
+        out_data = np.array(outerr)
+        original_shape = out_data.shape
+
+        # Reshape to 3D if needed
+        if out_data.ndim == 1:
+            out_data = out_data.reshape(1, 1, -1)
+        elif out_data.ndim == 2:
+            out_data = out_data.reshape(1, *out_data.shape)
+
+        # Since this is an input layer, we simply propagate the gradients back without modification
+        grad_input = out_data
+
+        # Reshape back to original shape if needed
+        if len(original_shape) == 1:
+            grad_input = grad_input.flatten()
+        elif len(original_shape) == 2:
+            grad_input = grad_input.reshape(original_shape[0], -1)
+
+        inerr[:grad_input.shape[0]] = grad_input[:inerr.shape[0]]
