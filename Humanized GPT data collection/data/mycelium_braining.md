@@ -112,3 +112,5 @@ To draw a parallel between mycelial structures and neuronal components—axons, 
 ---
 
 In conclusion, neurons and mycelial networks exhibit complex signaling and adaptive behaviors. Mycelium lacks the specialized, centralized architecture of a neural network but operates through a decentralized, chemical-based signaling network capable of environmental adaptation and responsiveness.
+
+For more information, visit [this GPT chat](https://chatgpt.com/share/67247b75-4110-800c-9fc8-368f0620b3e5)
