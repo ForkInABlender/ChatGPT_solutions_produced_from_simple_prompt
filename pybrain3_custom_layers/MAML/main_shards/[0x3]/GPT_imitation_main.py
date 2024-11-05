@@ -187,6 +187,11 @@ net.sortModules()
 updated 11/05/2024 @ 7:76:25 -- part collected from day prior; found at 5:13 am.
 
 the json file containing bpe_token_map's contents can be found in the root-tree of this sub.
+
+The basic GPT template above and below can be trained like the original GPT model was when OpenAI began tooling and developing it. Now, since what is needed is rolling over reshaped data from what they built,
+ This light weight version can be used to encapsulate even the largest paramater lists of lists as well as normal lists of data.
+
+Due to the dynamic computational graph and model this version is meant to work within, it will be adapted for other regions that will emulate the parts of the human brain. 
 """
 
 
