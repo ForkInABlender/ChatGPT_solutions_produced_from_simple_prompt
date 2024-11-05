@@ -183,10 +183,46 @@ net.addConnection(FullConnection(prev_layer, out_layer))
 # Finalize the network
 net.sortModules()
 
+"""
+updated 11/05/2024 @ 7:76:25 -- part collected from day prior; found at 5:13 am.
+
+"""
 
 
 
+######################### This is the basic function of GPT, versions 2, 3, 4, 4+ work; Modify and test manually, by hand; no unit, mock, or assursion tests #####################################
 
+def generate_sequence(initial_input, sequence_length, vocab_size, bpe_token_map, network):
+    def pad_to_length(array, target_length=vocab_size, pad_value=-1):
+        return array + [pad_value] * (target_length - len(array))
+    padded_ordinals = [ord(c) for c in initial_input]
+    flat_input = np.array(pad_to_length(padded_ordinals))
+    generated_text = []
+    for _ in range(sequence_length):
+        output = network.activate(flat_input)
+        output_probs = softmax(output)
+        predicted_token_id = np.argmax(output_probs)
+        predicted_text = bpe_token_map.get(predicted_token_id, "")
+        generated_text.append(predicted_text)
+        flat_input = np.array(pad_to_length([ord(c) for c in predicted_text]))
+    final_output_text = "".join(generated_text).replace("Ġ", " ").strip()
+    return final_output_text
+
+# Example usage:
+initial_input = "example input"
+sequence_length = 20
+vocab_size = VOCAB_SIZE
+# Assuming bpe_token_map is defined as a dictionary that maps token IDs to text
+# and net is your initialized PyBrain3 model
+
+# Call the function to generate the text sequence
+generated_text = generate_sequence(initial_input, sequence_length, vocab_size, bpe_token_map, net)
+print("Generated text:", generated_text)
+
+
+
+############################################# THE BELOW IS FOR TESTING AND EXAMPLE USE ONLY; WARNING, DO NOT USE THE BELOW WITH IN PRODUCTION CODE, AS IT WILL BREAK YOUR BUILD #########################################
+"""
 # Pad to cap-length (VOCAB_Size); treat `-1` as filler for word delimination on 'encoding' from ordinal sets of each word, splitting on space only.
 def pad_to_length(array, target_length=VOCAB_SIZE, pad_value=-1):
     """Pad each word's ordinal array to the target length."""
@@ -206,3 +242,4 @@ print("Network output for the input batch:")
 print(output)
 
 #print(reshaped_output)
+"""
