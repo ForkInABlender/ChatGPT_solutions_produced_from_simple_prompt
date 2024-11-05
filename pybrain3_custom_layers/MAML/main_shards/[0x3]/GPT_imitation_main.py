@@ -186,6 +186,7 @@ net.sortModules()
 """
 updated 11/05/2024 @ 7:76:25 -- part collected from day prior; found at 5:13 am.
 
+the json file containing bpe_token_map's contents can be found in the root-tree of this sub.
 """
 
 
