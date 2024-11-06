@@ -19,7 +19,6 @@ This informational compactness does encode and intentionally I have left off the
 
 """
 
-# Required Libraries
 import re
 import nltk
 from nltk.corpus import wordnet, stopwords
@@ -169,6 +168,7 @@ Usage: Denote growth, gifting, or peaceful endeavors.
 Usage: Convey a quirky or uncertain tone.
 '''
 
+
 # Function to parse the data and build the phrase map (same as before)
 def build_phrase_map(data):
     entries = data.strip().split('\n\n')
@@ -263,6 +263,8 @@ hindi_stopwords = {
     'their':"उनका",
     "they": "वे।",
     'perhaps':"शायद",
+    'your':"तेरे ब",
+    'least':"न्यूनतम",
     # Add more stopwords as needed
 }
 
@@ -307,7 +309,7 @@ phrase_map = build_phrase_map(data)
 word_symbol_map = build_word_symbol_map(phrase_map)
 
 # Example usage of the translate_to_symbols function
-input_text = "input text goes there. The rest will remain connected. Just fill in the blanks. Their is likely a full translation even for the couch. Perhaps they're as they are."
+input_text = "confusion might be the least of your concerns. This will take time."
 translated_text = translate_to_symbols(input_text, word_symbol_map, hindi_stopwords)
 print("Original Text:")
 print(input_text)
