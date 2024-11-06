@@ -6,10 +6,9 @@ This language is a language of languages.
 It contains:
  - heiroglyphs
  - hindi
- - chinese simplified
 
 in an order knowing any one language will not give the proper translation of any one part.
-This language is a combination of the 3 languages. So, you'll have to use this to decode.
+This language is a combination of the 2 languages. So, you'll have to use this to decode.
 
 This scripts' purpose is for informational compactness. Meaning all translation is done to condense information based on how we'd store it later for long term memory but accessible via short term memory recall to long
  term memory store.
