@@ -83,7 +83,7 @@ def translate_full_sentence(sentence):
 
 # Example usage
 
-sentence = "No more guns."
+sentence = ""
 translated_sentence = translate_full_sentence(sentence)
 
 print("Original Sentence:", sentence)
