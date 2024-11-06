@@ -15,7 +15,7 @@ This scripts' purpose is for informational compactness. Meaning all translation 
  term memory store.
 
 This informational compactness does encode and intentionally I have left off the decoder. This was so as to keep the information known to those that know the writer of the text and the context both know of, for which
- it was encoded. Either they know it inherently, or they do not and have to rely on a really good guess.
+ it was encoded. Either they know it inherently, or they do not and have to rely on a really good guess. If you don't have the context they share with the initial writer, it remains unknown to the ones translating.
 
 """
 
