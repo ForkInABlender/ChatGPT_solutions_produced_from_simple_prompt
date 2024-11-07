@@ -6,9 +6,10 @@ This language is a language of languages.
 It contains:
  - heiroglyphs
  - hindi
+ - chinese
 
 in an order knowing any one language will not give the proper translation of any one part.
-This language is a combination of the 2 languages. So, you'll have to use this to decode.
+This language is a combination of the 3 languages. So, you'll have to use this to decode.
 
 This scripts' purpose is for informational compactness. Meaning all translation is done to condense information based on how we'd store it later for long term memory but accessible via short term memory recall to long
  term memory store.
@@ -20,6 +21,7 @@ This informational compactness does encode and intentionally I have left off the
 
 import nltk
 from nltk.tokenize import word_tokenize
+from textblob import TextBlob
 
 # List of 72 symbols to be used for translation
 symbols = [
@@ -62,18 +64,25 @@ def translate_word(word, index):
     # If the word is in the Hindi dictionary, translate it
     if word.lower() in hindi_translation:
         return hindi_translation[word.lower()]
-    # Otherwise, use the symbols for translation, cycling through the list
+    # If the word is still in English, translate it to Chinese using TextBlob
     elif word.isalnum():
-        return symbols[index % len(symbols)]
+        # Attempt Chinese translation using TextBlob
+        try:
+            blob = TextBlob(word)
+            translated_word = blob.translate(to='zh')
+            return str(translated_word)
+        except Exception as e:
+            # If translation fails, use symbols list
+            return symbols[index % len(symbols)]
     # Leave punctuation intact
     return word
 
 def translate_full_sentence(sentence):
-    """Translates each word of a sentence to either a Hindi translation or a unique symbol."""
+    """Translates each word of a sentence to either a Hindi translation, Chinese translation, or a unique symbol."""
     # Tokenize the sentence using NLTK
     words = word_tokenize(sentence)
 
-    # Translate each word individually using either Hindi dictionary or symbols
+    # Translate each word individually using either Hindi dictionary, Chinese translation, or symbols
     translated_words = [translate_word(word, index) for index, word in enumerate(words)]
 
     # Reconstruct the translated sentence
@@ -82,7 +91,13 @@ def translate_full_sentence(sentence):
 
 # Example usage
 
-sentence = ""
+sentence = """
+How many people can we reach with this?
+
+
+The entire purpose is for informational compactness. Secondly, emotional comprehensive reading content that leaves no detail out.
+If you can translate, you know exactly what it says and decoded each word by token set correctly.
+"""
 translated_sentence = translate_full_sentence(sentence)
 
 print("Original Sentence:", sentence)
