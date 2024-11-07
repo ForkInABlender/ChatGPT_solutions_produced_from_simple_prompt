@@ -92,11 +92,7 @@ def translate_full_sentence(sentence):
 # Example usage
 
 sentence = """
-How many people can we reach with this?
-
-
-The entire purpose is for informational compactness. Secondly, emotional comprehensive reading content that leaves no detail out.
-If you can translate, you know exactly what it says and decoded each word by token set correctly.
+input text-a go-here. :)
 """
 translated_sentence = translate_full_sentence(sentence)
 
