@@ -34,7 +34,7 @@ def extract_and_save_parameters_for_layer(layer_name):
         tensor_value = tf.train.load_variable(checkpoint_path, layer_name)
         output_path = os.path.join(output_directory, f"{layer_name.replace('/', '_')}.py_txt")
         filen_ = open(output_path, 'w')
-        filen_.write(str(list(list(a) for a in tensor_value)))
+        # {filen_.write(str(list(list(a) for a in tensor_value)))} ([or]) {filen_.write(str(list(a) for a in tensor_value))} depending on which parts are 1-d or 2-d in shape of layer and its parameters.
         filen_.close()
         print(tensor_value)
         #np.save(output_path, tensor_value)
