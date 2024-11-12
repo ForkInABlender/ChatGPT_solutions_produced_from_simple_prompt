@@ -3,6 +3,8 @@
 """
 Parts needed for making a brain tape from fMRI/MRI images.
 
+This will be used with pybrain3 for playback after snapshot.
+
 """
 
 import nibabel as nib
