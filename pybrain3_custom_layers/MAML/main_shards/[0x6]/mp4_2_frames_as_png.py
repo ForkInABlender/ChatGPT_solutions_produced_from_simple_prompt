@@ -1,3 +1,12 @@
+# Dylan Kenneth Eliot
+
+"""
+Segment photos and audio tract parts by frame of video playback.
+
+For later use in reformulating the other way for content generation via pybrain3.
+
+"""
+
 import cv2
 import numpy as np
 import os
