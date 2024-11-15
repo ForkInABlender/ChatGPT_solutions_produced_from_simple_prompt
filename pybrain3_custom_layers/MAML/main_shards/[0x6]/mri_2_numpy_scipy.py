@@ -15,7 +15,6 @@ This will be used with the brain emulator and neuro receptors & transmitters tha
 
 import nibabel as nib
 import numpy as np
-import matplotlib.pyplot as plt
 
 def load_and_visualize_nifti(file_path, slice_index=60):
     nii = nib.load(file_path)
