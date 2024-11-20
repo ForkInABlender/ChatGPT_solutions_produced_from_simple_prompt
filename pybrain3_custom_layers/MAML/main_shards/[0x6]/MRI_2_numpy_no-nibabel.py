@@ -76,3 +76,22 @@ fig.colorbar(scatter, ax=ax, label="Voxel Intensity")
 plt.title("3D Layout of the Full NIfTI Image Data")
 plt.show()
 """
+# Another way to use it is like this:
+"""
+fig, axes = plt.subplots(1, 3, figsize=(15, 5))
+
+# Slice along the first dimension (dim 0)
+axes[0].imshow(image[60, :, :, 0, 0, 0, 0], cmap='gray')
+axes[0].set_title("Slice along Dim 1 (60th Slice)")
+
+# Slice along the second dimension (dim 1)
+axes[1].imshow(image[:, 60, :, 0, 0, 0, 0], cmap='gray')
+axes[1].set_title("Slice along Dim 2 (60th Slice)")
+
+# Slice along the third dimension (dim 2)
+axes[2].imshow(image[:, :, 60, 0, 0, 0, 0], cmap='gray')
+axes[2].set_title("Slice along Dim 3 (60th Slice)")
+
+plt.tight_layout()
+plt.show()
+"""
