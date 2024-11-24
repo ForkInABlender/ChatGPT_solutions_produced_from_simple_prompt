@@ -10,7 +10,10 @@ Do note that at present, pytorch, tensorflow, and transformer dependent models a
 
 At no future date will pybrain3 be extended to use them by this AI developer, as all components rawly and efficiently run on the CPU with plenty of memory for x86_64 & armhf/el-hf+ processors.
 
-If 3d processing is needed, I'd use the opengl/GPU emulator and collect the data per frame as needed in realtime. 
+If 3d processing is needed, I'd use the opengl/GPU emulator and collect the data per frame as needed in realtime.
+
+Do to simplicity of implementation for hardware agnostic runtime, stepping away from the GPU heavy parts make it simpler to design. The actual reasoning was so that the code would function even within their
+ browser. 
 
 """
 
