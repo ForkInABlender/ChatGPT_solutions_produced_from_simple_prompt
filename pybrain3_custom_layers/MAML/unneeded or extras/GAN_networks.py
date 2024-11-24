@@ -6,6 +6,10 @@ Simple GAN setup; extra and will be unused in actual AI development for imitatio
 Make use as needed, though :)
 
 
+Do note that at present, pytorch, tensorflow, and transformer dependent models are out of date as of today. Code using similar levels rounding will also fall into this same folder as this file.
+
+ 
+
 
 """
 
