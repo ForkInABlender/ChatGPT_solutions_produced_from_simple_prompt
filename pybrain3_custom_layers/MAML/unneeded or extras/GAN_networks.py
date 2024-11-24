@@ -13,7 +13,13 @@ At no future date will pybrain3 be extended to use them by this AI developer, as
 If 3d processing is needed, I'd use the opengl/GPU emulator and collect the data per frame as needed in realtime.
 
 Do to simplicity of implementation for hardware agnostic runtime, stepping away from the GPU heavy parts make it simpler to design. The actual reasoning was so that the code would function even within their
- browser. 
+ browser. ( for testing in the browser: https://akuiper.com/console/NtGHv2vDF7iF ) The platform agnostics comes at the sacrifice of time and ease of use for hidden complexity & leveraging unneeded hardware
+  that might not be present on another host machine. 
+
+Because pybrain3 can already support such functionality, this will work plenty for the browser. 
+
+For offline local usage, use docker container ( https://hub.docker.com/r/de3343/ai_mods_py3.10 ) and not the latest tag, but the most up to date by name available tag ":tag_by_module_includes" is the "latest"
+ available.
 
 """
 
