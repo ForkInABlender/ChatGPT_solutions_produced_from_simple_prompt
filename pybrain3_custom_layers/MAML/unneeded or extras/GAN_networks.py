@@ -8,8 +8,9 @@ Make use as needed, though :)
 
 Do note that at present, pytorch, tensorflow, and transformer dependent models are out of date as of today. Code using similar levels rounding will also fall into this same folder as this file.
 
- At no future date will pybrain3 be extended to use them by this AI developer, as all components rawly and efficiently run on the CPU with plenty of memory for x86_64 & armhf/el-hf+ processors.
+At no future date will pybrain3 be extended to use them by this AI developer, as all components rawly and efficiently run on the CPU with plenty of memory for x86_64 & armhf/el-hf+ processors.
 
+If 3d processing is needed, I'd use the opengl/GPU emulator and collect the data per frame as needed in realtime. 
 
 """
 
