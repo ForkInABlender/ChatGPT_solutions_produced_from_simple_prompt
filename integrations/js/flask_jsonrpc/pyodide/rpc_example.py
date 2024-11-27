@@ -19,7 +19,7 @@ Making version limits minimum to that API of the python ethos.
 
 """
 
-from flask import Flask, render_template_string, request, jsonify
+from flask import Flask, request, jsonify
 from flask_jsonrpc import JSONRPC
 import json
 
@@ -28,7 +28,6 @@ jsonrpc = JSONRPC(app, '/api')
 
 @app.route('/')
 def index():
-		global render_template_string
 		html_content = '''
 		<!DOCTYPE html>
 		<html>
@@ -85,7 +84,7 @@ loadPyodideAndPackages();
 		</body>
 		</html>
 		'''
-		return render_template_string(html_content)
+		return html_content
 
 # JSON-RPC method example
 @jsonrpc.method('app.add')
