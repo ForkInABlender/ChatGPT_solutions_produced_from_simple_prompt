@@ -28,6 +28,7 @@ jsonrpc = JSONRPC(app, '/api')
 
 @app.route('/')
 def index():
+		global render_template_string
 		html_content = '''
 		<!DOCTYPE html>
 		<html>
