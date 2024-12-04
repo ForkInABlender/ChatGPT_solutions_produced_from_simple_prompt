@@ -13,7 +13,7 @@ import numpy as np
 import struct
 
 # Load the uploaded NIfTI file to inspect its structure and data
-file_path = './20170831/spmT_0001.nii'
+file_path = '/mnt/data/20170831/spmT_0001.nii'
 
 with open(file_path, 'rb') as f:
     raw_data = f.read()
