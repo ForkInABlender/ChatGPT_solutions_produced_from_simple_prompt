@@ -18,7 +18,14 @@ jsonrpc = JSONRPC(app, '/api')
 @app.route('/')
 def index():
 		html_content = '''
-		
+		<html><br>
+Welcome to the Awakened Coffers.<br>
+<br>
+We are currently under development, and will be rolling out access shortly. <br>
+<br>
+In the meantime, please standby.<br> 
+ Thank you.<br>
+		</html>
 		'''
 		return html_content
 
