@@ -42,8 +42,8 @@ temp_dir = tempfile.mkdtemp()
 with tempfile.NamedTemporaryFile(dir=temp_dir, mode="w", delete=False, suffix=".go") as go_file:
     go_file.write(go_code)
     go_file_path = go_file.name
-so_file_path = go_file_path.replace(".go", ".so")
-subprocess.run(["go", "build", "-o", so_file_path, "-buildmode=c-shared", go_file_path])
+so_file_path = go_file_path.replace(".go", ".so")                                        # if in userland.apk:
+subprocess.run(["go", "build", "-o", so_file_path, "-buildmode=c-shared", go_file_path]) # update to /usr/local/go/bin/go
 os.remove(go_file_path)
 hello = ctypes.CDLL(so_file_path)
 os.remove(so_file_path)
