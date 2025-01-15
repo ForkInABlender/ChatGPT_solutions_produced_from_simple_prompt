@@ -7,6 +7,11 @@ What it does is compile golang in a separate process and then allow for binding 
 the  ``-buildmode=c-shared`` flag ensures that the compiled code is compatible with C/C++ code before it gets used in
  python.
 
+
+checked to work within userland.apk on android using jammy Ubuntu; compiles and runs without issue. -- 01/15/2025 @ 11:25 am
+
+
+
 """
 
 
