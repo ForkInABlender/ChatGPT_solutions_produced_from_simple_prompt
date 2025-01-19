@@ -1,2 +1,0 @@
-class InterfaceException(Exception):
-    pass
