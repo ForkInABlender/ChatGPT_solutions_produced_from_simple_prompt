@@ -7,3 +7,6 @@ well as the electrical interjunctions. From that point, it is connecting the act
 
 The next step is to walk the 2 parts, their weights, and their electrical spike upon uptake of each during normal processing. The next after that
  is calculating input and output beyond NLP LLM modelling. Remember, the brain must operate asynchronously even in a mirror of it.
+
+
+[FASTA data can be found here:](https://www.ncbi.nlm.nih.gov/nuccore)
