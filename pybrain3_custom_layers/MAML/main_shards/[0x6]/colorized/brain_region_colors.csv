@@ -1,0 +1,49 @@
+Region,Color
+Frontal Pole,#9e0142
+Insular Cortex,#a90d45
+Superior Frontal Gyrus,#b41947
+Middle Frontal Gyrus,#c1274a
+"Inferior Frontal Gyrus, pars triangularis",#cb334d
+"Inferior Frontal Gyrus, pars opercularis",#d7414e
+Precentral Gyrus,#dd4a4c
+Temporal Pole,#e45549
+"Superior Temporal Gyrus, anterior division",#ea5e47
+"Superior Temporal Gyrus, posterior division",#f26944
+"Middle Temporal Gyrus, anterior division",#f57547
+"Middle Temporal Gyrus, posterior division",#f7814c
+"Middle Temporal Gyrus, temporooccipital part",#f99153
+"Inferior Temporal Gyrus, anterior division",#fb9d59
+"Inferior Temporal Gyrus, posterior division",#fdad60
+"Inferior Temporal Gyrus, temporooccipital part",#fdb768
+Postcentral Gyrus,#fdc372
+Superior Parietal Lobule,#fecc7b
+"Supramarginal Gyrus, anterior division",#fed884
+"Supramarginal Gyrus, posterior division",#fee18d
+Angular Gyrus,#fee797
+"Lateral Occipital Cortex, superior division",#feefa3
+"Lateral Occipital Cortex, inferior division",#fff5ae
+Intracalcarine Cortex,#fffcba
+Frontal Medial Cortex,#fdfebb
+Juxtapositional Lobule Cortex (formerly Supplementary Motor Cortex),#f7fcb2
+Subcallosal Cortex,#f2faaa
+Paracingulate Gyrus,#ecf7a1
+"Cingulate Gyrus, anterior division",#e7f59a
+"Cingulate Gyrus, posterior division",#ddf19a
+Precuneous Cortex,#cfec9d
+Cuneal Cortex,#c3e79f
+Frontal Orbital Cortex,#b5e1a2
+"Parahippocampal Gyrus, anterior division",#aadca4
+"Parahippocampal Gyrus, posterior division",#99d6a4
+Lingual Gyrus,#8cd1a4
+"Temporal Fusiform Cortex, anterior division",#7ccaa5
+"Temporal Fusiform Cortex, posterior division",#6ec5a5
+Temporal Occipital Fusiform Cortex,#62bda7
+Occipital Fusiform Gyrus,#56b0ad
+Frontal Opercular Cortex,#4ba4b1
+Central Opercular Cortex,#3f97b7
+Parietal Opercular Cortex,#358bbc
+Planum Polare,#3a7eb8
+Heschl's Gyrus (includes H1 and H2),#4273b3
+Planum Temporale,#4d65ad
+Supracalcarine Cortex,#555aa7
+Occipital Pole,#5e4fa2
