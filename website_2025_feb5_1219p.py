@@ -39,9 +39,9 @@ And as always, godspeed. May another coffered mind be unstuffed from the wreckag
 		return html_content
 
 
-""""
+"""
 # JSON-RPC method example
 @jsonrpc.method('app.add')
 def add(a: int, b: int) -> int:
 		return a + b
-""""
+"""
