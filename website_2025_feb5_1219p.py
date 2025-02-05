@@ -23,16 +23,25 @@ Welcome to the Awakened Coffers.<br>
 <br>
 We are currently under development, and will be rolling out access shortly. <br>
 <br>
-In the meantime, please standby.<br> 
+In the meantime, please standby.<br>
+<br><br>
+Current parts are being tested for quality assurance. Expected rollout of the project is looking like feb 17th 2025, However, it might be a bit sooner. <br>
+<br><br>
+Due note that signup will be configured so that a human always verifies the user signing up via email. Meaning all usernames must be email addresses. <br>
+ 
  Thank you.<br>
+
+And as always, godspeed. May another coffered mind be unstuffed from the wreckage it was thrown through and rebuild it again.
+
+
 		</html>
 		'''
 		return html_content
 
+
+""""
 # JSON-RPC method example
 @jsonrpc.method('app.add')
 def add(a: int, b: int) -> int:
 		return a + b
-
-#if __name__ == '__main__':
-#		app.run(host='0.0.0.0', port=5000, debug=True)
+""""
