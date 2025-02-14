@@ -1,5 +1,11 @@
 #Dylan Kenneth Eliot
 
+"""
+see what process piped in and what process piped out.
+
+everything else templated from this file would be extra.
+
+"""
 
 import os
 import sys
