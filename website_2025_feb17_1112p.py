@@ -25,9 +25,12 @@ We are currently under development, and will be rolling out access shortly. <br>
 <br>
 In the meantime, please standby.<br>
 <br><br>
-Current parts are being tested for quality assurance. Expected rollout of the project is looking like feb 17th 2025, However, it might be a bit sooner. <br>
+Current parts are being tested for quality assurance. Rollout and testing begins today feb 17th of 2025 All participants will be asked to use their email address as their username. <br>
+Due note you will also need your ID during submission of signup. You will have the option to select from 24 subsets of complexity to make use of, but only 6 subscription packs available. <br>
+This is to keep AI development fair. And even if you can't afford $3.42/month to $19.99/month, their is also a free option for those in absolute need. Note that this tool is for medical purposes, and for scientific prospects. <br>
+But even a wounded or dead soldier here at the awakened coffers is always given a second chance even as AI. <br>
 <br><br>
-Due note that signup will be configured so that a human always verifies the user signing up via email. Meaning all usernames must be email addresses. <br>
+Welcome to the new dawn. <br>
  
  Thank you.<br>
 
