@@ -31,7 +31,7 @@
         {% endif %}
     {% endwith %}
 
-    <form method="POST">
+    <form method="POST" enctype="multipart/form-data">
         <label for="username">Username:</label><br>
         <input type="text" id="username" name="username" required><br><br>
 
@@ -40,6 +40,9 @@
 
         <label for="token">Token:</label><br>
         <input type="text" id="token" name="token" required><br><br>
+
+        <label for="photo">Upload Photo ID (JPG/PNG):</label><br>
+        <input type="file" id="photo" name="photo" accept=".jpg, .jpeg, .png" required><br><br>
 
         <button type="submit">Sign Up</button>
     </form>
