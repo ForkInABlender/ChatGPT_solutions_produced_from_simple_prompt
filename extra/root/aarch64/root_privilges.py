@@ -1,18 +1,17 @@
 #Dylan Kenneth Eliot
 
-
-
 """
-this works, then segfaults when complete and nothin more to do. 
-
+Fixed version of the root access script.
+The original had an indentation issue in the if statement after the syscall.
 """
 
 import ctypes
 import sys
 
 # Define the correct syscall number for aarch64 (ARM 64-bit)
-SYS_setuid = 102  # Set UID syscall number on aarch64
-                                                                   def syscall(number, *args):
+SYS_setuid = 105  # Set UID syscall number on aarch64
+
+def syscall(number, *args):
     """Use raw syscall interface to invoke system calls."""
     try:
         result = ctypes.CDLL(None).syscall(number, *args)
@@ -24,10 +23,11 @@ SYS_setuid = 102  # Set UID syscall number on aarch64
 def grant_root_access():
     try:
         print("Attempting to grant root access (setuid(0))...")
-                                                                           # Call setuid(0) to set the user ID to root
+        # Call setuid(0) to set the user ID to root
         result = syscall(SYS_setuid, 0)
 
-        # Check the result of the syscall                                  if result == 0:
+        # Check the result of the syscall
+        if result == 0:
             print("Root access granted!")
         else:
             print(f"Failed to grant root access. Error code: {result}")
