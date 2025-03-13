@@ -1,6 +1,7 @@
 #Dylan Kenneth Eliot
 
 """
+remember to use python3.12 in termux
 Fixed version of the root access script.
 The original had an indentation issue in the if statement after the syscall.
 """
