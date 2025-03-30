@@ -13,7 +13,9 @@ When the point space for alpha is 0.0 and mass is 0.0, you've got a singularity 
 https://www.igasusa.com/files/R22-PT-Chart.pdf
 
 
+O5 & O7 Counsel approved for public use and general purpose use.
 
+All rights reserved. 
 """
 
 
