@@ -1,9 +1,18 @@
+<!--
+
 # Dylan Kenneth Eliot
 
 """
-updated to keep running.
+This was constructed to keep ones' code uniform and compatible even for common web browser runtimes.
 
+While this is a basic example, it should outline some of the minimum points of integration.
+
+look to https://akuiper.com/console/NtGHv2vDF7iF for more 
+
+updated 04/02/2025 @ 4:27:18 pm
 """
+!-->
+
 
 <!DOCTYPE html>
 <html>
@@ -30,6 +39,7 @@ updated to keep running.
             await pyodide.runPythonAsync("""
                 import micropip
                 await micropip.install('pybrain3')
+                await micropip.install('biopython')
             """)
             console.log("Pyodide initialized and packages loaded.")
 
