@@ -13,3 +13,10 @@ compatibility zone for another project of mine which it is required to make use 
 source code so both are dynamically just as compatible.
 ```
 
+# what is the last bit we'd need besides Enscripten and brython.js minimum?
+
+```
+emcc t.c -o xb.js -sEXPORTED_FUNCTIONS='["_Xb", "_malloc", "_free"]' -s EXPORTED_RUNTIME_METHODS='["ccall", "cwrap", "HEAPU32"]' -sFORCE_FILESYSTEM -sEXIT_RUNTIME=1
+
+and your imagination
+```
