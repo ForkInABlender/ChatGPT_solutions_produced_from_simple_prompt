@@ -1,8 +1,8 @@
-#Why do these exist?
+# Why do these exist?
 
 These exist to mimick the human brain with bits of the web. 
 
-#What's it for?
+# What's it for?
 
 Building an AI from existing consciousness and then training it. 
 
