@@ -14,3 +14,7 @@ not just versality of tacticile environments.
 
 Manual tested, on my blog, local machine, and remote machine.
 If it didn't work, forkinablender/project-graveyard would have these parts in its trash pile.
+
+# Why not make the repo private?
+
+We do not support proprietary development of software at any given time. The other reason is fair marketplace competition in building the real thing.
