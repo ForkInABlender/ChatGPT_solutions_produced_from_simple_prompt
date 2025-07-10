@@ -1,3 +1,13 @@
+# Dylan Kenneth Eliot.
+
+"""
+Replica of existing problem within processing, either from disk or memory or across a network or bridge of networks.
+
+
+Look to t2.py for how to read the document before placing query..
+"""
+
+
 import sqlite3
 import pandas as pd
 import numpy as np
