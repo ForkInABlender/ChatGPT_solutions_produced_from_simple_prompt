@@ -1,3 +1,10 @@
+# Dylan Kenneth Eliot
+
+"""
+Read back in that document assuming it isn't larger than memory/disk.
+
+"""
+
 import pandas as pd
 
 # Load the ODS file, specifying the engine to 'odf'
