@@ -39,7 +39,6 @@ FROM a
 JOIN b ON a.key = b.key
 GROUP BY a.id, b.id
 ORDER BY RANDOM()
-LIMIT 5000;
 """
 
 df = pd.read_sql_query(query, conn)
