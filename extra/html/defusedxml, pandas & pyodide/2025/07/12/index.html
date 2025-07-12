@@ -1,0 +1,88 @@
+<!-- # Dylan Kenneth Eliot
+
+"""
+Now you can make use of spreadsheets as databases in the web....
+
+"""
+
+-->
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>Install odfpy via tar.gz + Upload ODS</title>
+  <script src="https://cdn.jsdelivr.net/pyodide/v0.25.1/full/pyodide.js"></script>
+</head>
+<body>
+  <h2>Install odfpy via tar.gz + Upload ODS</h2>
+  <input type="file" id="fileInput" accept=".ods">
+  <button onclick="installOdfpy()">Install odfpy</button>
+  <button onclick="readODS()">Read ODS</button>
+  <pre id="output">[waiting]</pre>
+
+<script>
+let pyodide = null;
+
+async function installOdfpy() {
+  const output = document.getElementById("output");
+  output.textContent = "[*] Initializing Pyodide...\n";
+  pyodide = await loadPyodide();
+
+  await pyodide.loadPackage("micropip");
+  output.textContent += "[+] Installing dependencies...\n";
+
+  const url = "https://files.pythonhosted.org/packages/97/73/8ade73f6749177003f7ce3304f524774adda96e6aaab30ea79fd8fda7934/odfpy-1.4.1.tar.gz";
+  const response = await fetch(url);
+  const data = new Uint8Array(await response.arrayBuffer());
+  pyodide.FS.writeFile("/odfpy.tar.gz", data);
+
+  await pyodide.runPythonAsync(`
+import micropip
+import tarfile
+import sys
+import os
+
+await micropip.install(["defusedxml", "pandas"])
+
+tar = tarfile.open("/odfpy.tar.gz", "r:gz")
+tar.extractall("/")
+tar.close()
+
+sys.path.insert(0, "/odfpy-1.4.1")
+os.chdir("/odfpy-1.4.1")
+`);
+
+  output.textContent += "✅ odfpy installed!\nReady to upload and read an ODS file.\n";
+}
+
+async function readODS() {
+  const output = document.getElementById("output");
+  const fileInput = document.getElementById("fileInput");
+  if (!pyodide) {
+    output.textContent += "❌ Pyodide not initialized. Click Install first.\n";
+    return;
+  }
+  if (fileInput.files.length === 0) {
+    output.textContent += "❌ No file selected.\n";
+    return;
+  }
+
+  const file = fileInput.files[0];
+  const data = new Uint8Array(await file.arrayBuffer());
+  pyodide.FS.writeFile(file.name, data);
+
+  output.textContent += `[+] Uploaded ${file.name} to Pyodide FS\n[*] Reading with pandas...\n`;
+
+  try {
+    const result = await pyodide.runPythonAsync(`
+import pandas as pd
+df = pd.read_excel("${file.name}", engine="odf")
+df.to_string()
+`);
+    output.textContent += `✅ Read Success:\n\n${result}\n`;
+  } catch (e) {
+    output.textContent += `❌ Read failed:\n${e}\n`;
+  }
+}
+</script>
+</body>
+</html>
