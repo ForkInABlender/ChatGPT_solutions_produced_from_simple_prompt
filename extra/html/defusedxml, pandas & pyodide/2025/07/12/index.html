@@ -39,7 +39,7 @@ async function installOdfpy() {
 import micropip
 import tarfile
 import sys
-import os
+import shutil
 
 await micropip.install(["defusedxml", "pandas"])
 
@@ -47,8 +47,7 @@ tar = tarfile.open("/odfpy.tar.gz", "r:gz")
 tar.extractall("/")
 tar.close()
 
-sys.path.insert(0, "/odfpy-1.4.1")
-os.chdir("/odfpy-1.4.1")
+shutil.copytree("/odfpy-1.4.1/odf", "/lib/python3.11/site-packages/odf", dirs_exist_ok=True)
 `);
 
   output.textContent += "✅ odfpy installed!\nReady to upload and read an ODS file.\n";
