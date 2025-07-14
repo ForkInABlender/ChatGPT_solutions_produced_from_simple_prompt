@@ -1,0 +1,106 @@
+<!-- # Dylan Kenneth Eliot
+
+"""
+had to test a theory....
+
+now one can use sql directly in the browser....
+
+"""
+
+-->
+<html>
+<script src="https://cdn.jsdelivr.net/pyodide/v0.25.1/full/pyodide.js"></script>
+<body>
+  <button onclick="installOdfpy()">Install odfpy</button>
+  <button onclick="readODS()">Read ODS</button>
+  <pre id="output">[waiting]</pre>
+
+<script>
+let pyodide = null;
+
+async function installOdfpy() {
+  const output = document.getElementById("output");
+  output.textContent = "[*] Initializing Pyodide...\n";
+  pyodide = await loadPyodide();
+
+  await pyodide.loadPackage("micropip");
+  output.textContent += "[+] Installing dependencies...\n";
+
+  const url = "https://files.pythonhosted.org/packages/97/73/8ade73f6749177003f7ce3304f524774adda96e6aaab30ea79fd8fda7934/odfpy-1.4.1.tar.gz";
+  const response = await fetch(url);
+  const data = new Uint8Array(await response.arrayBuffer());
+  pyodide.FS.writeFile("/odfpy.tar.gz", data);
+
+  await pyodide.runPythonAsync(`
+import micropip
+import tarfile
+import sys
+import shutil
+
+await micropip.install(["defusedxml", "pandas", "sqlite3"])
+
+tar = tarfile.open("/odfpy.tar.gz", "r:gz")
+tar.extractall("/")
+tar.close()
+
+shutil.copytree("/odfpy-1.4.1/odf", "/lib/python3.11/site-packages/odf", dirs_exist_ok=True)
+`);
+
+  output.textContent += "✅ odfpy installed!\nReady to upload and read an ODS file.\n";
+}
+
+async function readODS() {
+  const output = document.getElementById("output");
+  if (!pyodide) {
+    output.textContent += "❌ Pyodide not initialized. Click Install first.\n";
+    return;
+  }
+
+
+
+  try {
+    const result = await pyodide.runPythonAsync(`
+import sqlite3
+import pandas as pd
+import numpy as np
+
+# Step 1: Create in-memory SQL database
+conn = sqlite3.connect(':memory:')
+cur = conn.cursor()
+
+# Step 2: Generate large tables
+N = 200
+
+# Create table A
+cur.execute("CREATE TABLE a (id INTEGER, key INTEGER, value REAL);")
+a_data = [(i, np.random.randint(0, N//10), np.random.rand()) for i in range(N)]
+cur.executemany("INSERT INTO a VALUES (?, ?, ?);", a_data)
+
+# Create table B
+cur.execute("CREATE TABLE b (id INTEGER, key INTEGER, value REAL);")
+b_data = [(i, np.random.randint(0, N//10), np.random.rand()) for i in range(N)]
+cur.executemany("INSERT INTO b VALUES (?, ?, ?);", b_data)
+
+conn.commit()
+
+# Step 3: Heavy SQL Query
+query = """
+SELECT a.id AS id_a, b.id AS id_b, AVG(a.value + b.value) AS mean_sum,
+       SUM(a.value) AS total_a, SUM(b.value) AS total_b
+FROM a
+JOIN b ON a.key = b.key
+GROUP BY a.id, b.id
+ORDER BY RANDOM()
+"""
+
+df = pd.read_sql_query(query, conn)
+df.to_string()
+`);
+    output.textContent += `✅ Read Success:\n\n${result}\nanything beyond 200 results becomes memory intensive, such that it directly corrolates to the offline version as well...`;
+  } catch (e) {
+    output.textContent += `❌ Read failed:\n${e}\n`;
+  }
+}
+</script>
+</body>
+</html>
