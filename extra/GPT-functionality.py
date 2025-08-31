@@ -6,6 +6,7 @@ This is how you GPT the wrong way, then pickle the object for layer reuse, minus
 
 As you can see some inquiries might need adjustment of even the "weights" to come closer to matching quiry. The same might be also true for top-k, temp & top-p values.
 
+This is the type of code I normally throw into the project-graveyard due to it's half-functional state.
 """
 
 # Running a test of the offline GPT-3.5 behavioral emulator (trigram Markov + sampling)
