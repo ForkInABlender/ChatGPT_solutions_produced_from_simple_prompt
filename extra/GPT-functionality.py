@@ -14,7 +14,6 @@ As you can see some inquiries might need adjustment of even the "weights" to com
 
 from collections import defaultdict, Counter
 import random, math, re, sys
-from collections import defaultdict, Counter
 
 # --- Tokenize / detokenize utilities ---
 def tokenize(text):
