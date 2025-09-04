@@ -1,7 +1,6 @@
 # Dylan Kenneth Eliot
 
 """
-
 This is how you GPT the wrong way, then pickle the object for layer reuse, minus the pickling of objects via modules such as 'dill' (https://pypi.org/project/dill/)
 
 As you can see some inquiries might need adjustment of even the "weights" to come closer to matching quiry. The same might be also true for top-k, temp & top-p values.
