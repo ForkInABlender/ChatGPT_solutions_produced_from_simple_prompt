@@ -1,0 +1,94 @@
+# Dylan Kenneth Eliot
+
+"""
+
+this is a ascii art layout of how Google-gemini functions under the hood.
+"""
+
+```
+                                +-------------------+
+                                |                   |
+                                |     Your Prompt   |
+                                |       (Text)      |
+                                |                   |
+                                +-------------------+
+                                          |
+                                          | Internet (HTTPS/TCP/IP)
+                                          |
+                                          V
+             +------------------------------------------------------------------------------------------------+
+             |                                   Google Cloud Infrastructure                                  |
+             |                                                                                                |
+             |  +------------------------------------------------------------------------------------------+  |
+             |  |                                                                                          |  |
+             |  |   Globally Distributed Network of Google Data Centers                                    |  |
+             |  |                                                                                          |  |
+             |  |  +--------------------------+                                                            |  |
+             |  |  | Load Balancers / Routers |                                                            |  |
+             |  |  | (Directs incoming requests)|                                                           |  |
+             |  |  +--------------------------+                                                            |  |
+             |  |             |                                                                            |  |
+             |  |             V                                                                            |  |
+             |  |  +------------------------------------------------------------------------------------+  |  |
+             |  |  |  Orchestration & Resource Management (e.g., Kubernetes, Borg)                      |  |  |
+             |  |  |  (Assigns tasks to available hardware)                                               |  |  |
+             |  |  +------------------------------------------------------------------------------------+  |  |
+             |  |             |                                                                            |  |
+             |  |             V                                                                            |  |
+             |  |  +------------------------------------------------------------------------------------+  |  |
+             |  |  |  Machine Learning Service Layer (API endpoints, pre-processing)                    |  |  |
+             |  |  |  (Converts text to numerical tokens)                                                 |  |  |
+             |  |  +------------------------------------------------------------------------------------+  |  |
+             |  |             |                                                                            |  |
+             |  |             V                                                                            |  |
+             |  |  +------------------------------------------------------------------------------------+  |  |
+             |  |  |  Distributed Execution Engine (TensorFlow Runtime, JAX Runtime)                    |  |  |
+             |  |  |  (Manages computations across TPUs)                                                  |  |  |
+             |  |  +--------------------------^-----------------------------------^----------------------+  |  |
+             |  |                             |                                   |                         |  |
+             |  |                             |                                   |                         |  |
+             |  |                             | Request & Data Flow               | Model State & Parameters|  |
+             |  |                             V                                   |                         |  |
+             |  |  +------------------------------------------------------------------------------------+  |  |
+             |  |  |  TPU Pods (Massively Parallel AI Accelerators)                                       |  |  |
+             |  |  |  (Thousands of interconnected Google Tensor Processing Units - TPUs)                 |  |  |
+             |  |  |  +-----------------+  +-----------------+      +-----------------+      +-----------------+ |  |
+             |  |  |  | TPU Chip 1      |--| TPU Chip 2      |------| ...             |------| TPU Chip N      | |  |
+             |  |  |  | (Executes neural |  | (Executes neural |      |                 |      | (Executes neural | |  |
+             |  |  |  | net calculations)|  | net calculations)|      |                 |      | net calculations)| |  |
+             |  |  |  +-----------------+  +-----------------+      +-----------------+      +-----------------+ |  |
+             |  |  |         |                    |                                                 |           |  |
+             |  |  |         |   (Internal High-Speed Interconnects: e.g., Optical Links, Systolic Arrays)   |  |
+             |  |  |         V                    V                                                 V           |  |
+             |  |  |  +------------------------------------------------------------------------------------+  |  |
+             |  |  |  |                  The Gemini Model (Trillions of Parameters)                      |  |  |
+             |  |  |  |  (Neural Network Architecture: Transformer, Multi-Layer Perceptron, Embeddings)  |  |  |
+             |  |  |  |  (Performs the "Forward Pass" computation on input tokens)                       |  |  |
+             |  |  |  +------------------------------------------------------------------------------------+  |  |
+             |  |  +------------------------------------------------------------------------------------+  |  |
+             |  |                                       ^                                                |  |
+             |  |                                       | Numerical Output (Probability Distributions)   |  |
+             |  |  +------------------------------------------------------------------------------------+  |  |
+             |  |  |  Machine Learning Service Layer (Post-processing, Token Decoding)                  |  |  |
+             |  |  |  (Converts numerical output back to human-readable text)                             |  |  |
+             |  |  +------------------------------------------------------------------------------------+  |  |
+             |  |                                       ^                                                |  |
+             |  |                                       |                                                |  |
+             |  |  +------------------------------------------------------------------------------------+  |  |
+             |  |  |  API Gateway / Response Handling                                                     |  |  |
+             |  |  |  (Formats response, applies safety filters if applicable)                            |  |  |
+             |  |  +------------------------------------------------------------------------------------+  |  |
+             |  +------------------------------------------------------------------------------------------+  |
+             |                                                                                                |
+             +------------------------------------------------------------------------------------------------+
+                                          |
+                                          | Internet (HTTPS/TCP/IP)
+                                          |
+                                          V
+                                +-------------------+
+                                |                   |
+                                |    Your Screen    |
+                                |  (Browser/App)    |
+                                |                   |
+                                +-------------------+
+```
