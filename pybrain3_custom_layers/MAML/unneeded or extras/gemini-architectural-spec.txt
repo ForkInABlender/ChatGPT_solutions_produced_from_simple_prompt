@@ -92,3 +92,54 @@ this is a ascii art layout of how Google-gemini functions under the hood.
                                 |                   |
                                 +-------------------+
 ```
+
+"""
+
+And below will be the simplified version of that stack to remove vendor (hardware) lockin
+
+```
++-------------------+
+|   User Prompt     |
+|  (Browser / App)  |
++-------------------+
+          |
+          v
++------------------------------+
+| Flask Server (Python backend)|
+| - Routes: /train, /infer     |
+| - Provides model shards,     |
+|   checkpoints, datasets      |
++------------------------------+
+          |
+          v
++-------------------------------------------------------+
+| Browser Runtime                                       |
+|-------------------------------------------------------|
+| Pyodide (Python in WASM)                              |
+|   - Runs PyBrain3 (NN API, training loop abstraction) |
+|   - Manages data prep & orchestration                 |
+|   - Calls into WASM scheduler for graph ops           |
+|                                                       |
+| Brython (Python-in-JS UI glue)                        |
+|   - Lightweight browser logic                         |
+|   - Bridges DOM/UI <-> Pyodide                        |
+|                                                       |
+| WASM Compiler/Scheduler                               |
+|   - Fuses ops, optimizes graph                        |
+|   - Emits GPU.js kernels or WebGPU shaders            |
+|                                                       |
+| GPU.js / WebGPU                                       |
+|   - Executes matmuls, convs, activations              |
+|   - Acts as TPU analog (parallel tensor core)         |
+|                                                       |
+| Storage                                               |
+|   - IndexedDB: local checkpoints                     |
+|   - WebSockets/WebRTC: sync w/ Flask or peers         |
++-------------------------------------------------------+
+          |
+          v
++-------------------+
+|   Model Output    |
+|   (Response)      |
++-------------------+
+```
