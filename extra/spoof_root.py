@@ -106,7 +106,7 @@ with tempfile.TemporaryDirectory() as tmpdir:
         # Run `ls /root`
         try:
             results["ls /root"] = subprocess.check_output(
-                ["ls", "/root -al"], env=env, text=True
+                ["whoami"], env=env, text=True
             ).strip()
         except Exception as e:
             results["ls /root"] = f"error: {e}"
