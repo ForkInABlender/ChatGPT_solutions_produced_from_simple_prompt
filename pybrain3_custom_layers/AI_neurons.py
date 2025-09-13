@@ -12,6 +12,9 @@ Now the smile below is of Crispr or the common substructure used in DNA repair m
 
 What I'd like for to be done with this is for it to be used to find stable DNA repairs and how they apply to the brain via emulation.
 
+brian2 module as of 9/13/2025 10:18 has been deprecated.
+
+Now works within pyodide as well if you substitute rdkit with rdkit.js
 
 """
 
