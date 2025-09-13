@@ -16,6 +16,8 @@ brian2 module as of 9/13/2025 10:18 has been deprecated.
 
 Now works within pyodide as well if you substitute rdkit with rdkit.js
 
+all parts tested manually and run as normal.
+
 """
 
 from rdkit import Chem
