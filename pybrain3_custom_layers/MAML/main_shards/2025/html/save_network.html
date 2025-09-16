@@ -1,0 +1,114 @@
+<!-- # Dylan Kenneth Eliot
+
+"""
+Now you can save your networks & datasets as needed. and reload as needed.
+
+Read_network.html is next.
+
+"""
+
+-->
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>Save PyBrain3 Network via Pyodide</title>
+  <script src="https://cdn.jsdelivr.net/pyodide/v0.25.1/full/pyodide.js"></script>
+</head>
+<body>
+  <h1>Save a PyBrain3 Network</h1>
+  <button id="saveBtn">Create & Save Network</button>
+  <pre id="output"></pre>
+
+  <script>
+    async function main() {
+      const pyodide = await loadPyodide();
+      await pyodide.loadPackage(['numpy', 'scipy', 'micropip']);
+      await pyodide.runPythonAsync(`
+import numpy as np
+import scipy
+import micropip
+
+scipy.reshape = np.reshape
+scipy.dot = np.dot
+scipy.outer = np.outer
+scipy.where = np.where
+scipy.array = np.array
+scipy.exp = np.exp
+scipy.zeros = np.zeros
+scipy.size = np.size
+scipy.mat = np.mat
+scipy.ndarray = np.ndarray
+scipy.eye = np.eye
+scipy.tanh = np.tanh
+scipy.clip = np.clip
+scipy.log = np.log
+scipy.sqrt = np.sqrt
+scipy.power = np.power
+scipy.pi = np.pi
+scipy.tan = np.tan
+scipy.diag = np.diag
+scipy.rand = np.random.rand
+scipy.random = np.random
+scipy.mgrid = np.mgrid
+scipy.tile = np.tile
+scipy.floor = np.floor
+scipy.sum = np.sum
+
+await micropip.install('pybrain3')
+
+import pybrain3.utilities as util
+
+def py3_file(filename, mode='r', *args, **kwargs):
+    mode = mode.replace('U', '')
+    return open(filename, mode, *args, **kwargs)
+
+util.file = py3_file
+
+
+def py3_canonicClassString(x):
+    return repr(x.__class__).split("'")[1]
+
+util.canonicClassString = py3_canonicClassString
+
+      `);
+
+      document.getElementById('saveBtn').addEventListener('click', async () => {
+        // Python code: create a network and save to file
+        const pycode = `
+from pybrain3.tools.shortcuts import buildNetwork
+from pybrain3.tools.xml import NetworkWriter
+
+# Simple 2-3-1 network
+net = buildNetwork(2, 3, 1, bias=False)
+
+# Save to Pyodide FS
+filename = "network.xml"
+NetworkWriter.writeToFile(net, filename)
+
+filename
+        `;
+
+        // Run Python, returns filename
+        const filename = await pyodide.runPythonAsync(pycode);
+
+        // Read the file from Pyodide FS
+        const data = pyodide.FS.readFile(filename, { encoding: "utf8" });
+
+        // Create a download link
+        const blob = new Blob([data], { type: "application/xml" });
+        const url = URL.createObjectURL(blob);
+
+        const link = document.createElement("a");
+        link.href = url;
+        link.download = filename;
+        link.textContent = `Download ${filename}`;
+        document.body.appendChild(link);
+
+        document.getElementById('output').innerText = "Network created and ready for download!";
+      });
+    }
+
+    main();
+  </script>
+</body>
+</html>
