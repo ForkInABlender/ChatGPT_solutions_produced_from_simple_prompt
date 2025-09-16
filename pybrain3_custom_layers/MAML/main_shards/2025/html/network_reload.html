@@ -1,0 +1,143 @@
+<!-- # Dylan Kenneth Eliot
+
+
+"""
+
+Now you can reload your networks and datasets, and train/retrain, redownload, and repeat as needed. 
+
+"""
+
+
+-->
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>PyBrain3 Network Loader (Pyodide)</title>
+  <script src="https://cdn.jsdelivr.net/pyodide/v0.25.1/full/pyodide.js"></script>
+</head>
+<body>
+  <h3>Upload a PyBrain3 Network (.xml)</h3>
+  <input type="file" id="fileInput" accept=".xml" />
+
+  <pre id="output"></pre>
+
+  <script>
+    async function main() {
+      let pyodide = await loadPyodide();
+      await pyodide.loadPackage(['numpy', 'scipy', 'micropip']);
+      await pyodide.runPythonAsync(`
+import numpy as np
+import scipy
+import micropip
+
+scipy.reshape = np.reshape
+scipy.dot = np.dot
+scipy.outer = np.outer
+scipy.where = np.where
+scipy.array = np.array
+scipy.exp = np.exp
+scipy.zeros = np.zeros
+scipy.size = np.size
+scipy.mat = np.mat
+scipy.ndarray = np.ndarray
+scipy.eye = np.eye
+scipy.tanh = np.tanh
+scipy.clip = np.clip
+scipy.log = np.log
+scipy.sqrt = np.sqrt
+scipy.power = np.power
+scipy.pi = np.pi
+scipy.tan = np.tan
+scipy.diag = np.diag
+scipy.rand = np.random.rand
+scipy.random = np.random
+scipy.mgrid = np.mgrid
+scipy.tile = np.tile
+scipy.floor = np.floor
+scipy.sum = np.sum
+
+await micropip.install('pybrain3')
+
+import pybrain3.utilities as util
+
+def py3_file(filename, mode='r', *args, **kwargs):
+    mode = mode.replace('U', '')
+    return open(filename, mode, *args, **kwargs)
+
+util.file = py3_file
+
+
+def py3_canonicClassString(x):
+    return repr(x.__class__).split("'")[1]
+
+util.canonicClassString = py3_canonicClassString
+
+
+import sys, pybrain3, string, builtins
+import pybrain3.utilities as util
+
+def py3_file(filename, mode='r', *args, **kwargs):
+    mode = mode.replace('U', '')
+    return open(filename, mode, *args, **kwargs)
+util.file = py3_file
+
+def py3_canonicClassString(x):
+    return repr(x.__class__).split("'")[1]
+util.canonicClassString = py3_canonicClassString
+
+# Patch string.strip for Python3
+if not hasattr(string, "strip"):
+    string.strip = lambda s: s.strip() if isinstance(s, str) else builtins.str(s).strip()
+
+sys.modules["pybrain"] = pybrain3
+
+import pybrain3.structure.connections
+import numpy as np
+
+def get_derivs(self):
+    if not hasattr(self, '_derivs'):
+        self._derivs = np.zeros(0)
+    return self._derivs
+
+pybrain3.structure.connections.FullConnection.derivs = property(get_derivs)
+
+import pybrain3.structure.parametercontainer
+import numpy as np
+
+def safe_derivs(self):
+    if not hasattr(self, '_derivs'):
+        # Initialize with zeros matching the size of self.params
+        self._derivs = np.zeros_like(self.params)
+    return self._derivs
+
+pybrain3.structure.parametercontainer.ParameterContainer.derivs = property(safe_derivs)
+
+      `);
+
+      // Handle file upload
+      document.getElementById("fileInput").addEventListener("change", async (evt) => {
+        const file = evt.target.files[0];
+        if (!file) return;
+
+        // Copy uploaded file into Pyodide's virtual FS
+        const data = new Uint8Array(await file.arrayBuffer());
+        pyodide.FS.writeFile(file.name, data);
+
+        // Now use NetworkReader to load it
+        try {
+          let result = await pyodide.runPythonAsync(`
+from pybrain3.tools.xml import NetworkReader
+net = NetworkReader.readFrom("${file.name}")
+f"Loaded network: indim={net.activate([1,1])}"
+          `);
+
+          document.getElementById("output").textContent = result;
+        } catch (err) {
+          document.getElementById("output").textContent = "Error: " + err;
+        }
+      });
+    }
+    main();
+  </script>
+</body>
+</html>
