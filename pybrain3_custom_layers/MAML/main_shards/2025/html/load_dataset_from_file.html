@@ -1,0 +1,96 @@
+<!-- # Dylan Kenneth Eliot
+
+load and save to file '.dat' format for reuse of dataset-as-file but in the browser as well.
+
+
+-->
+
+<html>
+<head>
+  <meta charset="UTF-8">
+  <script src="https://cdn.jsdelivr.net/pyodide/v0.25.1/full/pyodide.js"></script>
+</head>
+<body><br><br>
+  <h1>Load PyBrain3 Dataset from User File</h1>
+  <input type="file" id="datasetFile" accept=".dat">
+  <pre id="output"></pre>
+
+  <script>
+    async function main() {
+      const pyodide = await loadPyodide();
+      await pyodide.loadPackage(['numpy', 'scipy', 'micropip']);
+      await pyodide.runPythonAsync(`
+import numpy as np
+import scipy
+import micropip
+
+scipy.reshape = np.reshape
+scipy.dot = np.dot
+scipy.outer = np.outer
+scipy.where = np.where
+scipy.array = np.array
+scipy.exp = np.exp
+scipy.zeros = np.zeros
+scipy.size = np.size
+scipy.mat = np.mat
+scipy.ndarray = np.ndarray
+scipy.eye = np.eye
+scipy.tanh = np.tanh
+scipy.clip = np.clip
+scipy.log = np.log
+scipy.sqrt = np.sqrt
+scipy.power = np.power
+scipy.pi = np.pi
+scipy.tan = np.tan
+scipy.diag = np.diag
+scipy.rand = np.random.rand
+scipy.random = np.random
+scipy.mgrid = np.mgrid
+scipy.tile = np.tile
+scipy.floor = np.floor
+scipy.sum = np.sum
+
+await micropip.install('pybrain3')
+
+import pybrain3.utilities as util
+
+def py3_file(filename, mode='r', *args, **kwargs):
+    mode = mode.replace('U', '')
+    return open(filename, mode, *args, **kwargs)
+
+util.file = py3_file
+      `);
+
+      const fileInput = document.getElementById('datasetFile');
+      fileInput.addEventListener('change', async (event) => {
+        const file = event.target.files[0];
+        if (!file) return;
+
+        // Read file as ArrayBuffer (binary)
+        const arrayBuffer = await file.arrayBuffer();
+        const uint8Array = new Uint8Array(arrayBuffer);
+
+        // Write to Pyodide FS with the same filename
+        pyodide.FS.writeFile(file.name, uint8Array);
+
+        // Python code: load dataset from the file
+        const code = `
+from pybrain3.datasets import SupervisedDataSet
+
+ds = SupervisedDataSet.loadFromFile('${file.name}')
+
+out = ""
+for inp, tgt in ds:
+    out += f"Input: {inp} Target: {tgt}\\n"
+out
+        `;
+
+        const output = await pyodide.runPythonAsync(code);
+        document.getElementById('output').innerText = output;
+      });
+    }
+
+    main();
+  </script>
+</body>
+</html>
