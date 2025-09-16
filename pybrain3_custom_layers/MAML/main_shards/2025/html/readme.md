@@ -1,6 +1,6 @@
 # Why do these exist?
 
-These exist to mimick the human brain with bits of the web. 
+These exist to mimick the human brain with bits of the web, or otherwise make such easier.
 
 # What's it for?
 
