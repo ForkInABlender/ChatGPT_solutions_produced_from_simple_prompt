@@ -13,8 +13,16 @@ not just versality of tacticile environments.
 # How do you know any of this works?
 
 Manual tested, on my blog, local machine, and remote machine.
-If it didn't work, forkinablender/project-graveyard would have these parts in its trash pile.
+If it didn't work or only half-worked, forkinablender/project-graveyard would have these parts in its trash pile.
 
 # Why not make the repo private?
 
 We do not support proprietary development of software at any given time. The other reason is fair marketplace competition in building the real thing.
+
+# Isn't that dangerous?
+
+No; tools misused is what makes anything dangerous.
+
+# So you expect people to copy-pasta?
+
+I expect fair market competition with nothing hidden. 
