@@ -1,3 +1,5 @@
+# Dylan Kenneth Eliot
+
 from pybrain3.datasets.supervised import SupervisedDataSet
 
 # 1. Create a simple supervised dataset
