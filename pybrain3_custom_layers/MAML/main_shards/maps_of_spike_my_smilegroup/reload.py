@@ -1,3 +1,6 @@
+# Dylan Kenneth Eliot 
+
+
 from pybrain3.tools.xml import NetworkReader
 
 net = NetworkReader.readFrom("CCO_spike.xml")
