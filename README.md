@@ -18,3 +18,7 @@ Excessive optimization produces deadwood and adds bloatware that would have init
 The projects' aim is to imitate the human head based on language input, visual input, and auditorial input, plus some abstractions needed for neurochemical emulation as close to
  the dynamic a human head uses. For reference look to the folder "pybrain networks" and "MAML". Under that folder, you'll find bits needed to construct an AI before needing EEG, BCI,
   fMRI (non-intrusive, small scale DIY & the like) and extrapolate backward from that data.
+
+# Why not use tensorflow, pytorch or onnx?
+
+While they are good tools for learning basic neural networking, they skimp the practical modeling of neural networks, how they function, or any ability to refine data sufficiently without optimizing away essential noise. The lack of fine grain sets or over-commitence to optimize away essential noise leads to improper modeling/training given insufficient training data/methods to train on/from.
