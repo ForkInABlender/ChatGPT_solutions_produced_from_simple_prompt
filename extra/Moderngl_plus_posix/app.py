@@ -25,12 +25,12 @@ import moderngl
 from pyrr import Matrix44
 
 # Outer character window (inside border)
-OUTER_W = 100
-OUTER_H = 50
+OUTER_W = 40
+OUTER_H = 20
 
 # Inner logical drawing area (smaller "character size" visually)
-INNER_W = 30
-INNER_H = 20
+INNER_W = 15
+INNER_H = 10
 
 # Derived pixel resolution for inner braille area
 PIXEL_W = INNER_W * 2
