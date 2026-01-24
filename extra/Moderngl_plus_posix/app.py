@@ -15,6 +15,8 @@ Later on, mouse and keyboard controls can be added.
 Currently useful with gotty for portable terminal game/terminal based renderer.
   Or useful for 3d environment to build the 3d portions of an AI layer that requires a opengl 'canvas' without vendor lockin.
 
+
+and because I was clever, it also works on Android via termux ( andronix image kf u unti jammy using python3.10)
 """
 
 
