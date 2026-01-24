@@ -77,7 +77,7 @@ indices = np.array([
     0,1,5, 5,4,0,
 ], dtype='i4')
 
-ctx = moderngl.create_standalone_context()
+ctx = moderngl.create_standalone_context(require=330, backend="egl")
 
 color_tex = ctx.texture((PIXEL_W, PIXEL_H), 3)
 depth_rb = ctx.depth_renderbuffer((PIXEL_W, PIXEL_H))
