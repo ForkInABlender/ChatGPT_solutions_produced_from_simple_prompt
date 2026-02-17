@@ -312,3 +312,6 @@ class Formatter:
 def split(s, sep=None):
     """Split a string using the old Python 2-style split function."""
     return s.split(sep)
+
+def strip(s, chars=None):
+    return s.strip(chars)
