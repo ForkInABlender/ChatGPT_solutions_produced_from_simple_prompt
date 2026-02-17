@@ -1,3 +1,12 @@
+# Dylan Kenneth Eliot
+
+######
+"""
+This file is updated for usage by pybrain3/pybrain models of neural networks. 
+"""
+#####
+
+
 """A collection of string constants.
 
 Public module variables:
