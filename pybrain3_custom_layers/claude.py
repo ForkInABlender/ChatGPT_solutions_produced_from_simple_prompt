@@ -1,5 +1,11 @@
-#import sys
-#sys.path.insert(0, '.')  # ensure string.py and pybrain3/ are on path
+# Dylan Kenneth Eliot
+
+"""
+Below is a minor monkey patch if one doesn't have scipy patched correctly to import from numpy.
+
+The network can save and reload itself correctly. Just uncomment one line in (pybrain3/pybrain)/utilites.py to import string.py's split function in order to save and reload off xml files.
+
+"""
 
 import scipy, numpy as np, types
 """_P = {
