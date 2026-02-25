@@ -55,7 +55,7 @@ def load_network_strict_lxml(filename):
     tree = etree.parse(filename)
     root = tree.getroot()
 
-    net = FeedForwardNetwork()
+    net = eval(root.get('py_class'))()
 
     module_objs = {}
     modules_pending_params = []
