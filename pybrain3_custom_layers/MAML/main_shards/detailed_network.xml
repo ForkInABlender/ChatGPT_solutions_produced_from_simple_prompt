@@ -1,0 +1,15 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<Network name="StrictPyBrainNet" py_class="FeedForwardNetwork">
+  <Modules>
+    <Module name="hidden0" size="3" class="SigmoidLayer"/>
+    <Module name="bias" size="0" class="BiasUnit"/>
+    <Module name="in" size="2" class="LinearLayer"/>
+    <Module name="out" size="1" class="LinearLayer"/>
+  </Modules>
+  <Connections>
+    <Connection class="FullConnection" from="in" to="hidden0">-0.7347939413765705,0.6695643972145396,-0.11316776570560245,0.42358855000295775,1.5858347435416227,-0.05899877252176422</Connection>
+    <Connection class="FullConnection" from="bias" to="out">-0.5773885901274748</Connection>
+    <Connection class="FullConnection" from="bias" to="hidden0">-1.305659081562485,0.8744259305820242,-0.14433688116766152</Connection>
+    <Connection class="FullConnection" from="hidden0" to="out">-0.5051082978357425,-1.1417493040137416,1.024693288165624</Connection>
+  </Connections>
+</Network>
