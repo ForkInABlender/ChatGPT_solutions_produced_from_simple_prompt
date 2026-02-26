@@ -1,5 +1,12 @@
-#import sys
-#sys.path.insert(0, '.')  # ensure string.py and pybrain3/ are on path
+# Dylan Kenneth Eliot
+
+"""
+This took some refactoring. 
+
+The changes are only for load and reload. The rest is practically the same.
+
+"""
+
 
 import scipy, numpy as np, types
 
