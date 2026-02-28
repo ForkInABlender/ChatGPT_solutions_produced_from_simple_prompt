@@ -1,3 +1,10 @@
+#
+
+"""
+Tested within wine64 on cpython.exe 3.10.11
+
+"""
+
 from flask import Flask, render_template, request, jsonify
 
 # Create the Flask app
