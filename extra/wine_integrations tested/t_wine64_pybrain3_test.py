@@ -1,4 +1,10 @@
-# basic_pybrain3_network.py
+# Dylan Kenneth Eliot
+
+"""
+This was tested within wine64 python3.10.11 code. 
+
+It ran identically to rest of compute elsewhere and restored the model 1:1 on linux & on termux.
+"""
 
 from pybrain3.structure import FeedForwardNetwork
 from pybrain3.structure.modules import LinearLayer, SigmoidLayer
