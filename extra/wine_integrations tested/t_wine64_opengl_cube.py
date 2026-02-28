@@ -1,3 +1,9 @@
+# Dylan Kenneth Eliot
+
+"""
+Open a wine64 python shell with this script and render with opengl a 3d cube with a color pallete rotating in freebody-space.
+"""
+
 import ctypes
 from ctypes import wintypes
 
