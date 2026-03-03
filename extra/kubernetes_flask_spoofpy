@@ -6,6 +6,8 @@ This file spoofs kubernetes functionality.
 
 in this way, it both breaks the default convention of kubernetes development, making it able to equally function on Android.
 
+due to type marshalling of information, it matches just enough of what kubectl expects in normal kubernetes environment minimally.
+
 """"
 
 
