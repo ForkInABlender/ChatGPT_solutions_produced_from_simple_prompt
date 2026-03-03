@@ -1,4 +1,13 @@
-# fake_kube_cluster_fixed.py
+#Dylan Kenneth Eliot
+
+""""
+This file spoofs kubernetes functionality.
+
+""""
+
+
+
+
 from flask import Flask, request, jsonify, Response
 import uuid, copy, json
 from datetime import datetime
