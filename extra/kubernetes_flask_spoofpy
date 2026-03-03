@@ -3,6 +3,9 @@
 """"
 This file spoofs kubernetes functionality.
 
+
+in this way, it both breaks the default convention of kubernetes development, making it able to equally function on Android.
+
 """"
 
 
