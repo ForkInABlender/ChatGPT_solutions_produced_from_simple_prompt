@@ -11,15 +11,16 @@ due to type marshalling of information, it matches just enough of what kubectl e
 
 This file was created on 3/3/2026 @ 11:49 am. And retested on android via termux for quality assurance.
 
-Professional development will continue within 6 hrs from 2:06 on 3/3/2026.
+Professional development will continue within 6 hrs from 2:06 on 3/4/2026;;; code patched 11:51 pm 
 """"
 
 
 
-
+# fake_kube_cluster_fixed.py
 from flask import Flask, request, jsonify, Response
 import uuid, copy, json
 from datetime import datetime
+import time, random
 
 app = Flask(__name__)
 
@@ -158,6 +159,137 @@ def namespace_detail(name):
     return jsonify({"status":"Success"})
 
 # -----------------------------
+# Enhanced Status Handling
+# -----------------------------
+def simulate_pod_status(pod_name):
+    """Generates realistic pod status with simulated conditions"""
+    return {
+        "phase": "Running",
+        "conditions": [
+            {"type": "Initialized", "status": "True"},
+            {"type": "Ready", "status": "True"},
+            {"type": "ContainersReady", "status": "True"},
+            {"type": "PodScheduled", "status": "True"}
+        ],
+        "containerStatuses": [{
+            "name": "main",
+            "state": {"running": {"startedAt": now()}},
+            "ready": True,
+            "restartCount": 0,
+            "image": "alpine:latest",
+            "imageID": f"docker-pullable://alpine@sha256:{str(uuid.uuid4())[:32]}",
+            "containerID": f"docker://{str(uuid.uuid4())}"
+        }],
+        "startTime": now(),
+        "podIP": f"10.244.{random.randint(0,255)}.{random.randint(1,254)}",
+        "qosClass": "Burstable"
+    }
+
+# -----------------------------
+# Enhanced Pod Creation
+# -----------------------------
+@app.route("/api/v1/namespaces/<ns>/pods", methods=["POST"])
+def create_pod(ns):
+    ensure_namespace(ns)
+    data = request.json
+    assign_metadata(data, ns)
+    
+    # Auto-populate required fields if missing
+    data.setdefault("spec", {})
+    data["spec"].setdefault("containers", [{
+        "name": "main",
+        "image": "alpine:latest",
+        "imagePullPolicy": "IfNotPresent"
+    }])
+    
+    # Generate realistic status
+    data["status"] = simulate_pod_status(data["metadata"]["name"])
+    
+    key = f"{ns}/{data['metadata']['name']}"
+    store["pods"][key] = data
+    
+    # Simulate scheduling delay
+    time.sleep(0.5)
+    
+    return jsonify(data)
+
+# -----------------------------
+# Enhanced Watch Endpoint
+# -----------------------------
+@app.route("/api/v1/watch/<path:path>")
+def watch_resource(path):
+    def event_generator():
+        last_rv = request.args.get('resourceVersion', '0')
+        
+        while True:
+            current_rv = GLOBAL_RV
+            if int(last_rv) < current_rv:
+                # Find changed resources
+                changed = []
+                for resource_type in store:
+                    for key, obj in store[resource_type].items():
+                        if obj.get("metadata", {}).get("resourceVersion", "0") > last_rv:
+                            changed.append(("MODIFIED", obj))
+                
+                # Sort by resourceVersion
+                changed.sort(key=lambda x: x[1]["metadata"]["resourceVersion"])
+                
+                for event_type, obj in changed:
+                    yield f"data: {json.dumps({'type': event_type, 'object': obj})}\n\n"
+                
+                last_rv = str(current_rv)
+            
+            time.sleep(1)
+    
+    return Response(event_generator(), mimetype="text/event-stream")
+
+# -----------------------------
+# Metrics Endpoint
+# -----------------------------
+@app.route("/metrics")
+def metrics():
+    metrics = [
+        "# HELP kubernetes_mock_resources_total Total number of resources in mock cluster",
+        "# TYPE kubernetes_mock_resources_total gauge"
+    ]
+    
+    for resource_type, resources in store.items():
+        metrics.append(f'kubernetes_mock_resources_total{{resource_type="{resource_type}"}} {len(resources)}')
+    
+    return Response("\n".join(metrics), mimetype="text/plain")
+
+# -----------------------------
+# Enhanced Health Checks
+# -----------------------------
+@app.route("/healthz")
+def health_check():
+    return jsonify({
+        "status": "healthy",
+        "components": {
+            "api": True,
+            "etcd": False,  # Mock doesn't use etcd
+            "controller": True,
+            "scheduler": True
+        }
+    })
+
+# -----------------------------
+# Enhanced Error Handling
+# -----------------------------
+@app.errorhandler(404)
+def not_found(e):
+    return jsonify({
+        "kind": "Status",
+        "apiVersion": "v1",
+        "metadata": {},
+        "status": "Failure",
+        "message": str(e),
+        "reason": "NotFound",
+        "details": {},
+        "code": 404
+    }), 404
+
+# -----------------------------
 # Generic Namespaced Resource Handler
 # -----------------------------
 def create_ns_handler(resource_key, kind, default_status=None):
@@ -291,4 +423,25 @@ def nodes():
 # Main
 # -----------------------------
 if __name__=="__main__":
+    ensure_namespace("default")
+    ensure_namespace("kube-system")
+    # Seed an initial pod directly into the store — do NOT call create_pod()
+    # here because it is a Flask route handler and requires an active HTTP
+    # request context (request.json would raise RuntimeError otherwise).
+    _seed_pod_name = "default-pod"
+    _seed_key = f"default/{_seed_pod_name}"
+    if _seed_key not in store["pods"]:
+        _seed_pod = {
+            "metadata": {"name": _seed_pod_name},
+            "spec": {
+                "containers": [{
+                    "name": "main",
+                    "image": "alpine:latest",
+                    "imagePullPolicy": "IfNotPresent"
+                }]
+            }
+        }
+        assign_metadata(_seed_pod, "default")
+        _seed_pod["status"] = simulate_pod_status(_seed_pod_name)
+        store["pods"][_seed_key] = _seed_pod
     app.run(host="0.0.0.0", port=8080, debug=True)
