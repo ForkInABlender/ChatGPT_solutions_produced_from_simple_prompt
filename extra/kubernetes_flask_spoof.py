@@ -427,6 +427,34 @@ def storage_classes():
 def nodes():
     return jsonify(make_list("Node", list(store["nodes"].values())))
 
+
+@app.route("/api/v1/pods")
+def pods_all_namespaces():
+    """Handle kubectl get pods -A requests"""
+    return jsonify(make_list("Pod", list(store["pods"].values())))
+
+# Similarly add for other resources that might need -A support
+@app.route("/api/v1/services")
+def services_all_namespaces():
+    return jsonify(make_list("Service", list(store["services"].values())))
+
+@app.route("/api/v1/configmaps")
+def configmaps_all_namespaces():
+    return jsonify(make_list("ConfigMap", list(store["configmaps"].values())))
+
+@app.route("/api/v1/secrets")
+def secrets_all_namespaces():
+    return jsonify(make_list("Secret", list(store["secrets"].values())))
+
+@app.route("/apis/apps/v1/deployments")
+def deployments_all_namespaces():
+    return jsonify(make_list("Deployment", list(store["deployments"].values())))
+
+@app.route("/apis/apps/v1/replicasets")
+def replicasets_all_namespaces():
+    return jsonify(make_list("ReplicaSet", list(store["replicasets"].values())))
+
+
 # -----------------------------
 # Main
 # -----------------------------
