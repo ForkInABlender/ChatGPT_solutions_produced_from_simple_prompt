@@ -21,6 +21,8 @@ Some corrections and additions were made by claude.ai & https://perchance.org/ai
 
 Further development of this server will continue until full server spoof is complete.
 
+Product is not useable for those aiming to 'fake it to make it'.
+
 #### END OF ADDENDUM ####
 
 updated 9:51:34 am on 03/05/2026
