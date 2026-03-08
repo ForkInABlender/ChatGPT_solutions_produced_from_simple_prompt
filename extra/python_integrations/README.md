@@ -33,3 +33,8 @@ It's simpler than having to recompile every time something about the code breaks
 
 On the other hand, it is good for testing golang rawly in the browser.
 ```
+
+# Will this also be within the releases page?
+
+```
+Yes, A copy of the yaegi.wasm file will be stored there. You'll likely need to decompress it from zip file format.
