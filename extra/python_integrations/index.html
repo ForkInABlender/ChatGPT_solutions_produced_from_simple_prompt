@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <script src="wasm_exec.js"></script>
+    <style>
+        body { font-family: monospace; background: #121212; color: #00ff41; padding: 20px; }
+        textarea { width: 100%; background: #000; color: #00ff41; border: 1px solid #00ff41; padding: 10px; margin-bottom: 10px; }
+        .controls { display: flex; gap: 10px; margin-bottom: 10px; }
+        button { background: #00ff41; color: #000; border: none; padding: 10px; cursor: pointer; font-weight: bold; }
+        #output { border-top: 2px solid #00ff41; padding-top: 10px; white-space: pre; }
+    </style>
+</head>
+<body>
+    <h2>Yaegi WASM Controller</h2>
+    <textarea id="goSource" rows="10">
+import "fmt"
+
+func Add(a int, b int) string {
+    result := a + b
+    return fmt.Sprintf("The sum of %d and %d is %d", a, b, result)
+}
+    </textarea>
+
+    <div class="controls">
+        <button onclick="loadCode()">1. Load Code (Eval)</button>
+        <button onclick="invokeNamedFunc()">2. Test window.callGo</button>
+    </div>
+
+    <div id="output">Initialize WASM to begin...</div>
+
+    <script>
+        const go = new Go();
+        const output = document.getElementById('output');
+
+        WebAssembly.instantiateStreaming(fetch("yaegi.wasm"), go.importObject).then((result) => {
+            go.run(result.instance);
+            output.innerText = "Yaegi Loaded. Ready for input.";
+        });
+
+        function loadCode() {
+            const src = document.getElementById('goSource').value;
+            const res = window.runYaegi(src);
+            output.innerText = "Package Loaded:\n" + res;
+        }
+
+        function invokeNamedFunc() {
+            // This uses the specific callGo bridge we built
+            // Signature: window.callGo(funcName, ...args)
+            try {
+                const result = window.callGo("Add", 2, 3);
+                output.innerText = "Named Call Output:\n" + result;
+            } catch (e) {
+                output.innerText = "Error: " + e;
+            }
+        }
+    </script>
+</body>
+</html>
