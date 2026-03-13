@@ -75,7 +75,13 @@ class ArgumentError(Exception):
 _TYPE_TABLE: dict[str, tuple[str, int, int]] = {}
 
 def _build_type_table() -> None:
-    # Standard scalars: struct format determines size & natural alignment
+    # Standard scalars: struct format determines size & natural alignment.
+    # We catch struct.error (or StructError) per-entry so that limited
+    # environments like Brython's VFS _struct.py (which may not implement
+    # every format code, e.g. '?') don't abort the whole table build.
+    _StructError = getattr(_struct, 'error',
+                   getattr(_struct, 'StructError', Exception))
+
     scalars = [
         ('b', 'b'), ('B', 'B'),
         ('h', 'h'), ('H', 'H'),
@@ -85,34 +91,45 @@ def _build_type_table() -> None:
         ('?', '?'), ('c', 'c'),
     ]
     for code, fmt in scalars:
-        sz = _struct.calcsize('=' + fmt)
-        # Natural alignment = size when accessed natively (struct without '=')
-        native = _struct.calcsize(fmt)
-        aln    = native if native <= sz else sz
+        try:
+            sz = _struct.calcsize('=' + fmt)
+        except (_StructError, Exception):
+            # '?' (bool) unsupported by Brython _struct → treat as 1-byte int
+            _FALLBACKS = {'?': ('B', 1, 1), 'c': ('B', 1, 1)}
+            if code in _FALLBACKS:
+                _TYPE_TABLE[code] = _FALLBACKS[code]
+            continue
+        try:
+            native = _struct.calcsize(fmt)
+        except (_StructError, Exception):
+            native = sz
+        aln = native if native <= sz else sz
         _TYPE_TABLE[code] = (fmt, sz, aln)
 
     # long / ulong: use native size (struct without '=' gives C ABI sizes)
     # e.g. calcsize('l')=8 on 64-bit Linux, =4 on Win32 or 32-bit
     for code, fmt in (('l', 'l'), ('L', 'L')):
-        sz   = _struct.calcsize(fmt)        # native size: 8 on 64-bit Linux, 4 on Win32
-        aln  = min(sz, _PTR_SZ)
-        # Use q/Q (always 8 bytes) or i/I (4 bytes) for struct packing
+        try:
+            sz = _struct.calcsize(fmt)
+        except (_StructError, Exception):
+            sz = 4                              # safe fallback: 32-bit long
+        aln      = min(sz, _PTR_SZ)
         pack_fmt = ('q' if sz == 8 else 'i') if code == 'l' else ('Q' if sz == 8 else 'I')
         _TYPE_TABLE[code] = (pack_fmt, sz, aln)
 
-    # Pointer-width types
+    # Pointer-width types — Brython is always 32-bit-ish JS; _PTR_SZ may be 4
     for code in ('P', 'z', 'Z', 'O'):
         _TYPE_TABLE[code] = (_PTR_FMT, _PTR_SZ, _PTR_SZ)
 
-    # wchar_t: 2 bytes on Windows, 4 on Linux/Mac
-    wsz = 2 if _sys.platform == 'win32' else 4
+    # wchar_t: 2 bytes on Windows, 4 on Linux/Mac; Brython → 2
+    wsz = 2 if _sys.platform in ('win32', 'brython') else 4
     _TYPE_TABLE['u'] = ('H' if wsz == 2 else 'I', wsz, wsz)
 
     # long double: may be 10 or 16 bytes; degrade to double for packing
     try:
         sz = _struct.calcsize('g')
         _TYPE_TABLE['g'] = ('d', sz, sz)
-    except _struct.error:
+    except (_StructError, Exception):
         _TYPE_TABLE['g'] = ('d', 8, 8)
 
 
@@ -1156,6 +1173,19 @@ def _next_vaddr() -> int:
 
 
 def register_library(name: str, symbols: dict[str, callable]) -> int:
+    """
+    Register a Python-callable library under a name.
+
+    Usage::
+
+        import math
+        handle = register_library('libm.so', {
+            'cos': math.cos,
+            'sin': math.sin,
+        })
+
+    Returns an opaque integer handle for use with dlsym().
+    """
     global _vlib_counter
     _vlib_counter += 1
     h    = _vlib_counter
