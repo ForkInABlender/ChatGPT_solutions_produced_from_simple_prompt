@@ -167,21 +167,120 @@ class _CData:
     _buffer_ = None
     _offset_ = 0
 
+# ---------------------------------------------------------------------------
+# PyCSimpleType (Metaclass must come FIRST)
+# ---------------------------------------------------------------------------
+
+class PyCSimpleType(type):
+    def __new__(mcs, name, bases, ns):
+        cls  = super().__new__(mcs, name, bases, ns)
+        code = ns.get('_type_')
+        if code is not None:
+            fmt, sz, aln = _type_info(code)
+            cls._size_   = sz
+            cls._align_  = aln
+            cls._fmt_    = fmt
+        return cls
+
+    def __mul__(cls, count: int):
+        return _make_array_type(cls, count)
+
+    def from_address(cls, address: int):
+        buf = _buf_containing_addr(address)
+        if buf is None:
+            buf = _ExternalBuf(address, cls._size_)
+        inst = cls.__new__(cls)
+        inst._buffer_       = buf
+        inst._offset_       = address - buf.address
+        inst._b_needsfree_  = False
+        return inst
+
+    def from_buffer(cls, source):
+        # Brython handles byte-like objects slightly differently; 
+        # ensure we get a real byte array
+        ba   = bytes(source)
+        buf  = _alloc(len(ba), ba)
+        inst = cls.__new__(cls)
+        inst._buffer_      = buf
+        inst._offset_      = 0
+        inst._b_needsfree_ = True
+        return inst
+
+    def from_buffer_copy(cls, source):
+        data = bytes(source)[:cls._size_]
+        inst = cls()
+        inst._buffer_.write(data.ljust(cls._size_, b'\x00'))
+        return inst
+
+    def in_dll(cls, lib, name: str):
+        return cls.from_address(_vlib_sym(lib, name))
+
+    def from_param(cls, value):
+        if isinstance(value, cls):
+            return value
+        if hasattr(cls, '_type_') and cls._type_ in ('z', 'Z', 'P') and value is None:
+            return cls()
+        try:
+            return cls(value)
+        except (TypeError, ValueError) as e:
+            raise TypeError(f"wrong type: expected {cls.__name__}") from e
+
+# ---------------------------------------------------------------------------
+# _SimpleCData (Now defined with PyCSimpleType available)
+# ---------------------------------------------------------------------------
+
 class _SimpleCData(_CData, metaclass=PyCSimpleType):
     def __init__(self, value=None):
-        self._buffer_ = _alloc(self._size_)
-        if value is not None: self.value = value
-    
+        self._buffer_      = _alloc(self._size_)
+        self._offset_      = 0
+        self._b_needsfree_ = True
+        if value is not None:
+            self.value = value
+
     @property
     def value(self):
-        # Implementation of _read_value from your file
-        return self._buffer_.unpack_from(self._fmt_, self._offset_)[0]
-    
+        code = self._type_
+        fmt  = self._fmt_
+        off  = self._offset_
+
+        # Brython/JS logic for specific C-types
+        if code == 'c':
+            return self._buffer_.read(off, 1)
+        if code == 'u':
+            wsz = self._size_
+            raw = self._buffer_.read(off, wsz)
+            enc = 'utf-16-le' if wsz == 2 else 'utf-32-le'
+            return raw.decode(enc)
+        if code == 'z':
+            addr = self._buffer_.unpack_from(_PTR_FMT, off)[0]
+            return _read_cstring(addr) if addr != 0 else None
+        if code == 'O':
+            idx = self._buffer_.unpack_from(_PTR_FMT, off)[0]
+            return _py_object_store.get(idx)
+
+        return self._buffer_.unpack_from(fmt, off)[0]
+
     @value.setter
     def value(self, v):
-        self._buffer_.pack_into(self._fmt_, self._offset_, v)
+        code = self._type_
+        fmt  = self._fmt_
+        off  = self._offset_
+        
+        # Handle string pointers by allocating temporary virtual buffers
+        if code in ('z', 'Z', 'P'):
+            if v is None:
+                self._buffer_.pack_into(_PTR_FMT, off, 0)
+                return
+            if isinstance(v, (bytes, str)):
+                b = v.encode() + b'\x00' if isinstance(v, str) else v + b'\x00'
+                tmp = _alloc(len(b), b)
+                self._buffer_.pack_into(_PTR_FMT, off, tmp.address)
+                return
 
-# ... [Include Pointer, Structure, Union, and Array logic as per your file] ...
+        try:
+            self._buffer_.pack_into(fmt, off, v)
+        except Exception as e:
+            raise OverflowError(str(e))
 
 # ---------------------------------------------------------------------------
 # External Linkage Addresses (Expected by your integrations)
