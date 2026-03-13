@@ -6,6 +6,9 @@ This is the brython shim being tested on premise that it will work during testin
 
 """
 
+from __future__ import annotations
+# Dylan Kenneth Eliot - Brython Optimized _ctypes shim
+
 """
 brython_shim_ctypes.py
 ======================
@@ -130,12 +133,21 @@ class _RawBuf:
 
     # ------------------------------------------------------------------
     def read(self, offset: int = 0, size=None) -> bytes:
+        # Brython array.array does not support slice reads -- iterate manually
         end = self._size if size is None else min(offset + size, self._size)
-        return bytes(self._arr[offset:end])
+        out = bytearray()
+        for i in range(offset, end):
+            out.append(self._arr[i])
+        return bytes(out)
 
     def write(self, data, offset: int = 0):
         if isinstance(data, _array.array):
-            data = bytes(data)
+            length = len(data)
+            for i in range(length):
+                pos = offset + i
+                if pos < self._size:
+                    self._arr[pos] = data[i]
+            return
         for i, b in enumerate(data):
             pos = offset + i
             if pos < self._size:
@@ -157,9 +169,13 @@ class _RawBuf:
     def unpack_from(self, fmt: str, offset: int):
         full_fmt = _ENDIAN + fmt
         sz  = _struct.calcsize(full_fmt)
-        end = min(offset + sz, self._size)
-        raw = bytes(self._arr[offset:end]).ljust(sz, b'\x00')
-        return _struct.unpack(full_fmt, raw)
+        # Read byte-by-byte to avoid Brython array.array slice IndexError
+        raw = bytearray(sz)
+        for i in range(sz):
+            pos = offset + i
+            if 0 <= pos < self._size:
+                raw[i] = self._arr[pos]
+        return _struct.unpack(full_fmt, bytes(raw))
 
     def resize(self, new_size: int):
         if new_size <= self._size:
