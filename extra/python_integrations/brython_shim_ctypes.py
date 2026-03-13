@@ -1,6 +1,11 @@
 from __future__ import annotations
 # Dylan Kenneth Eliot - Brython Optimized _ctypes shim
 
+"""
+This is the brython shim being tested on premise that it will work during testing & has worked for cpython similarly.
+
+"""
+
 import array as _array
 import struct as _struct
 import sys as _sys
