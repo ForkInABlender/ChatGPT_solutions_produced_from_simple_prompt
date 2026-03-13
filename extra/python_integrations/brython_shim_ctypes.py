@@ -282,6 +282,53 @@ class _SimpleCData(_CData, metaclass=PyCSimpleType):
         except Exception as e:
             raise OverflowError(str(e))
 
+
+
+
+class UnionType(PyCStructType):
+
+    def __new__(mcs, name, bases, ns):
+        cls = type.__new__(mcs, name, bases, ns)
+        if '_fields_' in ns:
+            UnionType._apply_fields(cls)
+        return cls
+
+    @staticmethod
+    def _apply_fields(cls):
+        descs, sz, aln = _layout_fields(
+            cls._fields_,
+            pack=getattr(cls, '_pack_', None),
+            is_union=True)
+        cls._size_  = sz
+        cls._align_ = aln
+        for name, desc in descs.items():
+            setattr(cls, name, desc)
+
+    def __setattr__(cls, name, value):
+        type.__setattr__(cls, name, value)
+        if name == '_fields_':
+            UnionType._apply_fields(cls)
+
+
+class Union(_CData, metaclass=UnionType):
+    """Base class for ctypes Union types."""
+
+    _size_  = 0
+    _align_ = 1
+
+    def __init__(self, *args, **kwargs):
+        self._buffer_      = _alloc(max(self._size_, 1))
+        self._offset_      = 0
+        self._b_needsfree_ = True
+        fields = getattr(self, '_fields_', [])
+        if args and fields:
+            setattr(self, fields[0][0], args[0])
+        for fname, value in kwargs.items():
+            setattr(self, fname, value)
+
+    def __repr__(self):
+        return f'<{type(self).__name__} at 0x{addressof(self):016x}>'
+
 # ---------------------------------------------------------------------------
 # External Linkage Addresses (Expected by your integrations)
 # ---------------------------------------------------------------------------
