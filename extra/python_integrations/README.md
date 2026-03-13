@@ -35,6 +35,28 @@ On the other hand, it is good for testing golang rawly in the browser.
 ```
 
 # Will this also be within the releases page?
-
 ```
 Yes, A copy of the yaegi.wasm file will be stored there. You'll likely need to decompress it from zip file format.
+```
+
+# What do both _ctypes modular shims do?
+```
+One is a cpython copy that allows for shimming any functional library in place enough to meet type completeness. In
+ this case, it completely breaks away from the default format of loading types, and utilizing type convention of
+  assignment. In this case, it allows for use of `ctypes` without anything compiled down beyond the interpreter in
+ question.
+
+This computational artifact set came from the principle that code had to run in the browser 99% the same way it would
+ offline. So for minimally functional, it either one used maps enough _ctypes function to pure python code status
+  of compute. 
+```
+
+# Why didn't you just accept not loading with an FFI binaries in the browser? 
+
+```
+Either it works, or I brick it til it works as I expect it to. 
+
+pyodide and webassembly have good FFIs as they are. However, the default needed to be accounted for. 
+For example, python's linux binary interpreter would be able to, if manually corrected for
+ pydll, cdll, and windll, You'd have a proper DSL that is OS agnostic but not python agnostic.
+```
