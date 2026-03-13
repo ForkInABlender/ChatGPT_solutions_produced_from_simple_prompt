@@ -5,8 +5,6 @@ from __future__ import annotations
 This is the brython shim being tested on premise that it will work during testing & has worked for cpython similarly.
 
 """
-from __future__ import annotations
-# Dylan Kenneth Eliot - Brython Optimized _ctypes shim
 
 """
 brython_shim_ctypes.py
@@ -35,10 +33,12 @@ from collections import OrderedDict
 from browser     import window
 
 # ---------------------------------------------------------------------------
-# Platform constants — Brython lives in 32-bit JS land
+# Platform constants
+# Derive pointer size from struct so _check_size(py_object, "P") passes
+# regardless of whether the underlying JS engine reports 4 or 8 bytes.
 # ---------------------------------------------------------------------------
-_PTR_SZ  = 8
-_PTR_FMT = 'I'
+_PTR_SZ  = _struct.calcsize('P')          # 8 on 64-bit JS, 4 on 32-bit
+_PTR_FMT = 'Q' if _PTR_SZ == 8 else 'I'  # unsigned int wide enough for a pointer
 _ENDIAN  = '<'
 
 __version__            = '1.1.0'
@@ -143,15 +143,23 @@ class _RawBuf:
 
     def pack_into(self, fmt: str, offset: int, *values):
         full_fmt = _ENDIAN + fmt
-        sz = _struct.calcsize(full_fmt)
-        needed = offset + sz
+        # Pack to a plain bytes object first — avoids Brython VFS _struct
+        # bug where pack_into does buf[o:o+n]=data on an array.array and
+        # raises IndexError even after the array has been extended.
+        data = _struct.pack(full_fmt, *values)
+        needed = offset + len(data)
         if needed > self._size:
             self._arr.extend([0] * (needed - self._size))
             self._size = len(self._arr)
-        _struct.pack_into(full_fmt, self._arr, offset, *values)
+        for i, b in enumerate(data):
+            self._arr[offset + i] = b if isinstance(b, int) else ord(b)
 
     def unpack_from(self, fmt: str, offset: int):
-        return _struct.unpack_from(_ENDIAN + fmt, self._arr, offset)
+        full_fmt = _ENDIAN + fmt
+        sz  = _struct.calcsize(full_fmt)
+        end = min(offset + sz, self._size)
+        raw = bytes(self._arr[offset:end]).ljust(sz, b'\x00')
+        return _struct.unpack(full_fmt, raw)
 
     def resize(self, new_size: int):
         if new_size <= self._size:
@@ -430,7 +438,6 @@ class _SimpleCData(_CData, metaclass=PyCSimpleType):
             return _read_cwstring(addr) if addr != 0 else None
         if code == 'O':
             idx = self._buffer_.unpack_from(_PTR_FMT, off)[0]
-            self._size_=8
             return _py_object_store.get(idx)
 
         return self._buffer_.unpack_from(fmt, off)[0]
