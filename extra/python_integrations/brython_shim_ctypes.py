@@ -4,6 +4,8 @@ from __future__ import annotations
 """
 This is the brython shim being tested on premise that it will work during testing & has worked for cpython similarly.
 
+Test complete, library functions with ctypes loaded after this is added to module path via sys, same as offline version of _ctypes replacement.
+
 """
 
 from __future__ import annotations
