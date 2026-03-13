@@ -38,6 +38,8 @@ import array  as _array
 import struct as _struct
 import sys    as _sys
 import os     as _os
+import typing as _typing
+
 import weakref
 from collections import OrderedDict
 
@@ -173,7 +175,7 @@ class _RawBuf:
         end = self._size if size is None else offset + size
         return bytes(self._arr[offset:end])
 
-    def write(self, data: bytes | bytearray | _array.array, offset: int = 0):
+    def write(self, data: _typing.Union[bytes, bytearray, _array.array], offset: int = 0):
         if isinstance(data, _array.array):
             data = bytes(data)
         self._arr[offset:offset + len(data)] = _array.array('B', data)
