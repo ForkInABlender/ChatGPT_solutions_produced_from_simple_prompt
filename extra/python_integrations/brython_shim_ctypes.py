@@ -332,6 +332,25 @@ class PyCStructType(type):
         inst._b_needsfree_ = True
         return inst
 
+class Structure(_CData, metaclass=PyCStructType):
+    """Base class for ctypes Structure types."""
+
+    _size_  = 0
+    _align_ = 1
+
+    def __init__(self, *args, **kwargs):
+        self._buffer_      = _alloc(max(self._size_, 1))
+        self._offset_      = 0
+        self._b_needsfree_ = True
+        fields = getattr(self, '_fields_', [])
+        for spec, value in zip(fields, args):
+            setattr(self, spec[0], value)
+        for fname, value in kwargs.items():
+            setattr(self, fname, value)
+
+    def __repr__(self):
+        return f'<{type(self).__name__} at 0x{addressof(self):016x}>'
+
 class UnionType(PyCStructType):
 
     def __new__(mcs, name, bases, ns):
