@@ -1,3 +1,4 @@
+from __future__ import annotations
 # Dylan Kenneth Eliot
 
 """
@@ -32,7 +33,6 @@ system (Structure, Union, Array, _Pointer, _SimpleCData, sizeof, addressof,
 byref, …) works fully; code that needs to call real native libraries must
 supply Python-callable wrappers via register_library().
 """
-from __future__ import annotations
 
 import array  as _array
 import struct as _struct
@@ -163,7 +163,7 @@ class _RawBuf:
     def __init__(self, size: int, init: bytes = None):
         if size == 0:
             size = 1
-        self._arr  = _array.array('B', [0]*size) # bytes(size))
+        self._arr  = _array.array('B', bytes(size))
         self._size = size
         
         # --- FIX STARTS HERE ---
@@ -177,9 +177,8 @@ class _RawBuf:
         # --- FIX ENDS HERE ---
 
         if init:
-            self.write(init) #n = min(len(init), size)
-            #self._arr[:n] = _array.array('B', init[:n])
-            #
+            n = min(len(init), size)
+            self._arr[:n] = _array.array('B', init[:n])
 
     # ------------------------------------------------------------------
     def read(self, offset: int = 0, size: int | None = None) -> bytes:
@@ -1314,11 +1313,11 @@ class CFuncPtr(_CData, metaclass=PyCFuncPtrType):
             self._func_addr_  = addr
             self._buffer_.pack_into(_PTR_FMT, 0, addr)
 
-        if isinstance(first, int):
+        elif isinstance(first, int):
             self._func_addr_ = first
             self._buffer_.pack_into(_PTR_FMT, 0, first)
 
-        if isinstance(first, tuple) and len(first) == 2:
+        elif isinstance(first, tuple) and len(first) == 2:
             name_or_ord, lib = first
             if isinstance(name_or_ord, str):
                 lib_handle = lib if isinstance(lib, int) else getattr(lib, '_handle', id(lib))
