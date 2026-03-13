@@ -1314,11 +1314,11 @@ class CFuncPtr(_CData, metaclass=PyCFuncPtrType):
             self._func_addr_  = addr
             self._buffer_.pack_into(_PTR_FMT, 0, addr)
 
-        elif isinstance(first, int):
+        if isinstance(first, int):
             self._func_addr_ = first
             self._buffer_.pack_into(_PTR_FMT, 0, first)
 
-        elif isinstance(first, tuple) and len(first) == 2:
+        if isinstance(first, tuple) and len(first) == 2:
             name_or_ord, lib = first
             if isinstance(name_or_ord, str):
                 lib_handle = lib if isinstance(lib, int) else getattr(lib, '_handle', id(lib))
