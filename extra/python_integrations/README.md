@@ -58,5 +58,6 @@ Either it works, or I brick it til it works as I expect it to.
 
 pyodide and webassembly have good FFIs as they are. However, the default needed to be accounted for. 
 For example, python's linux binary interpreter would be able to, if manually corrected for
- pydll, cdll, and windll, You'd have a proper DSL that is OS agnostic but not python agnostic.
+ pydll, cdll, and windll, You'd have a proper DSL that is OS agnostic but not python agnostic. Or
+  at the least, a CPU agnostic python setup...
 ```
