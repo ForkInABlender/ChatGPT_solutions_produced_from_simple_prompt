@@ -283,7 +283,49 @@ class _SimpleCData(_CData, metaclass=PyCSimpleType):
             raise OverflowError(str(e))
 
 
+class PyCStructType(type):
 
+    def __new__(mcs, name, bases, ns):
+        cls = super().__new__(mcs, name, bases, ns)
+        if '_fields_' in ns:
+            PyCStructType._apply_fields(cls)
+        return cls
+
+    @staticmethod
+    def _apply_fields(cls):
+        descs, sz, aln = _layout_fields(
+            cls._fields_,
+            pack=getattr(cls, '_pack_', None),
+            is_union=False)
+        cls._size_  = sz
+        cls._align_ = aln
+        for name, desc in descs.items():
+            setattr(cls, name, desc)
+
+    def __setattr__(cls, name, value):
+        super().__setattr__(name, value)
+        if name == '_fields_':
+            PyCStructType._apply_fields(cls)
+
+    def __mul__(cls, count: int):
+        return _make_array_type(cls, count)
+
+    def from_address(cls, address: int):
+        buf  = _buf_containing_addr(address) or _ExternalBuf(address, cls._size_)
+        inst = cls.__new__(cls)
+        inst._buffer_      = buf
+        inst._offset_      = address - buf.address
+        inst._b_needsfree_ = False
+        return inst
+
+    def from_buffer(cls, source):
+        ba  = bytes(source)
+        buf = _alloc(len(ba), ba)
+        inst = cls.__new__(cls)
+        inst._buffer_      = buf
+        inst._offset_      = 0
+        inst._b_needsfree_ = True
+        return inst
 
 class UnionType(PyCStructType):
 
