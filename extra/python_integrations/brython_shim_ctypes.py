@@ -37,7 +37,7 @@ from browser     import window
 # ---------------------------------------------------------------------------
 # Platform constants — Brython lives in 32-bit JS land
 # ---------------------------------------------------------------------------
-_PTR_SZ  = 5
+_PTR_SZ  = 7
 _PTR_FMT = 'I'
 _ENDIAN  = '<'
 
