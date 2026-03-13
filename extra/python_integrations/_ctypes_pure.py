@@ -163,7 +163,7 @@ class _RawBuf:
     def __init__(self, size: int, init: bytes = None):
         if size == 0:
             size = 1
-        self._arr  = _array.array('B', bytes(size))
+        self._arr  = _array.array('B', [0]*size) # bytes(size))
         self._size = size
         
         # --- FIX STARTS HERE ---
@@ -177,8 +177,9 @@ class _RawBuf:
         # --- FIX ENDS HERE ---
 
         if init:
-            n = min(len(init), size)
-            self._arr[:n] = _array.array('B', init[:n])
+            self.write(init) #n = min(len(init), size)
+            #self._arr[:n] = _array.array('B', init[:n])
+            #
 
     # ------------------------------------------------------------------
     def read(self, offset: int = 0, size: int | None = None) -> bytes:
