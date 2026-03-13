@@ -1,0 +1,68 @@
+<body onload="brython()">
+<script src="https://cdn.jsdelivr.net/npm/brython@3.11.3/brython.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/brython@3.11.3/brython_stdlib.js"></script>
+</body>
+
+<script type="text/python">
+
+from browser import console
+
+import sys
+
+sys.path.append("https://raw.githubusercontent.com/ForkInABlender/ChatGPT_solutions_produced_from_simple_prompt/refs/heads/2026_03/extra/python_integrations/")
+
+import brython_shim_ctypes
+
+sys.modules['_ctypes'] = brython_shim_ctypes
+
+import _ctypes
+import ctypes
+
+console.clear()
+
+
+print('=== register_library + CDLL ===')
+_ctypes.register_library('libmath.so', {
+    'add': lambda a, b: a + b,
+    'mul': lambda a, b: a * b,
+    'neg': lambda a: -a,
+})
+
+lib = ctypes.CDLL('libmath.so')
+
+lib.add.restype  = ctypes.c_int
+lib.add.argtypes = [ctypes.c_int, ctypes.c_int]
+lib.mul.restype  = ctypes.c_int
+lib.mul.argtypes = [ctypes.c_int, ctypes.c_int]
+lib.neg.restype  = ctypes.c_int
+lib.neg.argtypes = [ctypes.c_int]
+print('add(7,8):', lib.add(7, 8))
+print('mul(6,7):', lib.mul(6, 7))
+print('neg(5):', lib.neg(5))
+assert lib.add(7,8) == 15
+assert lib.mul(6,7) == 42
+assert lib.neg(5)   == -5
+
+print()
+print('=== Structure with callback ===')
+called = []
+CALLBACK = ctypes.CFUNCTYPE(ctypes.c_int, ctypes.c_int)
+@CALLBACK
+def my_cb(x):
+    called.append(x)
+    return x * 2
+
+result = my_cb(21)
+print('callback result:', result)
+assert result == 42
+assert called == [21]
+
+print()
+print('=== Full import sanity ===')
+print('ctypes.c_int:', ctypes.c_int(0).value)
+print('ctypes.POINTER:', ctypes.POINTER(ctypes.c_int))
+print('pythonapi handle:', ctypes.pythonapi._handle)
+print('ALL TESTS PASSED')
+
+
+</script>
