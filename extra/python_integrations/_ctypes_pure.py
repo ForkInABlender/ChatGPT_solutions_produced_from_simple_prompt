@@ -190,7 +190,19 @@ class _RawBuf:
             data = bytes(data)
         self._arr[offset:offset + len(data)] = _array.array('B', data)
 
-    def pack_into(self, fmt: str, offset: int, *values):
+    def pack_into(self, fmt, offset, *values):
+        # Calculate how much space the packed data will actually take
+        data_size = _struct.calcsize(_ENDIAN + fmt)
+        required_size = offset + data_size
+        
+        # Brython Fix: Ensure the array is physically long enough 
+        # to prevent the VFS._struct.py IndexError
+        if len(self._arr) < required_size:
+            # Pad the array with zeros up to the required size
+            self._arr.extend(_array.array('B', [0] * (required_size - len(self._arr))))
+            # Sync the size tracker
+            self._size = len(self._arr)
+
         _struct.pack_into(_ENDIAN + fmt, self._arr, offset, *values)
 
     def unpack_from(self, fmt: str, offset: int):
