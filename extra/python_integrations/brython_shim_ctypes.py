@@ -37,7 +37,7 @@ from browser     import window
 # ---------------------------------------------------------------------------
 # Platform constants — Brython lives in 32-bit JS land
 # ---------------------------------------------------------------------------
-_PTR_SZ  = 16
+_PTR_SZ  = 8
 _PTR_FMT = 'I'
 _ENDIAN  = '<'
 
@@ -430,6 +430,7 @@ class _SimpleCData(_CData, metaclass=PyCSimpleType):
             return _read_cwstring(addr) if addr != 0 else None
         if code == 'O':
             idx = self._buffer_.unpack_from(_PTR_FMT, off)[0]
+            self._size_=8
             return _py_object_store.get(idx)
 
         return self._buffer_.unpack_from(fmt, off)[0]
