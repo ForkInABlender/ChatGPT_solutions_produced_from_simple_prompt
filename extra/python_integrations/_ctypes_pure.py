@@ -160,12 +160,22 @@ class _RawBuf:
     """
     __slots__ = ('_arr', '_size', 'address')
 
-    def __init__(self, size: int, init: bytes | None = None):
+    def __init__(self, size: int, init: bytes = None):
         if size == 0:
-            size = 1                      # avoid zero-length edge cases
+            size = 1
         self._arr  = _array.array('B', bytes(size))
         self._size = size
-        self.address, _ = self._arr.buffer_info()
+        
+        # --- FIX STARTS HERE ---
+        try:
+            # Attempt standard CPython behavior
+            self.address, _ = self._arr.buffer_info()
+        except AttributeError:
+            # Fallback for Brython/restricted environments
+            # Use the Python object ID as a unique virtual memory address
+            self.address = id(self._arr)
+        # --- FIX ENDS HERE ---
+
         if init:
             n = min(len(init), size)
             self._arr[:n] = _array.array('B', init[:n])
