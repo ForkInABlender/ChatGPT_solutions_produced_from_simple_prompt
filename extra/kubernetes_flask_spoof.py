@@ -26,69 +26,73 @@ Product is not useable for those aiming to 'fake it to make it'.
 #### END OF ADDENDUM ####
 
 updated 9:51:34 am on 03/05/2026
+
+#### ADDENDUM ####
+
+Kubernetes is now flexibly broken, moreover than before.
+
+These patches were added by "cursor.ai", a even nummer than life toy thing of the banana.
+
+Now kubernetes is flattened, and given ``kubectl --server="http://localhost:8080"`` with this server running in another process, root permissions
+ no longer matter....
+#### END OF ADDENDUM ####
+
+updated 9:51:34 am on 03/18/2026
+
 """"
 
+#!/usr/bin/env python3
+"""
+Expanded Kubernetes mock server (Flask).
 
+This is intended for local/testing scenarios where you want a lightweight API
+surface that looks like Kubernetes enough for basic kubectl/client-go usage.
+"""
 
-# fake_kube_cluster_fixed.py
-from flask import Flask, request, jsonify, Response
-import uuid, copy, json
-from datetime import datetime
-import time, random
+from __future__ import annotations
+
+import copy
+import json
+import random
+import threading
+import time
+import uuid
+from dataclasses import dataclass
+from datetime import datetime, timezone
+from typing import Any, Dict, Iterable, List, Optional, Tuple
+
+from flask import Flask, Response, jsonify, request
 
 app = Flask(__name__)
 
-# -----------------------------
-# Global state
-# -----------------------------
-store = {
-    "namespaces": {},
-    "pods": {},
-    "services": {},
-    "deployments": {},
-    "replicasets": {},
-    "configmaps": {},
-    "secrets": {},
-    "roles": {},
-    "rolebindings": {},
-    "clusterroles": {},
-    "clusterrolebindings": {},
-    "nodes": {},
-    "storageclasses": {}
-}
 
+def _utc_now_iso() -> str:
+    return datetime.now(timezone.utc).isoformat().replace("+00:00", "Z")
+
+
+GLOBAL_RV_LOCK = threading.Lock()
 GLOBAL_RV = 0
 
-# -----------------------------
-# Utilities
-# -----------------------------
-def next_rv():
+
+def next_rv() -> str:
     global GLOBAL_RV
-    GLOBAL_RV += 1
-    return str(GLOBAL_RV)
+    with GLOBAL_RV_LOCK:
+        GLOBAL_RV += 1
+        return str(GLOBAL_RV)
 
-def now():
-    return datetime.utcnow().isoformat() + "Z"
 
-def assign_metadata(obj, namespace=None):
-    meta = obj.setdefault("metadata", {})
-    meta.setdefault("uid", str(uuid.uuid4()))
-    meta.setdefault("creationTimestamp", now())
-    if namespace:
-        meta["namespace"] = namespace
-    meta["resourceVersion"] = next_rv()
-    meta.setdefault("generation", 1)
-    return obj
+def make_uid() -> str:
+    return str(uuid.uuid4())
 
-def make_list(kind, items):
-    return {
-        "kind": f"{kind}List",
-        "apiVersion": "v1" if kind in ["Pod","Service","Namespace","ConfigMap","Secret","Node","StorageClass"] else "apps/v1",
-        "metadata": {"resourceVersion": next_rv()},
-        "items": items
-    }
 
-def deep_merge(original, patch):
+def deep_merge(original: Dict[str, Any], patch: Dict[str, Any]) -> Dict[str, Any]:
+    """
+    JSON-merge style deep merge for dicts.
+
+    This is not a full Kubernetes strategic/JSON patch implementation, but is
+    good enough for a local mock.
+    """
+
     for k, v in patch.items():
         if isinstance(v, dict) and isinstance(original.get(k), dict):
             deep_merge(original[k], v)
@@ -96,394 +100,816 @@ def deep_merge(original, patch):
             original[k] = v
     return original
 
+
+def _metadata_get_name(obj: Dict[str, Any]) -> Optional[str]:
+    meta = obj.get("metadata") or {}
+    return meta.get("name")
+
+
+def _metadata_get_generate_name(obj: Dict[str, Any]) -> Optional[str]:
+    meta = obj.get("metadata") or {}
+    return meta.get("generateName")
+
+
+def assign_metadata(
+    obj: Dict[str, Any],
+    *,
+    namespace: Optional[str],
+    name: str,
+) -> Dict[str, Any]:
+    meta = obj.setdefault("metadata", {})
+    meta.setdefault("uid", make_uid())
+    meta.setdefault("creationTimestamp", _utc_now_iso())
+    meta["name"] = name
+    if namespace is not None:
+        meta["namespace"] = namespace
+    meta["resourceVersion"] = next_rv()
+    meta.setdefault("generation", 1)
+    return obj
+
+
+def make_list(kind: str, api_version: str, items: List[Dict[str, Any]]) -> Dict[str, Any]:
+    # Kubernetes list objects have kind "<Kind>List"
+    # and metadata.resourceVersion generally reflects the state at list time.
+    return {
+        "kind": f"{kind}List",
+        "apiVersion": api_version,
+        "metadata": {"resourceVersion": str(GLOBAL_RV)},
+        "items": items,
+    }
+
+
+def sse_encode(event: Dict[str, Any]) -> str:
+    # Standard Kubernetes watch response uses SSE with "data: <json>\n\n"
+    return f"data: {json.dumps(event, separators=(',', ':'))}\n\n"
+
+
+@dataclass(frozen=True)
+class ResourceSpec:
+    kind: str
+    api_version: str  # e.g. "v1" or "apps/v1"
+    plural: str
+    namespaced: bool
+
+
+CORE = "v1"
+
+RESOURCE_SPECS: Dict[str, ResourceSpec] = {
+    # Core group
+    "Pod": ResourceSpec(kind="Pod", api_version="v1", plural="pods", namespaced=True),
+    "Service": ResourceSpec(kind="Service", api_version="v1", plural="services", namespaced=True),
+    "Namespace": ResourceSpec(kind="Namespace", api_version="v1", plural="namespaces", namespaced=False),
+    "ConfigMap": ResourceSpec(kind="ConfigMap", api_version="v1", plural="configmaps", namespaced=True),
+    "Secret": ResourceSpec(kind="Secret", api_version="v1", plural="secrets", namespaced=True),
+    "Node": ResourceSpec(kind="Node", api_version="v1", plural="nodes", namespaced=False),
+    "StorageClass": ResourceSpec(kind="StorageClass", api_version="v1", plural="storageclasses", namespaced=False),
+    # apps group
+    "Deployment": ResourceSpec(kind="Deployment", api_version="apps/v1", plural="deployments", namespaced=True),
+    "ReplicaSet": ResourceSpec(kind="ReplicaSet", api_version="apps/v1", plural="replicasets", namespaced=True),
+    # rbac group
+    "Role": ResourceSpec(kind="Role", api_version="rbac.authorization.k8s.io/v1", plural="roles", namespaced=True),
+    "RoleBinding": ResourceSpec(
+        kind="RoleBinding", api_version="rbac.authorization.k8s.io/v1", plural="rolebindings", namespaced=True
+    ),
+    "ClusterRole": ResourceSpec(
+        kind="ClusterRole", api_version="rbac.authorization.k8s.io/v1", plural="clusterroles", namespaced=False
+    ),
+    "ClusterRoleBinding": ResourceSpec(
+        kind="ClusterRoleBinding",
+        api_version="rbac.authorization.k8s.io/v1",
+        plural="clusterrolebindings",
+        namespaced=False,
+    ),
+}
+
+
+def api_base_for(api_version: str) -> str:
+    # core: "v1" => /api/v1
+    if api_version == "v1":
+        return "/api/v1"
+    group, version = api_version.split("/", 1)
+    return f"/apis/{group}/{version}"
+
+
+def sse_watch_snapshot(items: List[Dict[str, Any]], rv: str) -> None:
+    # Not used; kept for clarity if you later want to add "ADDED" baseline.
+    _ = (items, rv)
+
+
 # -----------------------------
-# Discovery Endpoints
+# In-memory "cluster" state
 # -----------------------------
-@app.route("/version")
-def version():
-    return jsonify({"major":"1","minor":"28","gitVersion":"v1.28.0-fake"})
+store: Dict[str, Dict[str, Dict[str, Any]]] = {
+    kind: {} for kind in RESOURCE_SPECS.keys()
+}
+namespaces: Dict[str, Dict[str, Any]] = {}
+event_log: List[Dict[str, Any]] = []
+EVENT_LOCK = threading.Lock()
 
-@app.route("/api")
-def api_root():
-    return jsonify({"kind":"APIVersions","versions":["v1"],"serverAddressByClientCIDRs":[]})
 
-@app.route("/apis")
-def apis_root():
-    return jsonify({"kind":"APIGroupList","groups":[
-        {"name":"apps","versions":[{"groupVersion":"apps/v1","version":"v1"}],"preferredVersion":{"groupVersion":"apps/v1","version":"v1"}},
-        {"name":"rbac.authorization.k8s.io","versions":[{"groupVersion":"rbac.authorization.k8s.io/v1","version":"v1"}],"preferredVersion":{"groupVersion":"rbac.authorization.k8s.io/v1","version":"v1"}}
-    ]})
+def _key_for(spec: ResourceSpec, *, namespace: Optional[str], name: str) -> str:
+    if spec.namespaced:
+        if namespace is None:
+            raise ValueError(f"namespace required for {spec.kind}")
+        return f"{namespace}/{name}"
+    return name
 
-@app.route("/api/v1")
-def api_v1():
-    return jsonify({"kind":"APIResourceList","groupVersion":"v1","resources":[
-        {"name":"pods","namespaced":True,"kind":"Pod"},
-        {"name":"services","namespaced":True,"kind":"Service"},
-        {"name":"namespaces","namespaced":False,"kind":"Namespace"},
-        {"name":"configmaps","namespaced":True,"kind":"ConfigMap"},
-        {"name":"secrets","namespaced":True,"kind":"Secret"},
-        {"name":"nodes","namespaced":False,"kind":"Node"},
-        {"name":"storageclasses","namespaced":False,"kind":"StorageClass"}
-    ]})
 
-@app.route("/apis/apps/v1")
-def apps_v1():
-    return jsonify({"kind":"APIResourceList","groupVersion":"apps/v1","resources":[
-        {"name":"deployments","namespaced":True,"kind":"Deployment"},
-        {"name":"replicasets","namespaced":True,"kind":"ReplicaSet"}
-    ]})
+def list_resources(spec: ResourceSpec, *, namespace: Optional[str] = None) -> List[Dict[str, Any]]:
+    if spec.namespaced:
+        if namespace is None:
+            return [obj for obj in store[spec.kind].values()]
+        prefix = f"{namespace}/"
+        return [obj for k, obj in store[spec.kind].items() if k.startswith(prefix)]
+    return list(store[spec.kind].values())
 
-@app.route("/apis/rbac.authorization.k8s.io/v1")
-def rbac_v1():
-    return jsonify({"kind":"APIResourceList","groupVersion":"rbac.authorization.k8s.io/v1","resources":[
-        {"name":"roles","namespaced":True,"kind":"Role"},
-        {"name":"rolebindings","namespaced":True,"kind":"RoleBinding"},
-        {"name":"clusterroles","namespaced":False,"kind":"ClusterRole"},
-        {"name":"clusterrolebindings","namespaced":False,"kind":"ClusterRoleBinding"}
-    ]})
 
-@app.route("/openapi/v2")
-def openapi():
-    return jsonify({})  # stub
+def get_resource(spec: ResourceSpec, *, namespace: Optional[str], name: str) -> Optional[Dict[str, Any]]:
+    key = _key_for(spec, namespace=namespace, name=name)
+    return store[spec.kind].get(key)
 
-# -----------------------------
-# Namespace endpoints
-# -----------------------------
-def ensure_namespace(name):
-    if name not in store["namespaces"]:
-        ns = {"metadata":{"name":name}}
-        assign_metadata(ns)
-        store["namespaces"][name] = ns
 
-@app.route("/api/v1/namespaces", methods=["GET","POST"])
-def namespaces():
-    if request.method=="GET":
-        return jsonify(make_list("Namespace", list(store["namespaces"].values())))
-    data=request.json
-    assign_metadata(data)
-    name=data["metadata"]["name"]
-    store["namespaces"][name]=data
-    return jsonify(data)
+def push_event(event_type: str, obj: Dict[str, Any], rv: Optional[str] = None) -> None:
+    if rv is None:
+        rv = str(GLOBAL_RV)
+    with EVENT_LOCK:
+        event_log.append({"type": event_type, "rv": rv, "object": copy.deepcopy(obj)})
 
-@app.route("/api/v1/namespaces/<name>", methods=["GET","DELETE"])
-def namespace_detail(name):
-    if request.method=="GET":
-        return jsonify(store["namespaces"].get(name, {}))
-    store["namespaces"].pop(name,None)
-    return jsonify({"status":"Success"})
 
-# -----------------------------
-# Enhanced Status Handling
-# -----------------------------
-def simulate_pod_status(pod_name):
-    """Generates realistic pod status with simulated conditions"""
+def simulate_pod_status(pod_name: str) -> Dict[str, Any]:
+    def rand_ip() -> str:
+        return f"10.244.{random.randint(0,255)}.{random.randint(1,254)}"
+
     return {
         "phase": "Running",
         "conditions": [
             {"type": "Initialized", "status": "True"},
             {"type": "Ready", "status": "True"},
             {"type": "ContainersReady", "status": "True"},
-            {"type": "PodScheduled", "status": "True"}
+            {"type": "PodScheduled", "status": "True"},
         ],
-        "containerStatuses": [{
-            "name": "main",
-            "state": {"running": {"startedAt": now()}},
-            "ready": True,
-            "restartCount": 0,
-            "image": "alpine:latest",
-            "imageID": f"docker-pullable://alpine@sha256:{str(uuid.uuid4())[:32]}",
-            "containerID": f"docker://{str(uuid.uuid4())}"
-        }],
-        "startTime": now(),
-        "podIP": f"10.244.{random.randint(0,255)}.{random.randint(1,254)}",
-        "qosClass": "Burstable"
+        "containerStatuses": [
+            {
+                "name": "main",
+                "state": {"running": {"startedAt": _utc_now_iso()}},
+                "ready": True,
+                "restartCount": 0,
+                "image": "alpine:latest",
+                "imageID": f"docker-pullable://alpine@sha256:{uuid.uuid4().hex[:32]}",
+                "containerID": f"docker://{uuid.uuid4().hex}",
+            }
+        ],
+        "startTime": _utc_now_iso(),
+        "podIP": rand_ip(),
+        "qosClass": "Burstable",
     }
 
-# -----------------------------
-# Enhanced Pod Creation
-# -----------------------------
-@app.route("/api/v1/namespaces/<ns>/pods", methods=["POST"])
-def create_pod(ns):
-    ensure_namespace(ns)
-    data = request.json
-    assign_metadata(data, ns)
-    
-    # Auto-populate required fields if missing
-    data.setdefault("spec", {})
-    data["spec"].setdefault("containers", [{
-        "name": "main",
-        "image": "alpine:latest",
-        "imagePullPolicy": "IfNotPresent"
-    }])
-    
-    # Generate realistic status
-    data["status"] = simulate_pod_status(data["metadata"]["name"])
-    
-    key = f"{ns}/{data['metadata']['name']}"
-    store["pods"][key] = data
-    
-    # Simulate scheduling delay
-    time.sleep(0.5)
-    
-    return jsonify(data)
+
+def simulate_deployment_status() -> Dict[str, Any]:
+    return {
+        "replicas": 1,
+        "readyReplicas": 1,
+        "availableReplicas": 1,
+        "observedGeneration": 1,
+    }
+
+
+def ensure_namespace(ns: str) -> None:
+    if ns in namespaces:
+        return
+    obj = {"metadata": {"name": ns}}
+    obj = assign_metadata(obj, namespace=None, name=ns)
+    namespaces[ns] = obj
+    # Namespace itself is also a resource of kind Namespace
+    store["Namespace"][_key_for(RESOURCE_SPECS["Namespace"], namespace=None, name=ns)] = obj
+    push_event("ADDED", obj, rv=str(GLOBAL_RV))
+
 
 # -----------------------------
-# Enhanced Watch Endpoint
+# Discovery endpoints
 # -----------------------------
-@app.route("/api/v1/watch/<path:path>")
-def watch_resource(path):
-    def event_generator():
-        last_rv = request.args.get('resourceVersion', '0')
-        
-        while True:
-            current_rv = GLOBAL_RV
-            if int(last_rv) < current_rv:
-                # Find changed resources
-                changed = []
-                for resource_type in store:
-                    for key, obj in store[resource_type].items():
-                        if obj.get("metadata", {}).get("resourceVersion", "0") > last_rv:
-                            changed.append(("MODIFIED", obj))
-                
-                # Sort by resourceVersion
-                changed.sort(key=lambda x: x[1]["metadata"]["resourceVersion"])
-                
-                for event_type, obj in changed:
-                    yield f"data: {json.dumps({'type': event_type, 'object': obj})}\n\n"
-                
-                last_rv = str(current_rv)
-            
-            time.sleep(1)
-    
-    return Response(event_generator(), mimetype="text/event-stream")
+@app.route("/version")
+def version():
+    return jsonify({"major": "1", "minor": "28", "gitVersion": "v1.28.0-fake"})
 
-# -----------------------------
-# Metrics Endpoint
-# -----------------------------
-@app.route("/metrics")
-def metrics():
-    metrics = [
-        "# HELP kubernetes_mock_resources_total Total number of resources in mock cluster",
-        "# TYPE kubernetes_mock_resources_total gauge"
-    ]
-    
-    for resource_type, resources in store.items():
-        metrics.append(f'kubernetes_mock_resources_total{{resource_type="{resource_type}"}} {len(resources)}')
-    
-    return Response("\n".join(metrics), mimetype="text/plain")
 
-# -----------------------------
-# Enhanced Health Checks
-# -----------------------------
-@app.route("/healthz")
-def health_check():
-    return jsonify({
-        "status": "healthy",
-        "components": {
-            "api": True,
-            "etcd": False,  # Mock doesn't use etcd
-            "controller": True,
-            "scheduler": True
+@app.route("/api")
+def api_root():
+    return jsonify({"kind": "APIVersions", "versions": ["v1"], "serverAddressByClientCIDRs": []})
+
+
+@app.route("/apis")
+def apis_root():
+    return jsonify(
+        {
+            "kind": "APIGroupList",
+            "groups": [
+                {
+                    "name": "apps",
+                    "versions": [{"groupVersion": "apps/v1", "version": "v1"}],
+                    "preferredVersion": {"groupVersion": "apps/v1", "version": "v1"},
+                },
+                {
+                    "name": "rbac.authorization.k8s.io",
+                    "versions": [{"groupVersion": "rbac.authorization.k8s.io/v1", "version": "v1"}],
+                    "preferredVersion": {"groupVersion": "rbac.authorization.k8s.io/v1", "version": "v1"},
+                },
+                {
+                    "name": "storage.k8s.io",
+                    "versions": [{"groupVersion": "storage.k8s.io/v1", "version": "v1"}],
+                    "preferredVersion": {"groupVersion": "storage.k8s.io/v1", "version": "v1"},
+                },
+            ],
         }
-    })
+    )
+
+
+@app.route("/api/v1")
+def core_resources():
+    # Kubectl's "all" shortcut relies on resource discovery, including which verbs
+    # are supported. If `verbs` is omitted, kubectl may treat matching resources
+    # as not listable and refuse shortcuts like `kubectl get all`.
+    common_get_list_watch = ["get", "list", "watch"]
+    common_write = ["create", "update", "patch", "delete"]
+    core_verbs = {
+        "pods": common_get_list_watch + common_write,
+        "services": common_get_list_watch + common_write,
+        "namespaces": common_get_list_watch + common_write,
+        "configmaps": common_get_list_watch + common_write,
+        "secrets": common_get_list_watch + common_write,
+        "nodes": common_get_list_watch,
+        "storageclasses": common_get_list_watch,
+        # Pseudo-resource used so kubectl's `get all` can succeed even though
+        # our mock doesn't implement kubectl's full client-side shortcut logic.
+        "all": common_get_list_watch,
+    }
+    return jsonify(
+        {
+            "kind": "APIResourceList",
+            "groupVersion": "v1",
+            "resources": [
+                {"name": "all", "namespaced": True, "kind": "All", "verbs": core_verbs["all"]},
+                {"name": "pods", "namespaced": True, "kind": "Pod", "verbs": core_verbs["pods"]},
+                {
+                    "name": "services",
+                    "namespaced": True,
+                    "kind": "Service",
+                    "verbs": core_verbs["services"],
+                },
+                {
+                    "name": "namespaces",
+                    "namespaced": False,
+                    "kind": "Namespace",
+                    "verbs": core_verbs["namespaces"],
+                },
+                {
+                    "name": "configmaps",
+                    "namespaced": True,
+                    "kind": "ConfigMap",
+                    "verbs": core_verbs["configmaps"],
+                },
+                {"name": "secrets", "namespaced": True, "kind": "Secret", "verbs": core_verbs["secrets"]},
+                {"name": "nodes", "namespaced": False, "kind": "Node", "verbs": core_verbs["nodes"]},
+                {
+                    "name": "storageclasses",
+                    "namespaced": False,
+                    "kind": "StorageClass",
+                    "verbs": core_verbs["storageclasses"],
+                },
+            ],
+        }
+    )
+
+
+def _all_items_for_namespace(namespace: Optional[str]) -> List[Dict[str, Any]]:
+    items: List[Dict[str, Any]] = []
+    # This is a pragmatic approximation of `kubectl get all`'s intent.
+    wanted = ["Pod", "Service", "Deployment", "ReplicaSet"]
+    for kind in wanted:
+        spec_kind_items = store[kind]
+        if namespace is None:
+            items.extend(copy.deepcopy(list(spec_kind_items.values())))
+        else:
+            prefix = f"{namespace}/"
+            for k, obj in spec_kind_items.items():
+                if k.startswith(prefix):
+                    items.append(copy.deepcopy(obj))
+    return items
+
+
+@app.route("/api/v1/all", methods=["GET"])
+def all_resources_all_namespaces():
+    # Cluster-wide list of the pseudo-resource `all`.
+    items = _all_items_for_namespace(namespace=None)
+    return jsonify(make_list("All", "v1", items))
+
+
+@app.route("/api/v1/namespaces/<ns>/all", methods=["GET"])
+def all_resources_in_namespace(ns: str):
+    items = _all_items_for_namespace(namespace=ns)
+    return jsonify(make_list("All", "v1", items))
+
+
+@app.route("/apis/apps/v1")
+def apps_resources():
+    common_get_list_watch = ["get", "list", "watch"]
+    common_write = ["create", "update", "patch", "delete"]
+    return jsonify(
+        {
+            "kind": "APIResourceList",
+            "groupVersion": "apps/v1",
+            "resources": [
+                {
+                    "name": "deployments",
+                    "namespaced": True,
+                    "kind": "Deployment",
+                    "verbs": common_get_list_watch + common_write,
+                },
+                {
+                    "name": "replicasets",
+                    "namespaced": True,
+                    "kind": "ReplicaSet",
+                    "verbs": common_get_list_watch + common_write,
+                },
+            ],
+        }
+    )
+
+
+@app.route("/apis/rbac.authorization.k8s.io/v1")
+def rbac_resources():
+    common_get_list_watch = ["get", "list", "watch"]
+    common_write = ["create", "update", "patch", "delete"]
+    return jsonify(
+        {
+            "kind": "APIResourceList",
+            "groupVersion": "rbac.authorization.k8s.io/v1",
+            "resources": [
+                {"name": "roles", "namespaced": True, "kind": "Role", "verbs": common_get_list_watch + common_write},
+                {
+                    "name": "rolebindings",
+                    "namespaced": True,
+                    "kind": "RoleBinding",
+                    "verbs": common_get_list_watch + common_write,
+                },
+                {
+                    "name": "clusterroles",
+                    "namespaced": False,
+                    "kind": "ClusterRole",
+                    "verbs": common_get_list_watch + common_write,
+                },
+                {
+                    "name": "clusterrolebindings",
+                    "namespaced": False,
+                    "kind": "ClusterRoleBinding",
+                    "verbs": common_get_list_watch + common_write,
+                },
+            ],
+        }
+    )
+
+
+@app.route("/apis/storage.k8s.io/v1")
+def storage_resources():
+    common_get_list_watch = ["get", "list", "watch"]
+    # Some kubectl flows query the storage group for StorageClass discovery.
+    return jsonify(
+        {
+            "kind": "APIResourceList",
+            "groupVersion": "storage.k8s.io/v1",
+            "resources": [
+                {"name": "storageclasses", "namespaced": False, "kind": "StorageClass", "verbs": common_get_list_watch}
+            ],
+        }
+    )
+
+
+@app.route("/openapi/v2")
+def openapi_stub():
+    # Many kubectl flows don't require this.
+    return jsonify({})
+
 
 # -----------------------------
-# Enhanced Error Handling
+# Error handling
 # -----------------------------
 @app.errorhandler(404)
 def not_found(e):
-    return jsonify({
-        "kind": "Status",
-        "apiVersion": "v1",
-        "metadata": {},
-        "status": "Failure",
-        "message": str(e),
-        "reason": "NotFound",
-        "details": {},
-        "code": 404
-    }), 404
+    return jsonify(
+        {
+            "kind": "Status",
+            "apiVersion": "v1",
+            "metadata": {},
+            "status": "Failure",
+            "message": str(e),
+            "reason": "NotFound",
+            "details": {},
+            "code": 404,
+        }
+    ), 404
+
 
 # -----------------------------
-# Generic Namespaced Resource Handler
+# Metrics + health
 # -----------------------------
-def create_ns_handler(resource_key, kind, default_status=None):
-    def handler(ns):
-        ensure_namespace(ns)
-        if request.method=="GET":
-            items=[v for k,v in store[resource_key].items() if k.startswith(ns+"/")]
-            return jsonify(make_list(kind, items))
-        data=request.json
-        assign_metadata(data, ns)
-        if default_status:
-            data.setdefault("status", copy.deepcopy(default_status))
-        key=f"{ns}/{data['metadata']['name']}"
-        store[resource_key][key]=data
-        return jsonify(data)
-    handler.__name__ = f"{resource_key}_list"
-    return handler
+@app.route("/healthz")
+def healthz():
+    return jsonify(
+        {
+            "status": "healthy",
+            "components": {"api": True, "etcd": False, "controller": True, "scheduler": True},
+        }
+    )
 
-def create_ns_detail_handler(resource_key):
-    def handler(ns,name):
-        key=f"{ns}/{name}"
-        if request.method=="GET":
-            return jsonify(store[resource_key].get(key, {}))
-        if request.method=="DELETE":
-            store[resource_key].pop(key,None)
-            return jsonify({"status":"Success"})
-        if request.method in ["PUT","PATCH"]:
-            obj=store[resource_key].get(key)
+
+@app.route("/metrics")
+def metrics():
+    lines = [
+        "# HELP kubernetes_mock_resources_total Total number of resources in mock cluster",
+        "# TYPE kubernetes_mock_resources_total gauge",
+    ]
+    for kind, objs in store.items():
+        lines.append(f'kubernetes_mock_resources_total{{resource_type="{kind}"}} {len(objs)}')
+    return Response("\n".join(lines), mimetype="text/plain")
+
+
+# -----------------------------
+# Watch implementation
+# -----------------------------
+def watch_stream(*, spec: ResourceSpec, namespace: Optional[str], resource_version: str) -> Iterable[str]:
+    # Kubernetes uses resourceVersion as a monotonic integer-ish string.
+    try:
+        start_rv = int(resource_version)
+    except Exception:
+        start_rv = 0
+
+    timeout_s = request.args.get("timeoutSeconds", type=float)
+    deadline = time.time() + timeout_s if timeout_s is not None else None
+
+    cursor = 0
+    with EVENT_LOCK:
+        # Move cursor to first event with rv > start_rv
+        while cursor < len(event_log) and int(event_log[cursor]["rv"]) <= start_rv:
+            cursor += 1
+
+    while True:
+        if deadline is not None and time.time() > deadline:
+            return
+
+        # Grab newly appended events
+        with EVENT_LOCK:
+            new_events = event_log[cursor:]
+            cursor = len(event_log)
+
+        for ev in new_events:
+            obj = ev["object"]
+            obj_ns = obj.get("metadata", {}).get("namespace")
+            if spec.namespaced and namespace is not None and obj_ns != namespace:
+                continue
+            if (not spec.namespaced) and namespace is not None:
+                # Should not happen.
+                continue
+            yield sse_encode({"type": ev["type"], "object": obj})
+
+        # Poll interval: keep lightweight.
+        time.sleep(0.25)
+
+
+def _get_namespace_from_request(spec: ResourceSpec) -> Optional[str]:
+    if not spec.namespaced:
+        return None
+    # For list/watch endpoints, kubectl typically uses URL namespace, not body.
+    # We'll try URL first (view functions pass it in via closure) and fallback to body.
+    return None
+
+
+# -----------------------------
+# CRUD handlers (generic)
+# -----------------------------
+def _ensure_correct_kind_fields(spec: ResourceSpec, obj: Dict[str, Any]) -> Dict[str, Any]:
+    # Kubernetes clients commonly expect these fields.
+    obj.setdefault("kind", spec.kind)
+    obj["apiVersion"] = spec.api_version
+    return obj
+
+
+def _default_object_for_create(spec: ResourceSpec, obj: Dict[str, Any], namespace: Optional[str], name: str) -> Dict[str, Any]:
+    obj = _ensure_correct_kind_fields(spec, obj)
+    if spec.kind == "Pod":
+        obj.setdefault("spec", {})
+        obj["spec"].setdefault(
+            "containers",
+            [{"name": "main", "image": "alpine:latest", "imagePullPolicy": "IfNotPresent"}],
+        )
+        obj.setdefault("status", simulate_pod_status(name))
+        # Mark a sensible nodeName, etc. (optional)
+    elif spec.kind == "Service":
+        obj.setdefault("spec", {})
+        # Basic clusterIP behavior: if absent, assign an RFC1918-ish one.
+        obj["spec"].setdefault("clusterIP", f"10.96.0.{random.randint(2, 254)}")
+        obj.setdefault("status", {"loadBalancer": {}})
+    elif spec.kind == "Deployment":
+        obj.setdefault("spec", {})
+        obj.setdefault("status", simulate_deployment_status())
+    elif spec.kind == "ReplicaSet":
+        obj.setdefault("spec", {})
+        obj.setdefault("status", simulate_deployment_status())
+    elif spec.kind == "Namespace":
+        obj.setdefault("status", {})
+    elif spec.kind == "Node":
+        obj.setdefault("status", {"conditions": [{"type": "Ready", "status": "True"}]})
+    elif spec.kind == "StorageClass":
+        obj.setdefault("provisioner", "kubernetes.io/no-provisioner")
+        obj.setdefault("reclaimPolicy", "Delete")
+        obj.setdefault("volumeBindingMode", "Immediate")
+
+    # Ensure metadata namespace/name exists.
+    assign_metadata(obj, namespace=namespace, name=name)
+    return obj
+
+
+def handle_list_or_create(spec: ResourceSpec, *, namespace: Optional[str]):
+    api_base = api_base_for(spec.api_version)
+    plural = spec.plural
+
+    def view():
+        watch = request.args.get("watch", default="false").lower() in ("1", "true", "yes", "y", "on")
+        resource_version = request.args.get("resourceVersion", "0")
+
+        if watch:
+            # Namespaced resources can be watched per-namespace; cluster-scoped resources ignore namespace.
+            return Response(
+                watch_stream(spec=spec, namespace=namespace, resource_version=resource_version),
+                mimetype="text/event-stream",
+            )
+
+        if request.method == "GET":
+            items = list_resources(spec, namespace=namespace)
+            return jsonify(make_list(spec.kind, spec.api_version, items))
+
+        # POST create
+        data = request.get_json(force=True, silent=True) or {}
+
+        meta = data.get("metadata") or {}
+        name = meta.get("name")
+        if not name:
+            gen = meta.get("generateName")
+            if gen:
+                name = f"{gen}{uuid.uuid4().hex[:8]}"
+            else:
+                return jsonify({"message": "metadata.name or metadata.generateName is required"}), 400
+
+        if spec.namespaced and namespace is None:
+            # If you hit the cluster-wide list/create route, require namespace in body.
+            namespace_from_body = meta.get("namespace")
+            if not namespace_from_body:
+                return jsonify({"message": "namespace is required for namespaced resources"}), 400
+            ns = namespace_from_body
+        else:
+            ns = namespace
+
+        obj = _default_object_for_create(spec, data, ns, name)
+        store[spec.kind][_key_for(spec, namespace=ns, name=name)] = obj
+        push_event("ADDED", obj)
+        return jsonify(obj)
+
+    view.__name__ = f"list_or_create_{spec.kind}_{'ns' if spec.namespaced else 'cluster'}"
+    return view
+
+
+def handle_detail_update_delete(spec: ResourceSpec, *, namespace: Optional[str]):
+    def view(name: str):
+        if request.method == "GET":
+            obj = get_resource(spec, namespace=namespace, name=name)
             if not obj:
-                return jsonify({"error":"Not found"}),404
-            patch=request.json
-            deep_merge(obj,patch)
-            obj["metadata"]["resourceVersion"]=next_rv()
+                return jsonify({}), 404
             return jsonify(obj)
-    handler.__name__ = f"{resource_key}_detail"
-    return handler
+
+        if request.method in ("PUT", "PATCH"):
+            existing = get_resource(spec, namespace=namespace, name=name)
+            if not existing:
+                return jsonify({"message": "Not found"}), 404
+
+            patch = request.get_json(force=True, silent=True) or {}
+            # For PATCH/PUT in this mock, we do a merge. Real Kubernetes behavior differs.
+            merged = deep_merge(existing, patch)
+            merged = _ensure_correct_kind_fields(spec, merged)
+            assign_metadata(merged, namespace=namespace, name=name)
+            # Keep spec/status objects if provided.
+            store[spec.kind][_key_for(spec, namespace=namespace, name=name)] = merged
+            push_event("MODIFIED", merged)
+            return jsonify(merged)
+
+        if request.method == "DELETE":
+            existing = get_resource(spec, namespace=namespace, name=name)
+            if not existing:
+                return jsonify({"status": "Success"})
+            store[spec.kind].pop(_key_for(spec, namespace=namespace, name=name), None)
+            # Use a tombstone object for the event.
+            tomb = copy.deepcopy(existing)
+            tomb.setdefault("metadata", {})
+            tomb["metadata"]["resourceVersion"] = next_rv()
+            push_event("DELETED", tomb, rv=tomb["metadata"]["resourceVersion"])
+            return jsonify({"status": "Success"})
+
+        return jsonify({"message": "Unsupported method"}), 405
+
+    view.__name__ = f"detail_update_delete_{spec.kind}"
+    return view
+
+
+def handle_watch_subresource(spec: ResourceSpec, *, namespace: Optional[str]):
+    def view():
+        resource_version = request.args.get("resourceVersion", "0")
+        return Response(
+            watch_stream(spec=spec, namespace=namespace, resource_version=resource_version),
+            mimetype="text/event-stream",
+        )
+
+    view.__name__ = f"watch_{spec.kind}"
+    return view
+
+
+def handle_cluster_list(spec: ResourceSpec):
+    # For namespaced resources, kubectl often lists with -A by calling the cluster-scoped plural.
+    def view():
+        watch = request.args.get("watch", default="false").lower() in ("1", "true", "yes", "y", "on")
+        resource_version = request.args.get("resourceVersion", "0")
+        if watch:
+            return Response(
+                watch_stream(spec=spec, namespace=None, resource_version=resource_version),
+                mimetype="text/event-stream",
+            )
+        items = list_resources(spec, namespace=None)
+        return jsonify(make_list(spec.kind, spec.api_version, items))
+
+    view.__name__ = f"cluster_list_{spec.kind}"
+    return view
+
+
+def register_routes() -> None:
+    for kind, spec in RESOURCE_SPECS.items():
+        base = api_base_for(spec.api_version)
+        plural = spec.plural
+
+        if spec.kind == "Namespace":
+            # Namespace is core but cluster-scoped. Create/list at /api/v1/namespaces.
+            app.add_url_rule(
+                f"{base}/{plural}",
+                view_func=handle_list_or_create(spec, namespace=None),
+                methods=["GET", "POST"],
+                endpoint=f"ns_list_create_{kind}",
+            )
+            app.add_url_rule(
+                f"{base}/{plural}/<name>",
+                view_func=handle_detail_update_delete(spec, namespace=None),
+                methods=["GET", "PUT", "PATCH", "DELETE"],
+                endpoint=f"ns_detail_{kind}",
+            )
+            app.add_url_rule(
+                f"{base}/{plural}/watch",
+                view_func=handle_watch_subresource(spec, namespace=None),
+                methods=["GET"],
+                endpoint=f"ns_watch_{kind}",
+            )
+            continue
+
+        if spec.namespaced:
+            # Namespaced list/create
+            app.add_url_rule(
+                f"{base}/namespaces/<ns>/{plural}",
+                view_func=lambda ns, s=spec: handle_list_or_create(s, namespace=ns)(),  # type: ignore[misc]
+                methods=["GET", "POST"],
+                endpoint=f"{spec.kind}_list_create_ns",
+            )
+            # Namespaced detail
+            app.add_url_rule(
+                f"{base}/namespaces/<ns>/{plural}/<name>",
+                view_func=lambda ns, name, s=spec: handle_detail_update_delete(s, namespace=ns)(name),  # type: ignore[misc]
+                methods=["GET", "PUT", "PATCH", "DELETE"],
+                endpoint=f"{spec.kind}_detail_ns",
+            )
+            # Namespaced watch subresource
+            app.add_url_rule(
+                f"{base}/namespaces/<ns>/{plural}/watch",
+                view_func=lambda ns, s=spec: handle_watch_subresource(s, namespace=ns)(),  # type: ignore[misc]
+                methods=["GET"],
+                endpoint=f"{spec.kind}_watch_ns",
+            )
+
+            # Cluster-wide list for -A
+            app.add_url_rule(
+                f"{base}/{plural}",
+                view_func=handle_cluster_list(spec),
+                methods=["GET"],
+                endpoint=f"{spec.kind}_list_all",
+            )
+        else:
+            # Cluster-scoped list/create
+            app.add_url_rule(
+                f"{base}/{plural}",
+                view_func=handle_list_or_create(spec, namespace=None),
+                methods=["GET", "POST"],
+                endpoint=f"{spec.kind}_list_create_cluster",
+            )
+            # Cluster-scoped detail
+            app.add_url_rule(
+                f"{base}/{plural}/<name>",
+                view_func=handle_detail_update_delete(spec, namespace=None),
+                methods=["GET", "PUT", "PATCH", "DELETE"],
+                endpoint=f"{spec.kind}_detail_cluster",
+            )
+            # Cluster-scoped watch
+            app.add_url_rule(
+                f"{base}/{plural}/watch",
+                view_func=handle_watch_subresource(spec, namespace=None),
+                methods=["GET"],
+                endpoint=f"{spec.kind}_watch_cluster",
+            )
+
+
+register_routes()
+
 
 # -----------------------------
-# Pod and Service endpoints
+# Seed some objects so kubectl "feels" alive
 # -----------------------------
-pod_status={"phase":"Running","conditions":[{"type":"Ready","status":"True"}],"containerStatuses":[]}
-app.add_url_rule("/api/v1/namespaces/<ns>/pods", view_func=create_ns_handler("pods","Pod",pod_status), methods=["GET","POST"], endpoint="pods_list")
-app.add_url_rule("/api/v1/namespaces/<ns>/pods/<name>", view_func=create_ns_detail_handler("pods"), methods=["GET","PUT","PATCH","DELETE"], endpoint="pods_detail")
-app.add_url_rule("/api/v1/namespaces/<ns>/services", view_func=create_ns_handler("services","Service"), methods=["GET","POST"], endpoint="services_list")
-app.add_url_rule("/api/v1/namespaces/<ns>/services/<name>", view_func=create_ns_detail_handler("services"), methods=["GET","PUT","PATCH","DELETE"], endpoint="services_detail")
-app.add_url_rule("/api/v1/namespaces/<ns>/configmaps", view_func=create_ns_handler("configmaps","ConfigMap"), methods=["GET","POST"], endpoint="configmaps_list")
-app.add_url_rule("/api/v1/namespaces/<ns>/configmaps/<name>", view_func=create_ns_detail_handler("configmaps"), methods=["GET","PUT","PATCH","DELETE"], endpoint="configmaps_detail")
-app.add_url_rule("/api/v1/namespaces/<ns>/secrets", view_func=create_ns_handler("secrets","Secret"), methods=["GET","POST"], endpoint="secrets_list")
-app.add_url_rule("/api/v1/namespaces/<ns>/secrets/<name>", view_func=create_ns_detail_handler("secrets"), methods=["GET","PUT","PATCH","DELETE"], endpoint="secrets_detail")
+def seed_defaults() -> None:
+    for ns in ["default", "kube-system"]:
+        ensure_namespace(ns)
 
-# -----------------------------
-# Deployment and ReplicaSet endpoints
-# -----------------------------
-deployment_status={"replicas":1,"readyReplicas":1,"availableReplicas":1,"observedGeneration":1}
-app.add_url_rule("/apis/apps/v1/namespaces/<ns>/deployments", view_func=create_ns_handler("deployments","Deployment",deployment_status), methods=["GET","POST"], endpoint="deployments_list")
-app.add_url_rule("/apis/apps/v1/namespaces/<ns>/deployments/<name>", view_func=create_ns_detail_handler("deployments"), methods=["GET","PATCH","DELETE"], endpoint="deployments_detail")
-app.add_url_rule("/apis/apps/v1/namespaces/<ns>/replicasets", view_func=create_ns_handler("replicasets","ReplicaSet",deployment_status), methods=["GET","POST"], endpoint="replicasets_list")
-app.add_url_rule("/apis/apps/v1/namespaces/<ns>/replicasets/<name>", view_func=create_ns_detail_handler("replicasets"), methods=["GET","PATCH","DELETE"], endpoint="replicasets_detail")
+    # Fake node(s)
+    node_spec = RESOURCE_SPECS["Node"]
+    if not get_resource(node_spec, namespace=None, name="fake-node"):
+        obj: Dict[str, Any] = {"metadata": {"name": "fake-node"}}
+        obj = _default_object_for_create(node_spec, obj, None, "fake-node")
+        store["Node"][_key_for(node_spec, namespace=None, name="fake-node")] = obj
+        push_event("ADDED", obj)
 
-# -----------------------------
-# RBAC endpoints
-# -----------------------------
-app.add_url_rule("/apis/rbac.authorization.k8s.io/v1/namespaces/<ns>/roles", view_func=create_ns_handler("roles","Role"), methods=["GET","POST"], endpoint="roles_list")
-app.add_url_rule("/apis/rbac.authorization.k8s.io/v1/namespaces/<ns>/roles/<name>", view_func=create_ns_detail_handler("roles"), methods=["GET","PUT","PATCH","DELETE"], endpoint="roles_detail")
-app.add_url_rule("/apis/rbac.authorization.k8s.io/v1/namespaces/<ns>/rolebindings", view_func=create_ns_handler("rolebindings","RoleBinding"), methods=["GET","POST"], endpoint="rolebindings_list")
-app.add_url_rule("/apis/rbac.authorization.k8s.io/v1/namespaces/<ns>/rolebindings/<name>", view_func=create_ns_detail_handler("rolebindings"), methods=["GET","PUT","PATCH","DELETE"], endpoint="rolebindings_detail")
-app.add_url_rule("/apis/rbac.authorization.k8s.io/v1/clusterroles", view_func=create_ns_handler("clusterroles","ClusterRole"), methods=["GET","POST"], endpoint="clusterroles_list")
-app.add_url_rule("/apis/rbac.authorization.k8s.io/v1/clusterroles/<name>", view_func=create_ns_detail_handler("clusterroles"), methods=["GET","PUT","PATCH","DELETE"], endpoint="clusterroles_detail")
-app.add_url_rule("/apis/rbac.authorization.k8s.io/v1/clusterrolebindings", view_func=create_ns_handler("clusterrolebindings","ClusterRoleBinding"), methods=["GET","POST"], endpoint="clusterrolebindings_list")
-app.add_url_rule("/apis/rbac.authorization.k8s.io/v1/clusterrolebindings/<name>", view_func=create_ns_detail_handler("clusterrolebindings"), methods=["GET","PUT","PATCH","DELETE"], endpoint="clusterrolebindings_detail")
+    # kube-system control-plane-ish pods
+    for pod_name in ["kube-apiserver", "kube-controller-manager", "kube-scheduler", "coredns"]:
+        pod_spec = RESOURCE_SPECS["Pod"]
+        ns = "kube-system"
+        if not get_resource(pod_spec, namespace=ns, name=pod_name):
+            obj = {"metadata": {"name": pod_name}, "spec": {}}
+            obj = _default_object_for_create(pod_spec, obj, ns, pod_name)
+            store["Pod"][_key_for(pod_spec, namespace=ns, name=pod_name)] = obj
+            push_event("ADDED", obj)
 
-# -----------------------------
-# Watch endpoint stub
-# -----------------------------
-@app.route("/api/v1/namespaces/<ns>/pods/watch")
-def watch_pods(ns):
-    def generate():
-        for v in store["pods"].values():
-            yield json.dumps({"type":"ADDED","object":v}) + "\n"
-    return Response(generate(), mimetype="application/json")
+    # kube-dns service
+    svc_spec = RESOURCE_SPECS["Service"]
+    ns = "kube-system"
+    if not get_resource(svc_spec, namespace=ns, name="kube-dns"):
+        obj = {"metadata": {"name": "kube-dns"}, "spec": {"ports": [{"port": 53}]}}
+        obj = _default_object_for_create(svc_spec, obj, ns, "kube-dns")
+        store["Service"][_key_for(svc_spec, namespace=ns, name="kube-dns")] = obj
+        push_event("ADDED", obj)
 
-# -----------------------------
-# Cluster-level stubs
-# -----------------------------
-# kube-system namespace
-ensure_namespace("kube-system")
+    # Minimal storageclass
+    sc_spec = RESOURCE_SPECS["StorageClass"]
+    if not get_resource(sc_spec, namespace=None, name="standard"):
+        obj = {"metadata": {"name": "standard"}}
+        obj = _default_object_for_create(sc_spec, obj, None, "standard")
+        store["StorageClass"][_key_for(sc_spec, namespace=None, name="standard")] = obj
+        push_event("ADDED", obj)
 
-# Fake control-plane pods
-for pod_name in ["kube-apiserver","kube-controller-manager","kube-scheduler","coredns"]:
-    key=f"kube-system/{pod_name}"
-    if key not in store["pods"]:
-        pod={"metadata":{"name":pod_name},"spec":{},"status":{"phase":"Running"}}
-        assign_metadata(pod,"kube-system")
-        store["pods"][key]=pod
+    # ClusterRole/Binding (for basic auth flows)
+    cr_spec = RESOURCE_SPECS["ClusterRole"]
+    if not get_resource(cr_spec, namespace=None, name="cluster-admin"):
+        obj = {"metadata": {"name": "cluster-admin"}, "rules": []}
+        obj = _default_object_for_create(cr_spec, obj, None, "cluster-admin")
+        store["ClusterRole"][_key_for(cr_spec, namespace=None, name="cluster-admin")] = obj
+        push_event("ADDED", obj)
 
-# kube-dns service
-if "kube-system/kube-dns" not in store["services"]:
-    svc={"metadata":{"name":"kube-dns"},"spec":{"clusterIP":"10.96.0.10"}}
-    assign_metadata(svc,"kube-system")
-    store["services"]["kube-system/kube-dns"]=svc
+    crb_spec = RESOURCE_SPECS["ClusterRoleBinding"]
+    if not get_resource(crb_spec, namespace=None, name="cluster-admin-binding"):
+        obj = {
+            "metadata": {"name": "cluster-admin-binding"},
+            "roleRef": {"kind": "ClusterRole", "name": "cluster-admin", "apiGroup": "rbac.authorization.k8s.io"},
+            "subjects": [],
+        }
+        obj = _default_object_for_create(crb_spec, obj, None, "cluster-admin-binding")
+        store["ClusterRoleBinding"][_key_for(crb_spec, namespace=None, name="cluster-admin-binding")] = obj
+        push_event("ADDED", obj)
 
-# Fake node
-if "fake-node" not in store["nodes"]:
-    store["nodes"]["fake-node"]={"metadata":{"name":"fake-node"},"status":{"conditions":[{"type":"Ready","status":"True"}]}}
-
-# ClusterRole/Binding
-if "cluster-admin" not in store["clusterroles"]:
-    cr={"metadata":{"name":"cluster-admin"}}
-    assign_metadata(cr)
-    store["clusterroles"]["cluster-admin"]=cr
-if "cluster-admin-binding" not in store["clusterrolebindings"]:
-    crb={"metadata":{"name":"cluster-admin-binding"},"roleRef":{"kind":"ClusterRole","name":"cluster-admin","apiGroup":"rbac.authorization.k8s.io"}}
-    assign_metadata(crb)
-    store["clusterrolebindings"]["cluster-admin-binding"]=crb
-
-# Minimal storageclass
-if "standard" not in store["storageclasses"]:
-    sc={"metadata":{"name":"standard"}}
-    assign_metadata(sc)
-    store["storageclasses"]["standard"]=sc
-@app.route("/apis/storage.k8s.io/v1/storageclasses")
-def storage_classes():
-    return jsonify(make_list("StorageClass", list(store["storageclasses"].values())))
-
-# Fake nodes endpoint
-@app.route("/api/v1/nodes")
-def nodes():
-    return jsonify(make_list("Node", list(store["nodes"].values())))
+    # Default pod in default namespace
+    pod_spec = RESOURCE_SPECS["Pod"]
+    ns = "default"
+    if not get_resource(pod_spec, namespace=ns, name="default-pod"):
+        obj = {"metadata": {"name": "default-pod"}, "spec": {}}
+        obj = _default_object_for_create(pod_spec, obj, ns, "default-pod")
+        store["Pod"][_key_for(pod_spec, namespace=ns, name="default-pod")] = obj
+        push_event("ADDED", obj)
 
 
-@app.route("/api/v1/pods")
-def pods_all_namespaces():
-    """Handle kubectl get pods -A requests"""
-    return jsonify(make_list("Pod", list(store["pods"].values())))
-
-# Similarly add for other resources that might need -A support
-@app.route("/api/v1/services")
-def services_all_namespaces():
-    return jsonify(make_list("Service", list(store["services"].values())))
-
-@app.route("/api/v1/configmaps")
-def configmaps_all_namespaces():
-    return jsonify(make_list("ConfigMap", list(store["configmaps"].values())))
-
-@app.route("/api/v1/secrets")
-def secrets_all_namespaces():
-    return jsonify(make_list("Secret", list(store["secrets"].values())))
-
-@app.route("/apis/apps/v1/deployments")
-def deployments_all_namespaces():
-    return jsonify(make_list("Deployment", list(store["deployments"].values())))
-
-@app.route("/apis/apps/v1/replicasets")
-def replicasets_all_namespaces():
-    return jsonify(make_list("ReplicaSet", list(store["replicasets"].values())))
+seed_defaults()
 
 
-# -----------------------------
-# Main
-# -----------------------------
-if __name__=="__main__":
+def main() -> None:
     ensure_namespace("default")
     ensure_namespace("kube-system")
-    # Seed an initial pod directly into the store — do NOT call create_pod()
-    # here because it is a Flask route handler and requires an active HTTP
-    # request context (request.json would raise RuntimeError otherwise).
-    _seed_pod_name = "default-pod"
-    _seed_key = f"default/{_seed_pod_name}"
-    if _seed_key not in store["pods"]:
-        _seed_pod = {
-            "metadata": {"name": _seed_pod_name},
-            "spec": {
-                "containers": [{
-                    "name": "main",
-                    "image": "alpine:latest",
-                    "imagePullPolicy": "IfNotPresent"
-                }]
-            }
-        }
-        assign_metadata(_seed_pod, "default")
-        _seed_pod["status"] = simulate_pod_status(_seed_pod_name)
-        store["pods"][_seed_key] = _seed_pod
     app.run(host="0.0.0.0", port=8080, debug=True)
+
+
+if __name__ == "__main__":
+    main()
