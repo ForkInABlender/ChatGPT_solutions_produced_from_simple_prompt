@@ -37,7 +37,7 @@ Now kubernetes is flattened, and given ``kubectl --server="http://localhost:8080
  no longer matter....
 #### END OF ADDENDUM ####
 
-updated 9:51:34 am on 03/18/2026
+updated 07:30:11 pm on 03/18/2026
 
 """"
 
