@@ -3,7 +3,8 @@
 """
 This is mostly for parts to use in modeling an actual AI. But with the bits for emulating the brain.
 
-
+05/05/2026 @ 6:10 to 6:33 pm update --- this file has been updated so it also runs on android cooies of the pybrain3,
+ scipy, and numpy libraries. due keep in mind that this is designed to handle 50'257 input and output of data
 
 
 
@@ -12,6 +13,8 @@ This is mostly for parts to use in modeling an actual AI. But with the bits for 
 https://chat.openai.com/share/2a9f0d74-5687-4eb8-a4ed-8195b8270516
 
 """
+
+
 from pybrain3.structure import SoftmaxLayer, LinearLayer
 from pybrain3.datasets import SupervisedDataSet
 from pybrain3.structure import FeedForwardNetwork, FullConnection
@@ -44,10 +47,8 @@ class EmbeddingLayer(LinearLayer):
 						self.token_idx = len(self.embeddings)-1
 						outbuf[:] = self.embeddings[self.token_idx]
 		def _backwardImplementation(self, outerr, inerr, outbuf, inbuf):
-				gradient = np.zeros_like(self.embeddings)
-				gradient[self.token_idx] = outerr
-				self.embeddings -= gradient
-				inerr[:] = self.embeddings.T @ outerr
+				self.embeddings[self.token_idx] -= outerr
+				inerr[:] = 0
 
 class GeLULayer(NeuronLayer):
 		def __init__(self, dim):
@@ -56,9 +57,10 @@ class GeLULayer(NeuronLayer):
 				outbuf[:] = 0.5 * inbuf * (
 						1 + np.tanh(np.sqrt(2 / np.pi) * (inbuf + 0.044715 * inbuf**3)))
 		def _backwardImplementation(self, outerr, inerr, outbuf, inbuf):
-				cdf = 0.5 * (1 + np.tanh(np.sqrt(2 / np.pi) * (inbuf + 0.044715 * inbuf**3)))
-				pd = np.sqrt(2 / np.pi) * (1 + 0.134145 * inbuf**2) * (1 / np.cosh(np.sqrt(2 / np.pi) * (inbuf + 0.044715 * inbuf**3)))**2
-				inerr[:] = outerr * (cdf + inbuf * pd)
+				x = np.clip(inbuf, -10, 10)
+				cdf = 0.5 * (1 + np.tanh(np.sqrt(2 / np.pi) * (x + 0.044715 * x**3)))
+				pd = np.sqrt(2 / np.pi) * (1 + 0.134145 * x**2) * (1 / np.cosh(np.sqrt(2 / np.pi) * (x + 0.044715 * x**3)))**2
+				inerr[:] = outerr * (cdf + x * pd)
 
 class AttentionLayer(NeuronLayer):
 		def __init__(self, indim, outdim):
@@ -72,6 +74,7 @@ class AttentionLayer(NeuronLayer):
 				inerr[:] = np.dot(outerr, self.attention_weights.T)
 
 def softmax(x, axis=-1):
+		"""Compute softmax values for each set of scores in x."""
 		e_x = np.exp(x - np.max(x, axis=axis, keepdims=True))
 		return e_x / e_x.sum(axis=axis, keepdims=True)
 
@@ -95,41 +98,47 @@ class MultiHeadSelfAttention(NeuronLayer):
 		def _forwardImplementation(self, inbuf, outbuf):
 				if len(inbuf.shape) == 1:
 						inbuf = inbuf[np.newaxis, :]
+				self._inbuf = inbuf
 				Q = np.dot(inbuf, self.W_q)
 				K = np.dot(inbuf, self.W_k)
 				V = np.dot(inbuf, self.W_v)
-				Q = np.split(Q, self.num_heads, axis=1)
-				K = np.split(K, self.num_heads, axis=1)
-				V = np.split(V, self.num_heads, axis=1)
+				self.Q = np.split(Q, self.num_heads, axis=1)
+				self.K = np.split(K, self.num_heads, axis=1)
+				self.V = np.split(V, self.num_heads, axis=1)
 
 				attention_heads = []
+				self.attention_weights = []
 				for i in range(self.num_heads):
-						attention_head = self.scaled_dot_product_attention(Q[i], K[i], V[i])
-						attention_heads.append(attention_head)
+						matmul_qk = np.dot(self.Q[i], self.K[i].T)
+						aw = softmax(matmul_qk / np.sqrt(self.depth), axis=-1)
+						self.attention_weights.append(aw)
+						attention_heads.append(np.dot(aw, self.V[i]))
 
-				# Concatenate attention heads and pass through the final linear layer
-				concatenated_heads = np.concatenate(attention_heads, axis=1)
-				outbuf[:] = np.dot(concatenated_heads, self.W_o)
+				self.concatenated_heads = np.concatenate(attention_heads, axis=1)
+				outbuf[:] = np.dot(self.concatenated_heads, self.W_o)
 
 		def _backwardImplementation(self, outerr, inerr, outbuf, inbuf):
-				d_concat_heads = np.dot(outerr, self.W_o.T)
+				seq_len = self._inbuf.shape[0]
+				outerr_2d = outerr.reshape(seq_len, -1)
+				d_concat_heads = np.dot(outerr_2d, self.W_o.T)
 				d_attention_heads = np.split(d_concat_heads, self.num_heads, axis=1)
-				dQ_total, dK_total, dV_total = 0, 0, 0
+				dQ_heads, dK_heads, dV_heads = [], [], []
 				for i in range(self.num_heads):
 						d_out = d_attention_heads[i]
-						dV = np.dot(self.attention_weights[i].T, d_out)
-						d_attention_weights = np.dot(d_out, self.V[i].T)
-						dQK = d_attention_weights * (1 - self.attention_weights[i]) * self.attention_weights[i]
-						dQ = np.dot(dQK, self.K[i])
-						dK = np.dot(dQK, self.Q[i])
-						dQ_total += dQ
-						dK_total += dK
-						dV_total += dV
-				inerr[:] = np.dot(dQ_total, self.W_q.T) + np.dot(dK_total, self.W_k.T) + np.dot(dV_total, self.W_v.T)
-				self.W_q -= np.dot(inbuf.T, dQ_total)
-				self.W_k -= np.dot(inbuf.T, dK_total)
-				self.W_v -= np.dot(inbuf.T, dV_total)
-				self.W_o -= np.dot(self.concatenated_heads.T, outerr)
+						dV_heads.append(np.dot(self.attention_weights[i].T, d_out))
+						d_aw = np.dot(d_out, self.V[i].T)
+						dQK = d_aw * self.attention_weights[i] * (1 - self.attention_weights[i])
+						dQ_heads.append(np.dot(dQK, self.K[i]))
+						dK_heads.append(np.dot(dQK, self.Q[i]))
+				dQ_total = np.concatenate(dQ_heads, axis=1)
+				dK_total = np.concatenate(dK_heads, axis=1)
+				dV_total = np.concatenate(dV_heads, axis=1)
+				dinput = np.dot(dQ_total, self.W_q.T) + np.dot(dK_total, self.W_k.T) + np.dot(dV_total, self.W_v.T)
+				inerr[:] = dinput.reshape(-1)[:inerr.size]
+				self.W_q -= np.dot(self._inbuf.T, dQ_total)
+				self.W_k -= np.dot(self._inbuf.T, dK_total)
+				self.W_v -= np.dot(self._inbuf.T, dV_total)
+				self.W_o -= np.dot(self.concatenated_heads.T, outerr_2d)
 
 class LayerNorm(NeuronLayer):
 		def __init__(self, size, eps=1e-6):
@@ -149,9 +158,9 @@ class LayerNorm(NeuronLayer):
 				inerr[:] = dinbuf
 
 VOCAB_SIZE = 50257 # GPT-3 & 4 use that value --> 50257; otherwise, use 120 to interface with this model until retooled.
-D_MODEL = 128
-NUM_BLOCKS = 96 # 94 to 96 for GPT 3 & 4; otherwise set to 4.
-NUM_HEADS = 128
+D_MODEL = 64
+NUM_BLOCKS = 48 # 94 to 96 for GPT 3 & 4; otherwise set to 4.
+NUM_HEADS = 16
 FFN_DIM = 128
 net = FeedForwardNetwork()
 inLayer = LinearLayer(VOCAB_SIZE)
@@ -183,8 +192,10 @@ for _ in range(NUM_BLOCKS):
 outLayer = SoftmaxLayer(VOCAB_SIZE)
 net.addOutputModule(outLayer)
 net.addConnection(FullConnection(prev_layer, outLayer))
+net.sortModules()
 
-#from pybrain3.tools.xml.networkwriter import NetworkWriter
-#from pybrain3.tools.xml.networkreader import NetworkReader
-#NetworkWriter.writeToFile(net, 'my_model.xml')
+
+from pybrain3.tools.xml.networkwriter import NetworkWriter
+from pybrain3.tools.xml.networkreader import NetworkReader
+NetworkWriter.writeToFile(net, 'my_model.xml')
 #loaded_net = NetworkReader.readFrom('my_model.xml')
