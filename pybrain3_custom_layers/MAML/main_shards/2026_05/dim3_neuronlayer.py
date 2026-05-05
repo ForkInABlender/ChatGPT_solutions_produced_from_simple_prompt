@@ -1,4 +1,10 @@
-# Dylan Kenneth Eliot & GPT-4-Plugins (Beta Edition) & Google-Gemini
+# Dylan Kenneth Eliot & GPT-4-Plugins (Beta Edition) & Google-Gemini & kiro.dev
+
+
+"""
+this has been updated so it works even on Android.
+
+"""
 
 from pybrain3.structure.modules.neuronlayer import NeuronLayer
 import numpy as np
