@@ -1,3 +1,22 @@
+# Dylan Kenneth Eliot
+
+
+"""
+
+This is how kiro.dev does language generation alin to gpt, gemini, claude, and perchange.org as n-gram,
+ along with an n-gram+lstm+vortex math copy.
+
+The first generates as LLMs do. This was tested on Android OS via python3.10 making the maxim on Ubuntu 22.04 compatibility.
+ This means modern LLMs can natively run on all devices able to run python, numpy, scipy, scikit-learn.
+
+Additionally, (gpt3/2 +) as revised for 3d layout will be having much of this adapted to it, as well as some parts from
+ claude.py just to keep things simple.
+
+ Good enough for adapting to the brain emulator code.
+
+"""
+
+
 """
 Vortex-augmented character-level LM.
 - RecurrentNetwork with LSTMLayer + SoftmaxLayer (pybrain3)
