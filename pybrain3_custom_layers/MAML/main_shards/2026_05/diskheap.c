@@ -1,4 +1,5 @@
-/*
+/* # Dylan Kenneth Eliot 
+ *
  * diskheap.c - LD_PRELOAD disk-backed heap
  * All heap allocations are written to disk on free.
  * No locks, no TLS, no pthread. Re-entrancy via atomic flag.
