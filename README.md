@@ -22,3 +22,12 @@ The projects' aim is to imitate the human head based on language input, visual i
 # Why not use tensorflow, pytorch or onnx?
 
 While they are good tools for learning basic neural networking, they skimp the practical modeling of neural networks, how they function, or any ability to refine data sufficiently without optimizing away essential noise. The lack of fine grain sets or over-commitence to optimize away essential noise leads to improper modeling/training given insufficient training data/methods to train on/from.
+
+# Why is this project detached from hugginfaces integration?
+
+hugginfaces uses bloatware on top of excess boilerplate logic that would have the opposite benefits to an n-gram+LSTM+vortex mathematics based NLP-LLM portions of the AI I am building. Why waste compute hidden behind api keys?
+Additionally, hugginfaces would not change the pace of development to any beneficial degree. So it is left integrated as hugginfaces is abandonware.
+
+# why MRI, fasta, biopython, rdkit, and neuron spiking? what does that have to do with AI?
+
+The closer you get to a machine reasoning as a human mind does, even with accuracy for internal environmental status of finction, you come closer to what Alan Turing called AI. To do otherwise would be creation of the ELIZA project which was designed to scapegoat the Turing test on proofing consciousness in a machine rather than symbolism and symmantic psuedosymmetrical mirroring of language by inverse reflection on inquiry.
