@@ -1,0 +1,453 @@
+VORTEX COGNITIVE NETWORK TRAINING CORPUS
+This corpus teaches positional reduction, family classification, cycle lookup, attenuation-aware weighting, character-level distillation, and the 50257-wide GPT-like student architecture.
+
+For index 1, the digital root is 1, the family group is 0, the vortex position is 0, and the positional weight is 0.166667.
+For index 2, the digital root is 2, the family group is 1, the vortex position is 1, and the positional weight is 0.300000.
+For index 3, the digital root is 3, the family group is 2, the vortex position is -1, and the positional weight is 0.400000.
+For index 4, the digital root is 4, the family group is 0, the vortex position is 2, and the positional weight is 0.500000.
+For index 5, the digital root is 5, the family group is 1, the vortex position is 5, and the positional weight is 0.900000.
+For index 6, the digital root is 6, the family group is 2, the vortex position is -1, and the positional weight is 0.400000.
+For index 7, the digital root is 7, the family group is 0, the vortex position is 4, and the positional weight is 0.833333.
+For index 8, the digital root is 8, the family group is 1, the vortex position is 3, and the positional weight is 0.600000.
+For index 9, the digital root is 9, the family group is 2, the vortex position is -1, and the positional weight is 0.400000.
+
+The doubling pathway is 1, 2, 4, 8, 7, 5 and then repeats.
+Digital roots 1, 4, and 7 belong to family group zero.
+Digital roots 2, 5, and 8 belong to family group one.
+Digital roots 3, 6, and 9 belong to family group two.
+A digital root absent from the doubling pathway receives vortex position minus one.
+The vortex position lookup is zero based.
+The positional weight scales the active one-hot token without changing the vocabulary width.
+The student input and output width remains 50257.
+The character teacher uses contiguous character identifiers.
+Cluster membership is stored as a feature and is not baked into token identifiers.
+The teacher combines n-gram soft targets with hard next-character targets.
+The recurrent teacher uses an LSTM hidden state and a softmax output.
+The GPT-like student embeds a 50257-wide input into a sixteen-dimensional representation.
+The three-dimensional neuron layer applies a learned projection followed by GELU.
+Gradient clipping limits unstable updates in the custom three-dimensional layer.
+Layer normalization centers and scales intermediate activations.
+Multi-head attention forms query, key, and value projections.
+Distillation transfers probability structure rather than only copying the most likely label.
+A missing n-gram context falls back to a hard target.
+Generated training text should contain complete, grammatical, semantically varied statements.
+
+Input position 1 maps to digital root 1; therefore its family is 0, its cycle position is 0, and its weight is 0.166667.
+At coordinate 2, reduction modulo nine yields root 2. The corresponding family group is 1 and the doubling-cycle index is 1.
+Coordinate 3 is encoded with root 3, family 2, position -1, and attenuation-aware scale 0.400000.
+When the sequence counter reaches 4, the root-calibration stage emits (4, 0, 2, 0.500000).
+Input position 5 maps to digital root 5; therefore its family is 1, its cycle position is 5, and its weight is 0.900000.
+At coordinate 6, reduction modulo nine yields root 6. The corresponding family group is 2 and the doubling-cycle index is -1.
+Coordinate 7 is encoded with root 7, family 0, position 4, and attenuation-aware scale 0.833333.
+When the sequence counter reaches 8, the root-calibration stage emits (8, 1, 3, 0.600000).
+Input position 9 maps to digital root 9; therefore its family is 2, its cycle position is -1, and its weight is 0.400000.
+The block ending at coordinate 9 contains one complete digital-root cycle from one through nine. Within that block, roots three, six, and nine remain outside the doubling pathway.
+At coordinate 10, reduction modulo nine yields root 1. The corresponding family group is 0 and the doubling-cycle index is 0.
+Coordinate 11 is encoded with root 2, family 1, position 1, and attenuation-aware scale 0.300000.
+When the sequence counter reaches 12, the root-calibration stage emits (3, 2, -1, 0.400000).
+Input position 13 maps to digital root 4; therefore its family is 0, its cycle position is 2, and its weight is 0.500000.
+At coordinate 14, reduction modulo nine yields root 5. The corresponding family group is 1 and the doubling-cycle index is 5.
+Coordinate 15 is encoded with root 6, family 2, position -1, and attenuation-aware scale 0.400000.
+When the sequence counter reaches 16, the root-calibration stage emits (7, 0, 4, 0.833333).
+Question: What is the doubling sequence?
+Answer: The doubling sequence is 1, 2, 4, 8, 7, 5.
+Input position 17 maps to digital root 8; therefore its family is 1, its cycle position is 3, and its weight is 0.600000.
+At coordinate 18, reduction modulo nine yields root 9. The corresponding family group is 2 and the doubling-cycle index is -1.
+The block ending at coordinate 18 contains one complete digital-root cycle from one through nine. Within that block, roots three, six, and nine remain outside the doubling pathway.
+Coordinate 19 is encoded with root 1, family 0, position 0, and attenuation-aware scale 0.166667.
+When the sequence counter reaches 20, the root-calibration stage emits (2, 1, 1, 0.300000).
+Input position 21 maps to digital root 3; therefore its family is 2, its cycle position is -1, and its weight is 0.400000.
+At coordinate 22, reduction modulo nine yields root 4. The corresponding family group is 0 and the doubling-cycle index is 2.
+Coordinate 23 is encoded with root 5, family 1, position 5, and attenuation-aware scale 0.900000.
+When the sequence counter reaches 24, the root-calibration stage emits (6, 2, -1, 0.400000).
+Input position 25 maps to digital root 7; therefore its family is 0, its cycle position is 4, and its weight is 0.833333.
+The pipeline first trains an n-gram teacher on the corpus, then distills its soft targets into an LSTM, and finally projects generated text into the GPT-like student.
+At coordinate 26, reduction modulo nine yields root 8. The corresponding family group is 1 and the doubling-cycle index is 3.
+Coordinate 27 is encoded with root 9, family 2, position -1, and attenuation-aware scale 0.400000.
+The block ending at coordinate 27 contains one complete digital-root cycle from one through nine. Within that block, roots three, six, and nine remain outside the doubling pathway.
+When the sequence counter reaches 28, the root-calibration stage emits (1, 0, 0, 0.166667).
+Input position 29 maps to digital root 2; therefore its family is 1, its cycle position is 1, and its weight is 0.300000.
+At coordinate 30, reduction modulo nine yields root 3. The corresponding family group is 2 and the doubling-cycle index is -1.
+Coordinate 31 is encoded with root 4, family 0, position 2, and attenuation-aware scale 0.500000.
+When the sequence counter reaches 32, the root-calibration stage emits (5, 1, 5, 0.900000).
+Question: What happens after five in the doubling pathway?
+Answer: The pathway returns to one and repeats.
+Input position 33 maps to digital root 6; therefore its family is 2, its cycle position is -1, and its weight is 0.400000.
+At coordinate 34, reduction modulo nine yields root 7. The corresponding family group is 0 and the doubling-cycle index is 4.
+Coordinate 35 is encoded with root 8, family 1, position 3, and attenuation-aware scale 0.600000.
+When the sequence counter reaches 36, the root-calibration stage emits (9, 2, -1, 0.400000).
+The block ending at coordinate 36 contains one complete digital-root cycle from one through nine. Within that block, roots three, six, and nine remain outside the doubling pathway.
+Input position 37 maps to digital root 1; therefore its family is 0, its cycle position is 0, and its weight is 0.166667.
+At coordinate 38, reduction modulo nine yields root 2. The corresponding family group is 1 and the doubling-cycle index is 1.
+Coordinate 39 is encoded with root 3, family 2, position -1, and attenuation-aware scale 0.400000.
+When the sequence counter reaches 40, the root-calibration stage emits (4, 0, 2, 0.500000).
+Input position 41 maps to digital root 5; therefore its family is 1, its cycle position is 5, and its weight is 0.900000.
+At coordinate 42, reduction modulo nine yields root 6. The corresponding family group is 2 and the doubling-cycle index is -1.
+Coordinate 43 is encoded with root 7, family 0, position 4, and attenuation-aware scale 0.833333.
+When the sequence counter reaches 44, the root-calibration stage emits (8, 1, 3, 0.600000).
+Input position 45 maps to digital root 9; therefore its family is 2, its cycle position is -1, and its weight is 0.400000.
+The block ending at coordinate 45 contains one complete digital-root cycle from one through nine. Within that block, roots three, six, and nine remain outside the doubling pathway.
+At coordinate 46, reduction modulo nine yields root 1. The corresponding family group is 0 and the doubling-cycle index is 0.
+Coordinate 47 is encoded with root 2, family 1, position 1, and attenuation-aware scale 0.300000.
+When the sequence counter reaches 48, the root-calibration stage emits (3, 2, -1, 0.400000).
+Question: Which roots are outside the doubling cycle?
+Answer: Three, six, and nine are outside the cycle.
+Input position 49 maps to digital root 4; therefore its family is 0, its cycle position is 2, and its weight is 0.500000.
+At coordinate 50, reduction modulo nine yields root 5. The corresponding family group is 1 and the doubling-cycle index is 5.
+The recurrent model consumes a character one-hot vector plus three vortex-related features and predicts the next character distribution.
+Coordinate 51 is encoded with root 6, family 2, position -1, and attenuation-aware scale 0.400000.
+When the sequence counter reaches 52, the root-calibration stage emits (7, 0, 4, 0.833333).
+Input position 53 maps to digital root 8; therefore its family is 1, its cycle position is 3, and its weight is 0.600000.
+At coordinate 54, reduction modulo nine yields root 9. The corresponding family group is 2 and the doubling-cycle index is -1.
+The block ending at coordinate 54 contains one complete digital-root cycle from one through nine. Within that block, roots three, six, and nine remain outside the doubling pathway.
+Coordinate 55 is encoded with root 1, family 0, position 0, and attenuation-aware scale 0.166667.
+When the sequence counter reaches 56, the root-calibration stage emits (2, 1, 1, 0.300000).
+Input position 57 maps to digital root 3; therefore its family is 2, its cycle position is -1, and its weight is 0.400000.
+At coordinate 58, reduction modulo nine yields root 4. The corresponding family group is 0 and the doubling-cycle index is 2.
+Coordinate 59 is encoded with root 5, family 1, position 5, and attenuation-aware scale 0.900000.
+When the sequence counter reaches 60, the root-calibration stage emits (6, 2, -1, 0.400000).
+Input position 61 maps to digital root 7; therefore its family is 0, its cycle position is 4, and its weight is 0.833333.
+At coordinate 62, reduction modulo nine yields root 8. The corresponding family group is 1 and the doubling-cycle index is 3.
+Coordinate 63 is encoded with root 9, family 2, position -1, and attenuation-aware scale 0.400000.
+The block ending at coordinate 63 contains one complete digital-root cycle from one through nine. Within that block, roots three, six, and nine remain outside the doubling pathway.
+When the sequence counter reaches 64, the root-calibration stage emits (1, 0, 0, 0.166667).
+Question: What vortex position is assigned to root three?
+Answer: Root three receives position minus one.
+Input position 65 maps to digital root 2; therefore its family is 1, its cycle position is 1, and its weight is 0.300000.
+At coordinate 66, reduction modulo nine yields root 3. The corresponding family group is 2 and the doubling-cycle index is -1.
+Coordinate 67 is encoded with root 4, family 0, position 2, and attenuation-aware scale 0.500000.
+When the sequence counter reaches 68, the root-calibration stage emits (5, 1, 5, 0.900000).
+Input position 69 maps to digital root 6; therefore its family is 2, its cycle position is -1, and its weight is 0.400000.
+At coordinate 70, reduction modulo nine yields root 7. The corresponding family group is 0 and the doubling-cycle index is 4.
+Coordinate 71 is encoded with root 8, family 1, position 3, and attenuation-aware scale 0.600000.
+When the sequence counter reaches 72, the root-calibration stage emits (9, 2, -1, 0.400000).
+The block ending at coordinate 72 contains one complete digital-root cycle from one through nine. Within that block, roots three, six, and nine remain outside the doubling pathway.
+Input position 73 maps to digital root 1; therefore its family is 0, its cycle position is 0, and its weight is 0.166667.
+At coordinate 74, reduction modulo nine yields root 2. The corresponding family group is 1 and the doubling-cycle index is 1.
+Coordinate 75 is encoded with root 3, family 2, position -1, and attenuation-aware scale 0.400000.
+The student consumes a vocabulary-width vector, embeds it into sixteen dimensions, processes it through attention and three-dimensional GELU blocks, and returns a vocabulary-width output.
+When the sequence counter reaches 76, the root-calibration stage emits (4, 0, 2, 0.500000).
+Input position 77 maps to digital root 5; therefore its family is 1, its cycle position is 5, and its weight is 0.900000.
+At coordinate 78, reduction modulo nine yields root 6. The corresponding family group is 2 and the doubling-cycle index is -1.
+Coordinate 79 is encoded with root 7, family 0, position 4, and attenuation-aware scale 0.833333.
+When the sequence counter reaches 80, the root-calibration stage emits (8, 1, 3, 0.600000).
+Question: What family contains root seven?
+Answer: Root seven belongs to family group zero.
+Input position 81 maps to digital root 9; therefore its family is 2, its cycle position is -1, and its weight is 0.400000.
+The block ending at coordinate 81 contains one complete digital-root cycle from one through nine. Within that block, roots three, six, and nine remain outside the doubling pathway.
+At coordinate 82, reduction modulo nine yields root 1. The corresponding family group is 0 and the doubling-cycle index is 0.
+Coordinate 83 is encoded with root 2, family 1, position 1, and attenuation-aware scale 0.300000.
+When the sequence counter reaches 84, the root-calibration stage emits (3, 2, -1, 0.400000).
+Input position 85 maps to digital root 4; therefore its family is 0, its cycle position is 2, and its weight is 0.500000.
+At coordinate 86, reduction modulo nine yields root 5. The corresponding family group is 1 and the doubling-cycle index is 5.
+Coordinate 87 is encoded with root 6, family 2, position -1, and attenuation-aware scale 0.400000.
+When the sequence counter reaches 88, the root-calibration stage emits (7, 0, 4, 0.833333).
+Input position 89 maps to digital root 8; therefore its family is 1, its cycle position is 3, and its weight is 0.600000.
+At coordinate 90, reduction modulo nine yields root 9. The corresponding family group is 2 and the doubling-cycle index is -1.
+The block ending at coordinate 90 contains one complete digital-root cycle from one through nine. Within that block, roots three, six, and nine remain outside the doubling pathway.
+Coordinate 91 is encoded with root 1, family 0, position 0, and attenuation-aware scale 0.166667.
+When the sequence counter reaches 92, the root-calibration stage emits (2, 1, 1, 0.300000).
+Input position 93 maps to digital root 3; therefore its family is 2, its cycle position is -1, and its weight is 0.400000.
+At coordinate 94, reduction modulo nine yields root 4. The corresponding family group is 0 and the doubling-cycle index is 2.
+Coordinate 95 is encoded with root 5, family 1, position 5, and attenuation-aware scale 0.900000.
+When the sequence counter reaches 96, the root-calibration stage emits (6, 2, -1, 0.400000).
+Question: What family contains root eight?
+Answer: Root eight belongs to family group one.
+Input position 97 maps to digital root 7; therefore its family is 0, its cycle position is 4, and its weight is 0.833333.
+At coordinate 98, reduction modulo nine yields root 8. The corresponding family group is 1 and the doubling-cycle index is 3.
+Coordinate 99 is encoded with root 9, family 2, position -1, and attenuation-aware scale 0.400000.
+The block ending at coordinate 99 contains one complete digital-root cycle from one through nine. Within that block, roots three, six, and nine remain outside the doubling pathway.
+When the sequence counter reaches 100, the root-calibration stage emits (1, 0, 0, 0.166667).
+The distillation bridge aggregates character probabilities into word probabilities by assigning probability mass according to each word's initial character.
+Input position 101 maps to digital root 2; therefore its family is 1, its cycle position is 1, and its weight is 0.300000.
+At coordinate 102, reduction modulo nine yields root 3. The corresponding family group is 2 and the doubling-cycle index is -1.
+Coordinate 103 is encoded with root 4, family 0, position 2, and attenuation-aware scale 0.500000.
+When the sequence counter reaches 104, the root-calibration stage emits (5, 1, 5, 0.900000).
+Input position 105 maps to digital root 6; therefore its family is 2, its cycle position is -1, and its weight is 0.400000.
+At coordinate 106, reduction modulo nine yields root 7. The corresponding family group is 0 and the doubling-cycle index is 4.
+Coordinate 107 is encoded with root 8, family 1, position 3, and attenuation-aware scale 0.600000.
+When the sequence counter reaches 108, the root-calibration stage emits (9, 2, -1, 0.400000).
+The block ending at coordinate 108 contains one complete digital-root cycle from one through nine. Within that block, roots three, six, and nine remain outside the doubling pathway.
+Input position 109 maps to digital root 1; therefore its family is 0, its cycle position is 0, and its weight is 0.166667.
+At coordinate 110, reduction modulo nine yields root 2. The corresponding family group is 1 and the doubling-cycle index is 1.
+Coordinate 111 is encoded with root 3, family 2, position -1, and attenuation-aware scale 0.400000.
+When the sequence counter reaches 112, the root-calibration stage emits (4, 0, 2, 0.500000).
+Question: What family contains root nine?
+Answer: Root nine belongs to family group two.
+Input position 113 maps to digital root 5; therefore its family is 1, its cycle position is 5, and its weight is 0.900000.
+At coordinate 114, reduction modulo nine yields root 6. The corresponding family group is 2 and the doubling-cycle index is -1.
+Coordinate 115 is encoded with root 7, family 0, position 4, and attenuation-aware scale 0.833333.
+When the sequence counter reaches 116, the root-calibration stage emits (8, 1, 3, 0.600000).
+Input position 117 maps to digital root 9; therefore its family is 2, its cycle position is -1, and its weight is 0.400000.
+The block ending at coordinate 117 contains one complete digital-root cycle from one through nine. Within that block, roots three, six, and nine remain outside the doubling pathway.
+At coordinate 118, reduction modulo nine yields root 1. The corresponding family group is 0 and the doubling-cycle index is 0.
+Coordinate 119 is encoded with root 2, family 1, position 1, and attenuation-aware scale 0.300000.
+When the sequence counter reaches 120, the root-calibration stage emits (3, 2, -1, 0.400000).
+Input position 121 maps to digital root 4; therefore its family is 0, its cycle position is 2, and its weight is 0.500000.
+At coordinate 122, reduction modulo nine yields root 5. The corresponding family group is 1 and the doubling-cycle index is 5.
+Coordinate 123 is encoded with root 6, family 2, position -1, and attenuation-aware scale 0.400000.
+When the sequence counter reaches 124, the root-calibration stage emits (7, 0, 4, 0.833333).
+Input position 125 maps to digital root 8; therefore its family is 1, its cycle position is 3, and its weight is 0.600000.
+The corpus must expose both ordinary language transitions and explicit vortex terminology so the teacher can associate structural rules with natural phrasing.
+At coordinate 126, reduction modulo nine yields root 9. The corresponding family group is 2 and the doubling-cycle index is -1.
+The block ending at coordinate 126 contains one complete digital-root cycle from one through nine. Within that block, roots three, six, and nine remain outside the doubling pathway.
+Coordinate 127 is encoded with root 1, family 0, position 0, and attenuation-aware scale 0.166667.
+When the sequence counter reaches 128, the root-calibration stage emits (2, 1, 1, 0.300000).
+Question: Does vortex encoding replace the token identifier?
+Answer: No. It scales or augments token features while preserving token identity.
+Input position 129 maps to digital root 3; therefore its family is 2, its cycle position is -1, and its weight is 0.400000.
+At coordinate 130, reduction modulo nine yields root 4. The corresponding family group is 0 and the doubling-cycle index is 2.
+Coordinate 131 is encoded with root 5, family 1, position 5, and attenuation-aware scale 0.900000.
+When the sequence counter reaches 132, the root-calibration stage emits (6, 2, -1, 0.400000).
+Input position 133 maps to digital root 7; therefore its family is 0, its cycle position is 4, and its weight is 0.833333.
+At coordinate 134, reduction modulo nine yields root 8. The corresponding family group is 1 and the doubling-cycle index is 3.
+Coordinate 135 is encoded with root 9, family 2, position -1, and attenuation-aware scale 0.400000.
+The block ending at coordinate 135 contains one complete digital-root cycle from one through nine. Within that block, roots three, six, and nine remain outside the doubling pathway.
+When the sequence counter reaches 136, the root-calibration stage emits (1, 0, 0, 0.166667).
+Input position 137 maps to digital root 2; therefore its family is 1, its cycle position is 1, and its weight is 0.300000.
+At coordinate 138, reduction modulo nine yields root 3. The corresponding family group is 2 and the doubling-cycle index is -1.
+Coordinate 139 is encoded with root 4, family 0, position 2, and attenuation-aware scale 0.500000.
+When the sequence counter reaches 140, the root-calibration stage emits (5, 1, 5, 0.900000).
+Input position 141 maps to digital root 6; therefore its family is 2, its cycle position is -1, and its weight is 0.400000.
+At coordinate 142, reduction modulo nine yields root 7. The corresponding family group is 0 and the doubling-cycle index is 4.
+Coordinate 143 is encoded with root 8, family 1, position 3, and attenuation-aware scale 0.600000.
+When the sequence counter reaches 144, the root-calibration stage emits (9, 2, -1, 0.400000).
+The block ending at coordinate 144 contains one complete digital-root cycle from one through nine. Within that block, roots three, six, and nine remain outside the doubling pathway.
+Question: How wide is the GPT student interface?
+Answer: Its input and output interfaces are both 50257 units wide.
+Input position 145 maps to digital root 1; therefore its family is 0, its cycle position is 0, and its weight is 0.166667.
+At coordinate 146, reduction modulo nine yields root 2. The corresponding family group is 1 and the doubling-cycle index is 1.
+Coordinate 147 is encoded with root 3, family 2, position -1, and attenuation-aware scale 0.400000.
+When the sequence counter reaches 148, the root-calibration stage emits (4, 0, 2, 0.500000).
+Input position 149 maps to digital root 5; therefore its family is 1, its cycle position is 5, and its weight is 0.900000.
+At coordinate 150, reduction modulo nine yields root 6. The corresponding family group is 2 and the doubling-cycle index is -1.
+Training examples alternate declarative statements, questions with answers, procedural descriptions, and numerical mappings to reduce brittle memorization.
+Coordinate 151 is encoded with root 7, family 0, position 4, and attenuation-aware scale 0.833333.
+When the sequence counter reaches 152, the root-calibration stage emits (8, 1, 3, 0.600000).
+Input position 153 maps to digital root 9; therefore its family is 2, its cycle position is -1, and its weight is 0.400000.
+The block ending at coordinate 153 contains one complete digital-root cycle from one through nine. Within that block, roots three, six, and nine remain outside the doubling pathway.
+At coordinate 154, reduction modulo nine yields root 1. The corresponding family group is 0 and the doubling-cycle index is 0.
+Coordinate 155 is encoded with root 2, family 1, position 1, and attenuation-aware scale 0.300000.
+When the sequence counter reaches 156, the root-calibration stage emits (3, 2, -1, 0.400000).
+Input position 157 maps to digital root 4; therefore its family is 0, its cycle position is 2, and its weight is 0.500000.
+At coordinate 158, reduction modulo nine yields root 5. The corresponding family group is 1 and the doubling-cycle index is 5.
+Coordinate 159 is encoded with root 6, family 2, position -1, and attenuation-aware scale 0.400000.
+When the sequence counter reaches 160, the root-calibration stage emits (7, 0, 4, 0.833333).
+Question: What does the n-gram teacher provide?
+Answer: It provides a probability distribution over plausible next symbols.
+Input position 161 maps to digital root 8; therefore its family is 1, its cycle position is 3, and its weight is 0.600000.
+At coordinate 162, reduction modulo nine yields root 9. The corresponding family group is 2 and the doubling-cycle index is -1.
+The block ending at coordinate 162 contains one complete digital-root cycle from one through nine. Within that block, roots three, six, and nine remain outside the doubling pathway.
+Coordinate 163 is encoded with root 1, family 0, position 0, and attenuation-aware scale 0.166667.
+When the sequence counter reaches 164, the root-calibration stage emits (2, 1, 1, 0.300000).
+Input position 165 maps to digital root 3; therefore its family is 2, its cycle position is -1, and its weight is 0.400000.
+At coordinate 166, reduction modulo nine yields root 4. The corresponding family group is 0 and the doubling-cycle index is 2.
+Coordinate 167 is encoded with root 5, family 1, position 5, and attenuation-aware scale 0.900000.
+When the sequence counter reaches 168, the root-calibration stage emits (6, 2, -1, 0.400000).
+Input position 169 maps to digital root 7; therefore its family is 0, its cycle position is 4, and its weight is 0.833333.
+At coordinate 170, reduction modulo nine yields root 8. The corresponding family group is 1 and the doubling-cycle index is 3.
+Coordinate 171 is encoded with root 9, family 2, position -1, and attenuation-aware scale 0.400000.
+The block ending at coordinate 171 contains one complete digital-root cycle from one through nine. Within that block, roots three, six, and nine remain outside the doubling pathway.
+When the sequence counter reaches 172, the root-calibration stage emits (1, 0, 0, 0.166667).
+Input position 173 maps to digital root 2; therefore its family is 1, its cycle position is 1, and its weight is 0.300000.
+At coordinate 174, reduction modulo nine yields root 3. The corresponding family group is 2 and the doubling-cycle index is -1.
+Coordinate 175 is encoded with root 4, family 0, position 2, and attenuation-aware scale 0.500000.
+The pipeline first trains an n-gram teacher on the corpus, then distills its soft targets into an LSTM, and finally projects generated text into the GPT-like student.
+When the sequence counter reaches 176, the root-calibration stage emits (5, 1, 5, 0.900000).
+Question: What occurs when no n-gram context matches?
+Answer: Training uses the hard next-symbol target.
+Input position 177 maps to digital root 6; therefore its family is 2, its cycle position is -1, and its weight is 0.400000.
+At coordinate 178, reduction modulo nine yields root 7. The corresponding family group is 0 and the doubling-cycle index is 4.
+Coordinate 179 is encoded with root 8, family 1, position 3, and attenuation-aware scale 0.600000.
+When the sequence counter reaches 180, the root-calibration stage emits (9, 2, -1, 0.400000).
+The block ending at coordinate 180 contains one complete digital-root cycle from one through nine. Within that block, roots three, six, and nine remain outside the doubling pathway.
+Input position 181 maps to digital root 1; therefore its family is 0, its cycle position is 0, and its weight is 0.166667.
+At coordinate 182, reduction modulo nine yields root 2. The corresponding family group is 1 and the doubling-cycle index is 1.
+Coordinate 183 is encoded with root 3, family 2, position -1, and attenuation-aware scale 0.400000.
+When the sequence counter reaches 184, the root-calibration stage emits (4, 0, 2, 0.500000).
+Input position 185 maps to digital root 5; therefore its family is 1, its cycle position is 5, and its weight is 0.900000.
+At coordinate 186, reduction modulo nine yields root 6. The corresponding family group is 2 and the doubling-cycle index is -1.
+Coordinate 187 is encoded with root 7, family 0, position 4, and attenuation-aware scale 0.833333.
+When the sequence counter reaches 188, the root-calibration stage emits (8, 1, 3, 0.600000).
+Input position 189 maps to digital root 9; therefore its family is 2, its cycle position is -1, and its weight is 0.400000.
+The block ending at coordinate 189 contains one complete digital-root cycle from one through nine. Within that block, roots three, six, and nine remain outside the doubling pathway.
+At coordinate 190, reduction modulo nine yields root 1. The corresponding family group is 0 and the doubling-cycle index is 0.
+Coordinate 191 is encoded with root 2, family 1, position 1, and attenuation-aware scale 0.300000.
+When the sequence counter reaches 192, the root-calibration stage emits (3, 2, -1, 0.400000).
+Question: Why use blended targets?
+Answer: Blended targets preserve teacher uncertainty while anchoring learning to ground truth.
+Input position 193 maps to digital root 4; therefore its family is 0, its cycle position is 2, and its weight is 0.500000.
+At coordinate 194, reduction modulo nine yields root 5. The corresponding family group is 1 and the doubling-cycle index is 5.
+Coordinate 195 is encoded with root 6, family 2, position -1, and attenuation-aware scale 0.400000.
+When the sequence counter reaches 196, the root-calibration stage emits (7, 0, 4, 0.833333).
+Input position 197 maps to digital root 8; therefore its family is 1, its cycle position is 3, and its weight is 0.600000.
+At coordinate 198, reduction modulo nine yields root 9. The corresponding family group is 2 and the doubling-cycle index is -1.
+The block ending at coordinate 198 contains one complete digital-root cycle from one through nine. Within that block, roots three, six, and nine remain outside the doubling pathway.
+Coordinate 199 is encoded with root 1, family 0, position 0, and attenuation-aware scale 0.166667.
+When the sequence counter reaches 200, the root-calibration stage emits (2, 1, 1, 0.300000).
+The recurrent model consumes a character one-hot vector plus three vortex-related features and predicts the next character distribution.
+Input position 201 maps to digital root 3; therefore its family is 2, its cycle position is -1, and its weight is 0.400000.
+At coordinate 202, reduction modulo nine yields root 4. The corresponding family group is 0 and the doubling-cycle index is 2.
+Coordinate 203 is encoded with root 5, family 1, position 5, and attenuation-aware scale 0.900000.
+When the sequence counter reaches 204, the root-calibration stage emits (6, 2, -1, 0.400000).
+Input position 205 maps to digital root 7; therefore its family is 0, its cycle position is 4, and its weight is 0.833333.
+At coordinate 206, reduction modulo nine yields root 8. The corresponding family group is 1 and the doubling-cycle index is 3.
+Coordinate 207 is encoded with root 9, family 2, position -1, and attenuation-aware scale 0.400000.
+The block ending at coordinate 207 contains one complete digital-root cycle from one through nine. Within that block, roots three, six, and nine remain outside the doubling pathway.
+When the sequence counter reaches 208, the root-calibration stage emits (1, 0, 0, 0.166667).
+Question: What activation does the three-dimensional layer use?
+Answer: It uses the GELU activation.
+Input position 209 maps to digital root 2; therefore its family is 1, its cycle position is 1, and its weight is 0.300000.
+At coordinate 210, reduction modulo nine yields root 3. The corresponding family group is 2 and the doubling-cycle index is -1.
+Coordinate 211 is encoded with root 4, family 0, position 2, and attenuation-aware scale 0.500000.
+When the sequence counter reaches 212, the root-calibration stage emits (5, 1, 5, 0.900000).
+Input position 213 maps to digital root 6; therefore its family is 2, its cycle position is -1, and its weight is 0.400000.
+At coordinate 214, reduction modulo nine yields root 7. The corresponding family group is 0 and the doubling-cycle index is 4.
+Coordinate 215 is encoded with root 8, family 1, position 3, and attenuation-aware scale 0.600000.
+When the sequence counter reaches 216, the root-calibration stage emits (9, 2, -1, 0.400000).
+The block ending at coordinate 216 contains one complete digital-root cycle from one through nine. Within that block, roots three, six, and nine remain outside the doubling pathway.
+Input position 217 maps to digital root 1; therefore its family is 0, its cycle position is 0, and its weight is 0.166667.
+At coordinate 218, reduction modulo nine yields root 2. The corresponding family group is 1 and the doubling-cycle index is 1.
+Coordinate 219 is encoded with root 3, family 2, position -1, and attenuation-aware scale 0.400000.
+When the sequence counter reaches 220, the root-calibration stage emits (4, 0, 2, 0.500000).
+Input position 221 maps to digital root 5; therefore its family is 1, its cycle position is 5, and its weight is 0.900000.
+At coordinate 222, reduction modulo nine yields root 6. The corresponding family group is 2 and the doubling-cycle index is -1.
+Coordinate 223 is encoded with root 7, family 0, position 4, and attenuation-aware scale 0.833333.
+When the sequence counter reaches 224, the root-calibration stage emits (8, 1, 3, 0.600000).
+Question: What does gradient clipping do?
+Answer: It limits the norm of a gradient before the update is propagated.
+Input position 225 maps to digital root 9; therefore its family is 2, its cycle position is -1, and its weight is 0.400000.
+The block ending at coordinate 225 contains one complete digital-root cycle from one through nine. Within that block, roots three, six, and nine remain outside the doubling pathway.
+The student consumes a vocabulary-width vector, embeds it into sixteen dimensions, processes it through attention and three-dimensional GELU blocks, and returns a vocabulary-width output.
+At coordinate 226, reduction modulo nine yields root 1. The corresponding family group is 0 and the doubling-cycle index is 0.
+Coordinate 227 is encoded with root 2, family 1, position 1, and attenuation-aware scale 0.300000.
+When the sequence counter reaches 228, the root-calibration stage emits (3, 2, -1, 0.400000).
+Input position 229 maps to digital root 4; therefore its family is 0, its cycle position is 2, and its weight is 0.500000.
+At coordinate 230, reduction modulo nine yields root 5. The corresponding family group is 1 and the doubling-cycle index is 5.
+Coordinate 231 is encoded with root 6, family 2, position -1, and attenuation-aware scale 0.400000.
+When the sequence counter reaches 232, the root-calibration stage emits (7, 0, 4, 0.833333).
+Input position 233 maps to digital root 8; therefore its family is 1, its cycle position is 3, and its weight is 0.600000.
+At coordinate 234, reduction modulo nine yields root 9. The corresponding family group is 2 and the doubling-cycle index is -1.
+The block ending at coordinate 234 contains one complete digital-root cycle from one through nine. Within that block, roots three, six, and nine remain outside the doubling pathway.
+Coordinate 235 is encoded with root 1, family 0, position 0, and attenuation-aware scale 0.166667.
+When the sequence counter reaches 236, the root-calibration stage emits (2, 1, 1, 0.300000).
+Input position 237 maps to digital root 3; therefore its family is 2, its cycle position is -1, and its weight is 0.400000.
+At coordinate 238, reduction modulo nine yields root 4. The corresponding family group is 0 and the doubling-cycle index is 2.
+Coordinate 239 is encoded with root 5, family 1, position 5, and attenuation-aware scale 0.900000.
+When the sequence counter reaches 240, the root-calibration stage emits (6, 2, -1, 0.400000).
+Question: What does the embedding layer do?
+Answer: It maps a sparse token choice into a dense sixteen-dimensional vector.
+Input position 241 maps to digital root 7; therefore its family is 0, its cycle position is 4, and its weight is 0.833333.
+At coordinate 242, reduction modulo nine yields root 8. The corresponding family group is 1 and the doubling-cycle index is 3.
+Coordinate 243 is encoded with root 9, family 2, position -1, and attenuation-aware scale 0.400000.
+The block ending at coordinate 243 contains one complete digital-root cycle from one through nine. Within that block, roots three, six, and nine remain outside the doubling pathway.
+When the sequence counter reaches 244, the root-calibration stage emits (1, 0, 0, 0.166667).
+Input position 245 maps to digital root 2; therefore its family is 1, its cycle position is 1, and its weight is 0.300000.
+At coordinate 246, reduction modulo nine yields root 3. The corresponding family group is 2 and the doubling-cycle index is -1.
+Coordinate 247 is encoded with root 4, family 0, position 2, and attenuation-aware scale 0.500000.
+When the sequence counter reaches 248, the root-calibration stage emits (5, 1, 5, 0.900000).
+Input position 249 maps to digital root 6; therefore its family is 2, its cycle position is -1, and its weight is 0.400000.
+At coordinate 250, reduction modulo nine yields root 7. The corresponding family group is 0 and the doubling-cycle index is 4.
+The distillation bridge aggregates character probabilities into word probabilities by assigning probability mass according to each word's initial character.
+Coordinate 251 is encoded with root 8, family 1, position 3, and attenuation-aware scale 0.600000.
+When the sequence counter reaches 252, the root-calibration stage emits (9, 2, -1, 0.400000).
+The block ending at coordinate 252 contains one complete digital-root cycle from one through nine. Within that block, roots three, six, and nine remain outside the doubling pathway.
+Input position 253 maps to digital root 1; therefore its family is 0, its cycle position is 0, and its weight is 0.166667.
+At coordinate 254, reduction modulo nine yields root 2. The corresponding family group is 1 and the doubling-cycle index is 1.
+Coordinate 255 is encoded with root 3, family 2, position -1, and attenuation-aware scale 0.400000.
+When the sequence counter reaches 256, the root-calibration stage emits (4, 0, 2, 0.500000).
+Question: What does attention compute?
+Answer: It compares query and key projections and uses the resulting weights to combine values.
+Input position 257 maps to digital root 5; therefore its family is 1, its cycle position is 5, and its weight is 0.900000.
+At coordinate 258, reduction modulo nine yields root 6. The corresponding family group is 2 and the doubling-cycle index is -1.
+Coordinate 259 is encoded with root 7, family 0, position 4, and attenuation-aware scale 0.833333.
+When the sequence counter reaches 260, the root-calibration stage emits (8, 1, 3, 0.600000).
+Input position 261 maps to digital root 9; therefore its family is 2, its cycle position is -1, and its weight is 0.400000.
+The block ending at coordinate 261 contains one complete digital-root cycle from one through nine. Within that block, roots three, six, and nine remain outside the doubling pathway.
+At coordinate 262, reduction modulo nine yields root 1. The corresponding family group is 0 and the doubling-cycle index is 0.
+Coordinate 263 is encoded with root 2, family 1, position 1, and attenuation-aware scale 0.300000.
+When the sequence counter reaches 264, the root-calibration stage emits (3, 2, -1, 0.400000).
+Input position 265 maps to digital root 4; therefore its family is 0, its cycle position is 2, and its weight is 0.500000.
+At coordinate 266, reduction modulo nine yields root 5. The corresponding family group is 1 and the doubling-cycle index is 5.
+Coordinate 267 is encoded with root 6, family 2, position -1, and attenuation-aware scale 0.400000.
+When the sequence counter reaches 268, the root-calibration stage emits (7, 0, 4, 0.833333).
+Input position 269 maps to digital root 8; therefore its family is 1, its cycle position is 3, and its weight is 0.600000.
+At coordinate 270, reduction modulo nine yields root 9. The corresponding family group is 2 and the doubling-cycle index is -1.
+The block ending at coordinate 270 contains one complete digital-root cycle from one through nine. Within that block, roots three, six, and nine remain outside the doubling pathway.
+Coordinate 271 is encoded with root 1, family 0, position 0, and attenuation-aware scale 0.166667.
+When the sequence counter reaches 272, the root-calibration stage emits (2, 1, 1, 0.300000).
+Question: What is the doubling sequence?
+Answer: The doubling sequence is 1, 2, 4, 8, 7, 5.
+Input position 273 maps to digital root 3; therefore its family is 2, its cycle position is -1, and its weight is 0.400000.
+At coordinate 274, reduction modulo nine yields root 4. The corresponding family group is 0 and the doubling-cycle index is 2.
+Coordinate 275 is encoded with root 5, family 1, position 5, and attenuation-aware scale 0.900000.
+The corpus must expose both ordinary language transitions and explicit vortex terminology so the teacher can associate structural rules with natural phrasing.
+When the sequence counter reaches 276, the root-calibration stage emits (6, 2, -1, 0.400000).
+Input position 277 maps to digital root 7; therefore its family is 0, its cycle position is 4, and its weight is 0.833333.
+At coordinate 278, reduction modulo nine yields root 8. The corresponding family group is 1 and the doubling-cycle index is 3.
+Coordinate 279 is encoded with root 9, family 2, position -1, and attenuation-aware scale 0.400000.
+The block ending at coordinate 279 contains one complete digital-root cycle from one through nine. Within that block, roots three, six, and nine remain outside the doubling pathway.
+When the sequence counter reaches 280, the root-calibration stage emits (1, 0, 0, 0.166667).
+Input position 281 maps to digital root 2; therefore its family is 1, its cycle position is 1, and its weight is 0.300000.
+At coordinate 282, reduction modulo nine yields root 3. The corresponding family group is 2 and the doubling-cycle index is -1.
+Coordinate 283 is encoded with root 4, family 0, position 2, and attenuation-aware scale 0.500000.
+When the sequence counter reaches 284, the root-calibration stage emits (5, 1, 5, 0.900000).
+Input position 285 maps to digital root 6; therefore its family is 2, its cycle position is -1, and its weight is 0.400000.
+At coordinate 286, reduction modulo nine yields root 7. The corresponding family group is 0 and the doubling-cycle index is 4.
+Coordinate 287 is encoded with root 8, family 1, position 3, and attenuation-aware scale 0.600000.
+When the sequence counter reaches 288, the root-calibration stage emits (9, 2, -1, 0.400000).
+The block ending at coordinate 288 contains one complete digital-root cycle from one through nine. Within that block, roots three, six, and nine remain outside the doubling pathway.
+Question: What happens after five in the doubling pathway?
+Answer: The pathway returns to one and repeats.
+Input position 289 maps to digital root 1; therefore its family is 0, its cycle position is 0, and its weight is 0.166667.
+At coordinate 290, reduction modulo nine yields root 2. The corresponding family group is 1 and the doubling-cycle index is 1.
+Coordinate 291 is encoded with root 3, family 2, position -1, and attenuation-aware scale 0.400000.
+When the sequence counter reaches 292, the root-calibration stage emits (4, 0, 2, 0.500000).
+Input position 293 maps to digital root 5; therefore its family is 1, its cycle position is 5, and its weight is 0.900000.
+At coordinate 294, reduction modulo nine yields root 6. The corresponding family group is 2 and the doubling-cycle index is -1.
+Coordinate 295 is encoded with root 7, family 0, position 4, and attenuation-aware scale 0.833333.
+When the sequence counter reaches 296, the root-calibration stage emits (8, 1, 3, 0.600000).
+Input position 297 maps to digital root 9; therefore its family is 2, its cycle position is -1, and its weight is 0.400000.
+The block ending at coordinate 297 contains one complete digital-root cycle from one through nine. Within that block, roots three, six, and nine remain outside the doubling pathway.
+At coordinate 298, reduction modulo nine yields root 1. The corresponding family group is 0 and the doubling-cycle index is 0.
+Coordinate 299 is encoded with root 2, family 1, position 1, and attenuation-aware scale 0.300000.
+When the sequence counter reaches 300, the root-calibration stage emits (3, 2, -1, 0.400000).
+Training examples alternate declarative statements, questions with answers, procedural descriptions, and numerical mappings to reduce brittle memorization.
+Input position 301 maps to digital root 4; therefore its family is 0, its cycle position is 2, and its weight is 0.500000.
+At coordinate 302, reduction modulo nine yields root 5. The corresponding family group is 1 and the doubling-cycle index is 5.
+Coordinate 303 is encoded with root 6, family 2, position -1, and attenuation-aware scale 0.400000.
+When the sequence counter reaches 304, the root-calibration stage emits (7, 0, 4, 0.833333).
+Question: Which roots are outside the doubling cycle?
+Answer: Three, six, and nine are outside the cycle.
+Input position 305 maps to digital root 8; therefore its family is 1, its cycle position is 3, and its weight is 0.600000.
+At coordinate 306, reduction modulo nine yields root 9. The corresponding family group is 2 and the doubling-cycle index is -1.
+The block ending at coordinate 306 contains one complete digital-root cycle from one through nine. Within that block, roots three, six, and nine remain outside the doubling pathway.
+Coordinate 307 is encoded with root 1, family 0, position 0, and attenuation-aware scale 0.166667.
+When the sequence counter reaches 308, the root-calibration stage emits (2, 1, 1, 0.300000).
+Input position 309 maps to digital root 3; therefore its family is 2, its cycle position is -1, and its weight is 0.400000.
+At coordinate 310, reduction modulo nine yields root 4. The corresponding family group is 0 and the doubling-cycle index is 2.
+Coordinate 311 is encoded with root 5, family 1, position 5, and attenuation-aware scale 0.900000.
+When the sequence counter reaches 312, the root-calibration stage emits (6, 2, -1, 0.400000).
+Input position 313 maps to digital root 7; therefore its family is 0, its cycle position is 4, and its weight is 0.833333.
+At coordinate 314, reduction modulo nine yields root 8. The corresponding family group is 1 and the doubling-cycle index is 3.
+Coordinate 315 is encoded with root 9, family 2, position -1, and attenuation-aware scale 0.400000.
+The block ending at coordinate 315 contains one complete digital-root cycle from one through nine. Within that block, roots three, six, and nine remain outside the doubling pathway.
+When the sequence counter reaches 316, the root-calibration stage emits (1, 0, 0, 0.166667).
+Input position 317 maps to digital root 2; therefore its family is 1, its cycle position is 1, and its weight is 0.300000.
+At coordinate 318, reduction modulo nine yields root 3. The corresponding family group is 2 and the doubling-cycle index is -1.
+Coordinate 319 is encoded with root 4, family 0, position 2, and attenuation-aware scale 0.500000.
+When the sequence counter reaches 320, the root-calibration stage emits (5, 1, 5, 0.900000).
+Question: What vortex position is assigned to root three?
+Answer: Root three receives position minus one.
+Input position 321 maps to digital root 6; therefore its family is 2, its cycle position is -1, and its weight is 0.400000.
+At coordinate 322, reduction modulo nine yields root 7. The corresponding family group is 0 and the doubling-cycle index is 4.
+Coordinate 323 is encoded with root 8, family 1, position 3, and attenuation-aware scale 0.600000.
+When the sequence counter reaches 324, the root-calibration stage emits (9, 2, -1, 0.400000).
+The block ending at coordinate 324 contains one complete digital-root cycle from one through nine. Within that block, roots three, six, and nine remain outside the doubling pathway.
+Input position 325 maps to digital root 1; therefore its family is 0, its cycle position is 0, and its weight is 0.166667.
+The pipeline first trains an n-gram teacher on the corpus, then distills its soft targets into an LSTM, and finally projects generated text into the GPT-like student.
+At coordinate 326, reduction modulo nine yields root 2. The corresponding family group is 1 and the doubling-cycle index is 1.
+Coordinate 327 is encoded with root 3, family 2, position -1, and attenuation-aware scale 0.400000.
+When the sequence counter reaches 328, the root-calibration stage emits (4, 0, 2, 0.500000).
+Input position 329 maps to digital root 5; therefore its family is 1, its cycle position is 5, and its weight is 0.900000.
+                                                                                                                                                                                                                                                                                           End of calibrated vortex corpus.
