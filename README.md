@@ -34,4 +34,4 @@ The closer you get to a machine reasoning as a human mind does, even with accura
 
 # Why are you using localtunnel with the same subdomain? isn't what you're doing illegal?
 
-Nothing about the analytics used violates nor interposes any legal restrictions nor stipulations against building prediction models based on data given by the individual. So no, nothing done with the code by me the developer is illegal. The codebase is not designed for profiling people 
+Nothing about the analytics used violates nor interposes any legal restrictions nor stipulations against building prediction models based on data given by the individual. So no, nothing done with the code by me the developer is illegal. The codebase is not designed for profiling people. As i will continue to refuse to pay ICANN a singular dime, the free network and free domain name TLD wise is only acceptable along with free subdomain though i trust less any point of failure in reference to such.
