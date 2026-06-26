@@ -31,3 +31,7 @@ Additionally, hugginfaces would not change the pace of development to any benefi
 # why MRI, fasta, biopython, rdkit, and neuron spiking? what does that have to do with AI?
 
 The closer you get to a machine reasoning as a human mind does, even with accuracy for internal environmental status of finction, you come closer to what Alan Turing called AI. To do otherwise would be creation of the ELIZA project which was designed to scapegoat the Turing test on proofing consciousness in a machine rather than symbolism and symmantic psuedosymmetrical mirroring of language by inverse reflection on inquiry.
+
+# Why are you using localtunnel with the same subdomain? isn't what you're doing illegal?
+
+Nothing about the analytics used violates nor interposes any legal restrictions nor stipulations against building prediction models based on data given by the individual. So no, nothing done with the code by me the developer is illegal. The codebase is not designed for profiling people 
