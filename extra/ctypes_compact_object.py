@@ -365,23 +365,3 @@ def pack_object(obj: Any, compression_level: int = 9) -> PackedObject:
     if len(compressed) < len(raw):
         return PackedObject(compressed, True, len(raw))
     return PackedObject(raw, False, len(raw))
-
-
-if __name__ == "__main__":
-    shared = {"coordinates": [1, 2, 3], "label": "active"}
-    original = {
-        "first": shared,
-        "second": shared,
-        "values": [0] * 10_000,
-        "mixed": (None, True, -7, 1.25, b"abc"),
-    }
-    original["cycle"] = original
-
-    packed = pack_object(original)
-    restored = packed.unpack()
-
-    print("Packed bytes:", packed.stored_bytes)
-    print("Compressed:", packed.compressed)
-    print("Shared reference retained:",
-          restored["first"] is restored["second"])
-    print("Cycle retained:", restored["cycle"] is restored)
