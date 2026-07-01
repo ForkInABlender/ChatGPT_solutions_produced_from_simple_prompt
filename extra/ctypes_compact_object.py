@@ -1,3 +1,15 @@
+# Dylan Kenneth Eliot
+
+"""
+
+This file allows for compression of objects, their data, and objective state.
+
+
+
+"""
+
+
+
 
 from __future__ import annotations
 
