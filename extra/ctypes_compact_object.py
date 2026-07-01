@@ -4,6 +4,17 @@
 
 This file allows for compression of objects, their data, and objective state.
 
+proper use would include importing fromt this file pack_object or read back from file the PackedObject
+ and then unpack() when needed.
+
+This is good for compression, runtime snapshots of parts, and later runtime restore.
+
+
+this also works on Android OS via termux+andronix ( ubuntu22.04 proot container ) using python3.10
+
+
+
+please use this code wisely.
 
 
 """
