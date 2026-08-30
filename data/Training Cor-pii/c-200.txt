@@ -1,0 +1,250 @@
+Cab — A taxi or enclosed compartment.
+Cabin — A small room or shelter.
+Cable — A thick wire or bundle of wires.
+Cactus — A spiny plant adapted to dry environments.
+Cage — An enclosure made of bars or wire.
+Cake — A sweet baked food.
+Calculate — To determine something mathematically.
+Calendar — A system for organizing days, weeks, and months.
+Calm — Peaceful and free from agitation.
+Camera — A device used to take photographs or videos.
+Camp — A temporary place for living outdoors.
+Can — To be able to do something.
+Canal — A man-made waterway.
+Cancel — To stop or call off something.
+Candle — A wax object with a wick that produces light when burned.
+Candy — A sweet confection.
+Canyon — A deep valley with steep sides.
+Cap — A covering for the head or top of something.
+Capital — Wealth used for investment; also a major city.
+Captain — A person who commands a ship, team, or group.
+Capture — To take or gain control of something.
+Car — A road vehicle with four wheels.
+Card — A small piece of stiff paper or digital item used for information or games.
+Care — Attention or concern for someone or something.
+Career — A person's occupation or professional path.
+Cargo — Goods transported from one place to another.
+Carpet — A floor covering made of woven or synthetic material.
+Carry — To hold and move something.
+Case — A container or particular situation.
+Cash — Money in physical or immediately available form.
+Castle — A large fortified building.
+Cat — A small domesticated feline.
+Catch — To seize or intercept something.
+Cause — A reason something happens.
+Cave — A natural underground hollow.
+Ceiling — The upper surface of a room.
+Celebrate — To honor or enjoy a special occasion.
+Cell — The basic structural unit of living organisms.
+Center — The middle point or area.
+Century — A period of 100 years.
+Ceremony — A formal event or ritual.
+Certain — Definite or sure.
+Chair — A piece of furniture designed for sitting.
+Challenge — A difficult task or test.
+Champion — A person or team that wins a competition.
+Chance — The possibility that something will happen.
+Change — To make or become different.
+Channel — A passage through which something flows or a means of communication.
+Chapter — A major section of a book or organization.
+Character — A person in a story or a distinctive quality.
+Charge — To demand payment or give something electrical energy.
+Chase — To pursue someone or something.
+Cheap — Low in price.
+Cheer — A shout expressing encouragement or happiness.
+Cheese — A food made from milk.
+Chef — A professional cook.
+Chemical — A substance with a particular molecular composition.
+Chest — The upper front part of the body or a storage container.
+Child — A young human being.
+Choice — An act of selecting between possibilities.
+Circle — A round shape whose points are equally distant from its center.
+City — A large and organized human settlement.
+Civil — Relating to citizens or polite behavior.
+Claim — To state that something is true or belongs to you.
+Class — A group or category of people or things.
+Clean — Free from dirt or unwanted material.
+Clear — Easy to understand or free from obstruction.
+Climb — To move upward.
+Clock — A device that measures and displays time.
+Close — To shut or bring something to an end.
+Cloth — Woven or knitted material.
+Cloud — A visible mass of water droplets or ice crystals in the atmosphere.
+Club — An organized group or a heavy stick.
+Coach — A person who trains others.
+Coast — The land beside a sea or ocean.
+Code — A system of symbols or rules.
+Cold — Having a low temperature.
+Collect — To gather things together.
+Color — A visual property produced by light.
+Column — A vertical structure or section of text.
+Combine — To join things together.
+Comfort — A state of physical or emotional ease.
+Command — An order or the authority to give orders.
+Common — Occurring frequently or shared by many.
+Company — A business organization.
+Compare — To examine similarities and differences.
+Complete — Having all necessary parts.
+Complex — Consisting of many connected parts.
+Computer — An electronic device that processes information.
+Concern — Worry or something that requires attention.
+Concert — A live musical performance.
+Condition — The state or quality of something.
+Connect — To join or link things together.
+Consider — To think carefully about something.
+Contact — Communication or physical connection.
+Contain — To hold something within.
+Continue — To keep going.
+Control — The power to direct or manage something.
+Cook — To prepare food using heat.
+Cool — Moderately cold or fashionable.
+Copper — A reddish-brown metallic element.
+Copy — A reproduction of something.
+Corner — A place where two edges or surfaces meet.
+Correct — Free from errors.
+Cost — The amount required to obtain something.
+Cotton — A soft fiber produced by a plant.
+Count — To determine the number of things.
+Country — A nation or rural area.
+Courage — The ability to face fear or difficulty.
+Course — A direction, route, or series of lessons.
+Court — A place where legal cases are heard or a sports area.
+Cover — To place something over another thing.
+Create — To make something new.
+Creature — A living being.
+Credit — Recognition, trust, or borrowed purchasing power.
+Crime — An act prohibited by law.
+Crisis — A serious or dangerous situation.
+Critic — A person who evaluates or gives opinions about something.
+Crowd — A large group of people.
+Culture — The beliefs, customs, arts, and practices of a society.
+Cup — A small container used for drinking.
+Curve — A smoothly bending line or surface.
+Cycle — A series of events that repeats.
+Cymbal — A round metal percussion instrument.
+Cabbage — A leafy vegetable forming a compact head.
+Cabinet — A cupboard or a group of government officials.
+Calculate — To work out an answer using reasoning or mathematics.
+Calf — A young cow or the back part of the lower leg.
+Call — To speak to someone or give a name.
+Camel — A desert animal with one or two humps.
+Campaign — An organized effort to achieve a goal.
+Candlelight — Light produced by candles.
+Cannon — A large gun designed to fire heavy projectiles.
+Canvas — Strong fabric used for painting, tents, or other purposes.
+Capability — The ability to do something.
+Capable — Having the ability or skill to accomplish something.
+Capitalism — An economic system based largely on private ownership and markets.
+Carriage — A vehicle designed to transport people.
+Cartoon — An illustrated drawing, often humorous or animated.
+Cashier — A person who handles payments in a store.
+Cathedral — A principal church of a bishop's district.
+Cattle — Domesticated bovine animals.
+Caution — Care taken to avoid danger.
+Celebrate — To mark an occasion with enjoyment or ceremony.
+Cellar — A room below ground, often used for storage.
+Cement — A powder that hardens and binds building materials.
+Cemetery — A place where dead people are buried.
+Channel — A route or medium for communication or movement.
+Chaos — Complete disorder or confusion.
+Charity — Voluntary help given to people in need.
+Charm — A quality that attracts or pleases.
+Chart — A visual representation of information.
+Cheap — Inexpensive.
+Check — To examine something for accuracy or condition.
+Cheerful — Happy and optimistic.
+Choice — An option or act of selecting.
+Chop — To cut into pieces.
+Chorus — A group singing together or a repeated part of a song.
+Circle — A closed round shape.
+Citizen — A legally recognized member of a country.
+Civilization — A complex society with developed institutions and culture.
+Classic — A work or example regarded as outstanding or enduring.
+Classify — To arrange things into categories.
+Clerk — A person who performs administrative or sales duties.
+Climate — The long-term pattern of weather in an area.
+Clinic — A place where medical care is provided.
+Coal — A combustible black or brownish rock used as fuel.
+Coastline — The boundary between land and sea.
+Collar — A band around the neck of clothing.
+College — An institution of higher education.
+Collision — An impact between objects.
+Colony — A territory controlled by another country or a group of organisms living together.
+Colorful — Having many or vivid colors.
+Combination — A joining of things.
+Comedy — A form of entertainment intended to make people laugh.
+Comfortable — Providing physical or emotional ease.
+Commerce — The buying and selling of goods and services.
+Community — A group of people living or working together.
+Competition — A contest between people or groups.
+Complaint — An expression of dissatisfaction.
+Component — One part of a larger system.
+Conclusion — A final judgment or result.
+Conflict — A disagreement or struggle.
+Confuse — To make someone uncertain or unable to understand.
+Consequence — A result of an action or event.
+Construct — To build or assemble.
+Consumer — A person who buys or uses goods or services.
+Content — The material contained within something.
+Context — Circumstances that help explain something.
+Contract — A legally binding agreement.
+Conversation — An exchange of spoken or written communication.
+Cooperate — To work together toward a common goal.
+Coordinate — To organize different parts so they work together.
+Courageous — Showing bravery.
+Creative — Able to produce original ideas or works.
+Curious — Wanting to know or learn something.
+Current — Happening now or a flow of electricity/water.
+Custom — A traditional or usual way of behaving.
+Customer — A person who purchases something.
+Customary — Usual or traditional.
+Calculate — Determine by mathematical reasoning.
+Calorie — A unit commonly used to measure food energy.
+Candidate — A person seeking a position or opportunity.
+Capacity — The maximum amount something can contain or accomplish.
+Carbon — A chemical element fundamental to living organisms.
+Cardboard — Thick, stiff paper used for packaging.
+Careful — Acting with attention to avoid mistakes or harm.
+Casual — Relaxed or informal.
+Category — A group of things sharing characteristics.
+Celebrate — To honor or recognize an event.
+Central — Located at or near the center.
+Ceramic — An object made from clay hardened by heat.
+Challenge — Something requiring effort or skill.
+Characteristic — A distinguishing quality or feature.
+Chemical — Relating to substances and their reactions.
+Childhood — The period of being a child.
+Chronic — Continuing for a long time.
+Circuit — A closed path through which electricity can flow.
+Circumstance — A condition or fact affecting a situation.
+Civilization — An advanced organized society.
+Classroom — A room where teaching occurs.
+Clarity — The quality of being easy to understand.
+Clothing — Garments worn on the body.
+Coastal — Relating to the coast.
+Cognitive — Relating to thinking and understanding.
+Collapse — To fall down or fail suddenly.
+Collective — Done or shared by a group.
+Combination — A mixture or arrangement of different things.
+Communication — The exchange of information.
+Compassion — Concern for another person's suffering.
+Competent — Having sufficient ability or skill.
+Concentration — Focused attention or the amount of a substance in a mixture.
+Concept — An abstract idea.
+Confidence — Belief in one's abilities or judgment.
+Confident — Certain of one's abilities or decisions.
+Conservation — Protection and careful use of resources.
+Consistent — Acting or occurring in the same reliable way.
+Constant — Remaining the same or occurring continuously.
+Continent — One of Earth's large continuous landmasses.
+Contradiction — A statement or situation that conflicts with another.
+Contribution — Something given to help achieve a result.
+Conversation — An informal exchange of ideas or words.
+Cooperation — Working together for a shared purpose.
+Corporate — Relating to a corporation or business.
+Creature — An individual living organism.
+Curiosity — A strong desire to learn or know.
+Currency — Money used as a medium of exchange.
+Curriculum — The subjects and material taught in a course or school.
+Curtain — A hanging piece of fabric used to cover or divide a space.
+Cycle — A sequence of events that repeats regularly.
