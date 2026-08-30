@@ -1,0 +1,250 @@
+Yacht — A large boat used for recreation or racing.
+Yachtman — A person who owns, operates, or sails a yacht.
+Yachtmaster — A person qualified to command a yacht.
+Yachtsman — A person who sails or owns yachts.
+Yachtswoman — A woman who sails or owns yachts.
+Yak — A long-haired bovine native to mountainous regions of Asia.
+Yam — An edible tuber from several tropical plants.
+Yammer — To complain or talk continuously in an annoying way.
+Yank — To pull something suddenly or forcefully.
+Yankee — A person from the northern United States; sometimes specifically a New Englander.
+Yap — To bark sharply or talk excessively.
+Yard — A unit of length equal to three feet; also an enclosed area.
+Yardage — A distance measured in yards.
+Yardarm — Either end of a ship's horizontal yard.
+Yardbird — Slang for a prisoner or an inexperienced person.
+Yardstick — A measuring stick one yard long; also a standard for comparison.
+Yarn — Spun fiber used for knitting or weaving; also a long story.
+Yarrow — A flowering plant traditionally used medicinally.
+Yawn — To open the mouth involuntarily when tired or bored.
+Yaw — Rotation of an aircraft, ship, or vehicle around its vertical axis.
+Yawner — Something that is extremely boring.
+Yawning — Opening the mouth widely, usually from tiredness or boredom.
+Yawningly — In a manner suggesting boredom or sleepiness.
+Yawnful — Characterized by frequent yawning.
+Yea — Yes; an affirmative answer.
+Yeah — An informal form of yes.
+Year — A period of approximately 365 days.
+Yearbook — A book published annually containing records or memories of a year.
+Yearling — An animal or person that is one year old.
+Yearly — Occurring once every year.
+Yearlong — Lasting for an entire year.
+Yearning — A strong longing or desire.
+Yearn — To desire something intensely.
+Yeast — A microscopic fungus used in fermentation and baking.
+Yeasty — Resembling or containing yeast.
+Yell — To shout loudly.
+Yeller — A person or animal that yells.
+Yellow — A color between green and orange.
+Yellowish — Somewhat yellow in color.
+Yellowhammer — A European bunting bird with bright yellow plumage.
+Yellowjacket — A type of predatory wasp.
+Yellowtail — A fish with a yellowish tail; also a type of wine grape in some contexts.
+Yelp — A short, sharp cry or bark.
+Yelper — One who yelps.
+Yen — A strong desire or longing.
+Yeoman — A hardworking person; historically, a small landowning farmer.
+Yeomanry — A class of small landowners; historically also a volunteer cavalry force.
+Yes — An affirmative response.
+Yesterday — The day immediately before today.
+Yet — Up to the present time; nevertheless.
+Yield — To produce or provide something; also to give way.
+Yielding — Giving way or producing readily.
+Yodel — To sing by rapidly changing between high and low notes.
+Yodeler — A person who yodels.
+Yodeling — The practice of singing with rapid changes between vocal registers.
+Yoga — A discipline involving physical postures, breathing, and meditation.
+Yogi — A person who practices yoga, especially as a spiritual discipline.
+Yogic — Relating to yoga or its practices.
+Yogurt — A food made by fermenting milk with beneficial bacteria.
+Yoghurty — Having the consistency or qualities of yogurt.
+Yoke — A wooden device used to join animals for pulling; also a burden or connection.
+Yokel — A person from the countryside, often portrayed as unsophisticated.
+Yolk — The yellow inner part of an egg.
+Yon — That one over there.
+Yonder — In or at a distant place.
+Yore — A time long past.
+You — The person or people being addressed.
+Young — Having lived for a relatively short time.
+Youngling — A young person or animal.
+Youngster — A young person or child.
+Youth — The period of life before adulthood; also a young person.
+Youthful — Having qualities associated with youth.
+Youthfulness — The quality of appearing or behaving young.
+Youthquake — A major cultural or social movement associated with young people.
+Youthhood — The period of being young.
+Yuck — An expression of disgust.
+Yucky — Unpleasant, disgusting, or distasteful.
+Yuckiness — The quality of being unpleasant or disgusting.
+Yummy — Very tasty.
+Yuppie — A young urban professional, especially in older informal usage.
+Yuppified — Made more affluent, fashionable, or associated with yuppie culture.
+Yuppification — The transformation of an area toward affluent professional culture.
+Yardage — The amount or distance measured in yards.
+Yardman — A worker responsible for activities in a yard or rail yard.
+Yardmaster — A person who manages operations in a railway yard.
+Yardwork — Work performed in maintaining a yard or garden.
+Yardstick — A standard used for measuring or comparing something.
+Yarnspinner — A person who tells elaborate stories.
+Yarnsmith — A person skilled at telling stories.
+Yawner — A boring person, thing, or event.
+Yardbird — An informal term for a prisoner.
+Yardman — A person employed to work in a yard.
+Yardmaster — A railway employee who coordinates yard operations.
+Yard sale — A sale of used household goods held at someone's home.
+Yardstick — A benchmark used for comparison.
+Yardarm — The outer end of a ship's horizontal spar.
+Yardland — Land measured in yards or associated with a yard.
+Yardage — Measurement expressed in yards.
+Yardwork — Outdoor maintenance work.
+Yardbird — Slang for a prisoner or novice.
+Yarn — A continuous strand of fibers twisted together.
+Yarn-dyed — Dyed before being woven or knitted into fabric.
+Yarnmaker — A person or machine that makes yarn.
+Yarnmaking — The process of producing yarn.
+Yarny — Resembling yarn or consisting of yarn.
+Yarnbomb — To cover an object with decorative knitted or crocheted material.
+Yarnbombing — The practice of decorating public objects with yarn.
+Yarncraft — Craftwork involving yarn.
+Yarnspinner — Someone who tells stories.
+Yarnspinning — The act of telling stories, especially elaborate ones.
+Yarrow — A perennial flowering herb.
+Yarrowy — Resembling or containing yarrow.
+Yawning — Characterized by a wide opening or gap.
+Yawp — A loud, rough cry.
+Yawper — A person or animal making a rough cry.
+Yawningly — In a way that is extremely boring or obvious.
+Yawner — Something causing boredom.
+Yawningness — The quality of being boring or obvious.
+Yaw — To turn around a vertical axis.
+Yawing — Rotating around a vertical axis.
+Yacht — A recreational or racing vessel.
+Yachting — The activity of sailing yachts.
+Yachtsman — A male yacht sailor.
+Yachtswoman — A female yacht sailor.
+Yachting — Recreational sailing using a yacht.
+Yachtie — Informal term for someone involved in yachting.
+Yachtlike — Resembling a yacht.
+Yachtmaster — A person qualified to operate a yacht.
+Yachtsmanship — Skill in handling or sailing a yacht.
+Yachtsmanship — Expertise associated with yacht sailing.
+Yak — A domesticated or wild bovine of Central Asia.
+Yakked — Spoke excessively or casually.
+Yakking — Talking continuously or casually.
+Yakker — Someone who talks a lot.
+Yakety — Characterized by excessive talk.
+Yakety-yak — Continuous or pointless talk.
+Yakitori — Japanese grilled chicken served on skewers.
+Yakut — A Turkic language spoken in Siberia; also relating to the Sakha people.
+Yakutian — Relating to Yakutia or its people.
+Yakut — A member of the Sakha people of Siberia.
+Yam — A starchy edible tuber.
+Yambean — A tropical plant whose edible root is used as food.
+Yamstick — A plant or root associated with yam-like food.
+Yamlike — Resembling a yam.
+Yammer — To complain or talk persistently.
+Yammerer — A person who yammers.
+Yammering — Persistent or irritating talking.
+Yamp — To walk or move in an energetic manner.
+Yap — To bark sharply or talk excessively.
+Yapper — Someone or something that yaps.
+Yapping — Barking or talking continuously.
+Yapster — An especially talkative person.
+Yardarm — The outer end of a ship's yard.
+Yardbird — An informal term for a prisoner.
+Yardie — A member of a Jamaican criminal organization; informal.
+Yardman — A worker employed in a yard.
+Yardmaster — A person supervising railway-yard operations.
+Yardstick — A physical measuring stick or comparison standard.
+Yardwork — Maintenance performed around a yard.
+Yardage — Distance measured in yards.
+Yea — Yes or an affirmative vote.
+Yean — To give birth to young, especially sheep or goats.
+Yeaned — Having given birth to young.
+Yeaning — Giving birth to young.
+Yearbook — An annual publication recording events or people.
+Yearend — The end of a calendar or financial year.
+Yearlong — Continuing for a year.
+Yearly — Happening every year.
+Yearling — An animal that is approximately one year old.
+Yearn — To have a strong desire for something.
+Yearned — Strongly desired.
+Yearner — Someone who yearns.
+Yearning — Strong longing or desire.
+Yearningly — With strong longing.
+Yeast — A microscopic fungus used in fermentation.
+Yeasted — Made or fermented using yeast.
+Yeastiness — The quality of having yeast-like characteristics.
+Yeastless — Without yeast.
+Yeasty — Resembling or containing yeast.
+Yell — To shout loudly.
+Yelled — Shouted loudly.
+Yeller — A person who yells.
+Yelling — Shouting loudly.
+Yellow — A color between green and orange.
+Yellowed — Turned yellow.
+Yellowing — Becoming yellow.
+Yellowish — Somewhat yellow.
+Yellowhammer — A yellow-colored European bunting.
+Yellowhead — A bird with a yellow head; also a plant or geographic name.
+Yellowjacket — A predatory wasp.
+Yellowtail — A fish characterized by a yellow tail.
+Yellowwood — A tree producing yellowish wood.
+Yellowfin — A fish with yellowish fins, especially a type of tuna.
+Yellowfin — A yellow-finned marine fish.
+Yellowlegs — A shorebird with bright yellow legs.
+Yellowthroat — A small North American songbird.
+Yellowware — A type of yellow-colored earthenware.
+Yellowy — Somewhat yellow.
+Yelp — A short sharp cry.
+Yelped — Made a short sharp cry.
+Yelping — Making short sharp cries.
+Yen — A strong longing or desire.
+Yenta — A person who is excessively interested in other people's affairs.
+Yeoman — Historically, a small landowner or farmer.
+Yeomanlike — Resembling the qualities traditionally associated with a yeoman.
+Yeomanly — In a hardworking or dependable manner.
+Yeomanry — A class of small landowners; historically a volunteer cavalry force.
+Yerk — To pull or move sharply.
+Yerked — Pulled or moved sharply.
+Yerking — Pulling or moving sharply.
+Yerk — A sudden jerk or pull.
+Yes — An affirmative response.
+Yes-man — A person who agrees with authority figures excessively.
+Yesmanship — The practice of agreeing excessively with others.
+Yester — Of or relating to yesterday or the past.
+Yesterdays — Past times or events.
+Yesterday — The day before today.
+Yesteryear — A time in the past.
+Yet — Up to the present time.
+Yett — A gate or door, especially a strong one.
+Yew — An evergreen tree with needle-like leaves and red seed coverings.
+Yewberry — The berry-like structure associated with a yew tree.
+Yewen — Made of yew wood.
+Yield — To produce, provide, or give way.
+Yieldable — Capable of yielding.
+Yielded — Produced or gave way.
+Yielder — Someone or something that yields.
+Yielding — Giving way or producing an output.
+Yieldingly — In a yielding manner.
+Yieldingness — The quality of being yielding.
+Yodel — To sing using rapid changes between vocal registers.
+Yodeled — Sang using a yodel.
+Yodeler — A person who yodels.
+Yodeling — Singing with rapid changes between vocal registers.
+Yogi — A practitioner of yoga.
+Yogic — Relating to yoga.
+Yoga — A system of physical and contemplative practices.
+Yogurt — Fermented milk containing live bacterial cultures.
+Yogurtlike — Resembling yogurt.
+Yokel — A stereotypically unsophisticated rural person.
+Yoke — A device joining animals for pulling.
+Yoked — Joined or connected by a yoke.
+Yokelish — Resembling a stereotypically unsophisticated rural person.
+Yoking — Joining or connecting things.
+Yolk — The yellow center of an egg.
+Yolked — Having or containing a yolk.
+Yolky — Resembling or containing egg yolk.
+Young — Being in the early stage of life.
+Youngish — Somewhat young.
+Youth — The period of life before adulthood.

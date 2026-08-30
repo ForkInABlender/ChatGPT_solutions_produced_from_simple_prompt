@@ -1,0 +1,250 @@
+Race — A competition involving speed or a group of people sharing ancestry or characteristics.
+Radiant — Giving off light or showing great happiness.
+Radio — A device or system for transmitting and receiving signals.
+Rain — Water falling from clouds.
+Raise — To lift something upward.
+Random — Without a definite pattern or purpose.
+Rapid — Happening very quickly.
+Rare — Uncommon or unusual.
+Reach — To extend toward or arrive at something.
+React — To respond to something.
+Read — To interpret written or printed words.
+Ready — Prepared for something.
+Real — Actually existing or genuine.
+Reason — A cause or explanation for something.
+Receive — To get or accept something.
+Recent — Having happened not long ago.
+Recipe — Instructions for preparing a particular dish.
+Recognize — To identify someone or something previously known.
+Record — A written or stored account of information.
+Recover — To return to a normal state after difficulty or illness.
+Reduce — To make something smaller or less.
+Reflect — To think carefully or bounce light back.
+Refuse — To decline; also discarded material.
+Regard — To consider or think about something.
+Region — A particular area or part of a country or world.
+Regular — Following a consistent pattern or schedule.
+Reject — To refuse to accept something.
+Relax — To become less tense or worried.
+Release — To allow something to go free.
+Remain — To continue to exist or stay somewhere.
+Remember — To recall something from memory.
+Remove — To take something away.
+Repair — To fix something damaged.
+Repeat — To do or say something again.
+Replace — To put something new in the place of something else.
+Reply — To answer or respond.
+Report — An account describing information or events.
+Request — To ask for something.
+Require — To need something.
+Rescue — To save someone from danger.
+Research — Systematic investigation to discover information.
+Reserve — To keep something for a particular purpose.
+Respect — Admiration or consideration for someone or something.
+Respond — To answer or react.
+Result — The outcome of an action or event.
+Return — To go or give something back.
+Reveal — To make something previously hidden known.
+Review — To examine something again.
+Reward — Something given for good behavior or achievement.
+Right — Correct, morally good, or opposite of left.
+Risk — The possibility of harm or loss.
+River — A natural flowing body of water.
+Road — A path or route used for travel.
+Rock — A solid natural mineral material.
+Role — A function or part played by someone.
+Room — A space enclosed within a building.
+Root — The underground part of a plant.
+Round — Shaped like a circle; also a single stage of an event.
+Route — A way or course from one place to another.
+Royal — Relating to a king, queen, or monarchy.
+Rural — Relating to the countryside.
+Rush — To move quickly or hurry.
+Rule — A principle governing behavior; also to control.
+Run — To move rapidly on foot.
+Rapidly — At a fast rate.
+Rarely — Not often.
+Really — In actual fact or truly.
+Reasonable — Fair, sensible, or logical.
+Recently — Not long ago.
+Regularly — In a consistent or repeated manner.
+Relatively — In comparison with something else.
+Roughly — Approximately or in an uneven manner.
+Rudely — In a disrespectful manner.
+Rapidness — The quality of being fast.
+Readily — Easily or willingly.
+Realistic — Based on reality rather than fantasy.
+Reliable — Able to be trusted or depended upon.
+Reluctant — Unwilling or hesitant.
+Remarkable — Unusually impressive or noteworthy.
+Responsible — Having a duty to deal with something properly.
+Radiate — To emit energy, light, or heat.
+Radiation — Energy transmitted through space or matter.
+Radical — Very different from traditional ideas; also relating to roots.
+Radius — A line from the center of a circle to its edge.
+Rage — Intense anger.
+Raid — A sudden attack or search.
+Rally — To gather support or recover strength.
+Ram — A male sheep; also to strike forcefully.
+Ramble — To wander or talk at length without a clear direction.
+Range — The area or limits within which something varies.
+Rank — A position in a hierarchy.
+Rapid — Extremely fast.
+Rational — Based on reason or logic.
+Ravage — To cause severe damage.
+Raven — A large black bird related to crows.
+Raw — Uncooked or not processed.
+Reassure — To make someone feel less worried.
+Rebel — A person who resists authority or control.
+Rebuild — To build again after damage or destruction.
+Recall — To remember or call something back.
+Recede — To move farther away or decrease.
+Recite — To say something aloud from memory.
+Reckless — Acting without considering danger.
+Recognizable — Easy to identify.
+Recommend — To suggest something as suitable.
+Reconcile — To restore friendly relations or resolve differences.
+Recoverable — Able to be recovered.
+Recruit — To enlist or attract someone for a role.
+Rectify — To correct something.
+Redundant — No longer needed or unnecessarily repetitive.
+Reflective — Capable of reflecting; also thoughtful.
+Reform — To improve something by changing it.
+Refresh — To make something feel new or renewed.
+Regulate — To control according to rules.
+Reinforce — To strengthen something.
+Relate — To connect or have a relationship with something.
+Reliable — Consistently dependable.
+Relieve — To reduce pain, stress, or difficulty.
+Reluctance — Unwillingness or hesitation.
+Remark — A spoken or written comment.
+Remedy — A solution to a problem.
+Renew — To make new again.
+Renounce — To formally give up or reject something.
+Repairable — Able to be fixed.
+Repetition — The act of doing something again.
+Replaceable — Able to be substituted.
+Representative — A person or thing acting on behalf of another.
+Reproduce — To create a copy or produce offspring.
+Resilient — Able to recover quickly from difficulty.
+Resolution — A solution to a problem or a firm decision.
+Resolve — To solve or settle a problem.
+Resource — A useful supply or source of support.
+Respectful — Showing consideration toward others.
+Restrict — To limit or control.
+Retain — To keep or continue to possess.
+Retreat — To move backward or withdraw.
+Reveal — To disclose something hidden.
+Revenge — Punishment or retaliation for a wrong.
+Reverse — To move backward or change to the opposite.
+Revise — To examine and improve something.
+Revive — To restore to life or activity.
+Revolution — A major change or a circular movement around something.
+Rigid — Unable or unwilling to bend or change.
+Ripe — Fully developed and ready to be eaten or used.
+Rival — A person competing with another.
+Rivalry — Competition between people or groups.
+Robust — Strong and healthy.
+Rough — Uneven or not smooth.
+Routine — A regular and repeated way of doing things.
+Ruin — To destroy or severely damage.
+Rabbit — A small mammal with long ears and powerful hind legs.
+Raccoon — A North American mammal with a masked face and ringed tail.
+Ram — A male sheep.
+Rat — A rodent with a long tail.
+Raven — A large black bird in the crow family.
+Ray — A type of flattened marine fish; also a beam of light.
+Reindeer — A deer species adapted to cold northern regions.
+Rhinoceros — A large mammal with one or two horns on its snout.
+Robin — A small songbird.
+Rooster — An adult male chicken.
+Rook — A black bird related to crows; also a chess piece.
+Roach — A cockroach or certain freshwater fish.
+Roadrunner — A fast-running bird found in the southwestern United States.
+Rodent — A mammal with continuously growing front teeth.
+Rottweiler — A strong breed of domestic dog.
+Rattlesnake — A venomous snake with a rattle at the end of its tail.
+Redwing — A bird species with reddish markings on its wings.
+Rockfish — A name used for various species of marine fish.
+Raptor — A bird of prey with strong talons and a hooked beak.
+Ringtail — An animal characterized by a prominently ringed tail.
+Radish — An edible root vegetable with a crisp texture.
+Raisin — A dried grape.
+Raspberry — A small red or black edible fruit.
+Ravioli — Pasta consisting of filled dough pockets.
+Rice — A grain widely used as food.
+Rye — A cereal grain used for food and beverages.
+Rosemary — An aromatic herb used in cooking.
+Rutabaga — A root vegetable related to turnips.
+Rocket — A plant with peppery edible leaves; also a vehicle designed for space travel.
+Roll — Food or dough shaped into a rounded form; also to move by turning.
+Rhubarb — A plant whose tart stalks are commonly cooked as food.
+Roast — Food cooked with dry heat, usually in an oven.
+Relish — A condiment made from chopped vegetables or fruit.
+Ramen — A Japanese-style noodle soup.
+Raclette — A dish involving melted cheese served with various accompaniments.
+Ragu — A sauce typically made with meat and vegetables.
+Ricotta — A soft Italian cheese.
+Risotto — A creamy Italian rice dish.
+Rose — A flowering plant known for fragrant blossoms.
+Rambutan — A tropical fruit with hairy red or yellow skin.
+Reasoning — The process of thinking logically.
+Reality — The state of things as they actually exist.
+Relevance — The quality of being connected to a subject.
+Researcher — A person who conducts research.
+Rhetoric — The art of effective or persuasive speaking or writing.
+Rhetorical — Relating to persuasive language or questions.
+Rationality — The quality of being based on reason.
+Reaction — A response to an event or stimulus.
+Reciprocal — Shared or given in return.
+Reconciliation — The restoration of friendly relations.
+Reformation — The act of improving something through change.
+Regulation — An official rule controlling something.
+Rehabilitation — The process of restoring someone or something to a functional state.
+Reputation — The general opinion people have about someone or something.
+Requirement — Something that is necessary or demanded.
+Reservation — An arrangement to keep something available; also a qualification or doubt.
+Resistance — Opposition to something or the ability to withstand force.
+Restoration — The act of returning something to an earlier condition.
+Restriction — A limitation placed on something.
+Retaliation — Action taken in response to an attack or wrong.
+Revolutionary — Causing or relating to major change.
+Renaissance — A period or revival of renewed interest in art, learning, and culture.
+Repertoire — A collection of works a performer knows or can perform.
+Repository — A place where things are stored or collected.
+Resonance — A deep or strong quality of sound; also a phenomenon involving vibrations.
+Resonant — Producing a deep, full sound or having a strong effect.
+Retrospective — Looking back at past events.
+Reverence — Deep respect or admiration.
+Righteous — Morally right or virtuous.
+Rigorous — Extremely thorough, strict, or demanding.
+Rabid — Extremely enthusiastic or affected by a disease such as rabies.
+Rancid — Having an unpleasant smell or taste from spoiled fats.
+Rapacious — Aggressively greedy or grasping.
+Rarefied — Extremely refined or elevated; also less dense.
+Ravenous — Extremely hungry.
+Recalcitrant — Resistant to authority or control.
+Redundant — Unnecessary because something similar already exists.
+Remorse — Deep regret for wrongdoing.
+Renowned — Famous and respected.
+Reprehensible — Deserving strong criticism.
+Repugnant — Extremely unpleasant or offensive.
+Resplendent — Brilliantly impressive or beautiful.
+Reticent — Unwilling to speak freely.
+Rhetorical — Intended to make a point rather than receive an answer.
+Robust — Strong, healthy, or vigorous.
+Rudimentary — Basic or not fully developed.
+Ruthless — Showing no pity or mercy.
+Rustic — Relating to the countryside; simple or rough in appearance.
+Rancor — Persistent bitterness or resentment.
+Rapport — A harmonious relationship or understanding.
+Rationale — The underlying reason or explanation for something.
+Receptive — Willing to receive or consider new ideas.
+Reciprocity — Mutual exchange of benefits or actions.
+Redemption — The act of being saved or making up for a wrong.
+Refute — To prove that a statement or argument is false.
+Regal — Resembling or appropriate to royalty.
+Reminisce — To recall and talk about pleasant past experiences.
+Replicate — To make an exact or close copy.
+Resurgence — A renewed increase or return to prominence.
+Reverberate — To echo repeatedly or have a continuing effect.

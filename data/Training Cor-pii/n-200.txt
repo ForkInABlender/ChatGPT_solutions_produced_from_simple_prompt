@@ -1,0 +1,250 @@
+Name — A word used to identify a person, place, or thing.
+Narrow — Having little width.
+Nation — A country or organized political community.
+Natural — Existing in nature rather than being made artificially.
+Nature — The physical world and living things.
+Near — Close in distance or time.
+Necessary — Required or essential.
+Need — A requirement or something necessary.
+Neighbor — A person or place located nearby.
+Neither — Not one and not the other of two choices.
+Nerve — A fiber that carries signals through the body.
+Nervous — Anxious, worried, or uneasy.
+Never — Not at any time.
+New — Recently created, discovered, or obtained.
+News — Recently reported information or events.
+Next — Coming immediately after something else.
+Nice — Pleasant, kind, or agreeable.
+Night — The period when it is dark and the Sun is below the horizon.
+Noise — An unwanted or unpleasant sound.
+Normal — Usual or expected.
+North — One of the four main directions.
+Not — A word used to express negation.
+Note — A brief written record; also a musical sound.
+Notice — To become aware of something.
+Novel — A long fictional story; also something new or unusual.
+Number — A mathematical value used for counting or measuring.
+Noun — A word naming a person, place, thing, or idea.
+Nurse — A healthcare professional who cares for patients.
+Nut — A hard-shelled edible seed or fruit.
+Nail — A hard structure on a finger or toe; also a metal fastener.
+Nameable — Able to be given a name.
+Nap — A short period of sleep.
+Narrative — A spoken or written account of events.
+National — Relating to a particular country.
+Native — Originally belonging to a particular place.
+Nearby — Located close to something.
+Neat — Clean, orderly, or tidy.
+Neglect — To fail to give proper care or attention.
+Negotiate — To discuss in order to reach an agreement.
+Neutral — Not supporting either side in a disagreement.
+Newcomer — A person who has recently arrived.
+Noble — Having high moral qualities or social rank.
+Nobody — No person.
+Nod — To move the head up and down as a sign of agreement.
+Nomad — A person who moves from place to place rather than settling permanently.
+Normality — The state of being normal.
+Noticeable — Easy to see or recognize.
+Nourish — To provide food or other things necessary for growth.
+Numerous — Existing in large numbers.
+Nurture — To care for and encourage growth or development.
+Nasty — Unpleasant, harmful, or mean.
+Nationwide — Extending throughout an entire country.
+Navigate — To find and follow a route.
+Navigation — The process of finding and following a route.
+Negative — Expressing denial, disagreement, or lack.
+Negotiate — To work toward an agreement through discussion.
+Neighboring — Located nearby or next to something.
+Nervousness — A feeling of anxiety or unease.
+Network — A connected group of people, computers, or systems.
+Neutrality — The condition of not taking sides.
+Nickname — An informal name given to someone.
+Nightmare — A frightening dream.
+Nobleman — A man belonging to a high social class.
+Nominate — To formally suggest someone for a position or award.
+Nomination — The act of proposing someone for a position or award.
+Notable — Worthy of attention or notice.
+Notebook — A book of blank or lined pages for writing.
+Notion — An idea, belief, or understanding.
+Nourishment — Food or substances needed for health and growth.
+Novelty — Something new, unusual, or unfamiliar.
+Numerical — Relating to numbers.
+Numerous — Many or plentiful.
+Nuisance — Something annoying or troublesome.
+Null — Having no value or effect.
+Numb — Having little or no physical sensation.
+Numerator — The top number in a fraction.
+Nucleus — The central part of an atom or cell.
+Nuclear — Relating to the nucleus of an atom or cell.
+Nutrition — The process of obtaining and using nutrients.
+Nutritious — Providing useful nutrients.
+Naive — Lacking experience or worldly knowledge.
+Narcissistic — Excessively focused on oneself.
+Narrator — A person who tells a story.
+Nationalism — Strong identification with and support for one's nation.
+Negligent — Failing to take proper care.
+Negotiable — Able to be discussed or changed through negotiation.
+Negligence — Failure to exercise proper care.
+Neologism — A newly created word or expression.
+Nostalgia — A sentimental longing for the past.
+Notorious — Famous for something bad or negative.
+Novelty — The quality of being new or unusual.
+Nuance — A subtle difference in meaning or expression.
+Nurturing — Providing care and encouragement.
+Necessity — Something that is required.
+Necessitate — To make something necessary.
+Negate — To cancel out or make ineffective.
+Negotiate — To reach an agreement through discussion.
+Nomadic — Moving from place to place.
+Nonchalant — Calm and unconcerned.
+Noteworthy — Deserving attention or recognition.
+Nascent — Just beginning to develop.
+Nefarious — Wicked or criminal.
+Negligible — So small that it can be ignored.
+Nemesis — A powerful opponent or source of downfall.
+Neophyte — A beginner or newcomer.
+Nimble — Quick and light in movement or thought.
+Nondescript — Lacking distinctive features.
+Nonfiction — Writing based on factual information.
+Notion — A general idea or belief.
+Novel — New and unusual; also a fictional book.
+Noxious — Harmful, poisonous, or unpleasant.
+Nuanced — Showing subtle distinctions.
+Numerous — Very many.
+Nurture — To support someone's development.
+Necessity — An essential requirement.
+Negation — The act of denying or making something ineffective.
+Neutralize — To make something ineffective or harmless.
+Nominal — Existing in name but not necessarily in reality; also very small.
+Nonverbal — Communicated without words.
+Norm — A standard or typical pattern of behavior.
+Narrate — To tell a story or describe events.
+Narration — The act of telling a story.
+Nationalize — To transfer a private industry or resource into government ownership.
+Naturalize — To make someone a citizen of a country.
+Navigate — To guide or travel through a route.
+Necessitate — To require something.
+Negotiate — To seek agreement through discussion.
+Neutralize — To remove or reduce an effect.
+Nominate — To propose someone as a candidate.
+Normalize — To make something conform to a standard.
+Notify — To officially inform someone.
+Nullify — To make legally or practically invalid.
+Nurture — To help something grow or develop.
+Narrowly — By a small margin or in a limited way.
+Naturally — In a way that occurs normally or without artificial influence.
+Nearly — Almost.
+Necessarily — As an unavoidable result.
+Negatively — In an unfavorable or harmful manner.
+Normally — In the usual or expected way.
+Notably — In a way that deserves attention.
+Nameless — Without a known or given name.
+Namely — Used to introduce something specifically.
+Nationhood — The status of being recognized as a nation.
+Naturalism — A belief or artistic approach emphasizing nature and natural causes.
+Naturalist — A person who studies nature or supports naturalism.
+Naturally — In accordance with nature or ordinary behavior.
+Navigable — Suitable for travel, especially by boat.
+Needy — Lacking basic necessities or requiring help.
+Neighborly — Friendly and helpful toward neighbors.
+Nobility — High social rank or admirable moral qualities.
+Nobly — In an honorable or morally excellent manner.
+Nominally — In name or title only.
+Nonexistent — Not existing.
+Nonessential — Not necessary.
+Nonstop — Continuing without stopping.
+Normative — Relating to standards or rules.
+Notably — Particularly or especially.
+Noticeable — Clearly visible or detectable.
+Novelty — Something fresh or unusual.
+Nuisance — An irritating or troublesome thing.
+Napkin — A cloth or paper used while eating.
+Nectar — A sweet liquid produced by flowers.
+Noodle — A strip of dough commonly used in food.
+Nutmeg — A spice made from the seed of a tropical tree.
+Nectarine — A smooth-skinned fruit similar to a peach.
+Nachos — Tortilla chips topped with ingredients such as cheese.
+Naan — A soft flatbread traditionally associated with South Asian cuisine.
+Nougat — A sweet confection made from sugar, nuts, and other ingredients.
+Nori — Edible dried seaweed often used in Japanese cuisine.
+Nutritious — Rich in substances needed for good health.
+Navy — A country's military force that operates at sea.
+Navy — A dark blue color.
+Nautical — Relating to ships, sailors, or navigation.
+Navigator — A person who determines a route or position.
+Naval — Relating to a navy.
+Nautilus — A marine mollusk with a chambered shell.
+Newt — A small amphibian related to salamanders.
+Nightingale — A small bird famous for its song.
+Nuthatch — A small bird that climbs tree trunks.
+Numbat — A small Australian marsupial that eats termites.
+Nebula — A cloud of gas and dust in space.
+Neutron — A subatomic particle with no electric charge.
+Neutrino — A tiny subatomic particle with extremely low mass.
+Newton — The SI unit of force.
+Nitrogen — A chemical element making up much of Earth's atmosphere.
+Nitrogenous — Containing or relating to nitrogen.
+Nucleus — The central part of a cell or atom.
+Nuclear — Relating to atomic nuclei.
+Nucleic — Relating to nucleic acids.
+Nucleotide — A basic building block of DNA and RNA.
+Nucleolus — A structure inside a cell nucleus involved in producing ribosomes.
+Nanometer — A unit equal to one billionth of a meter.
+Nanotechnology — Technology involving extremely small-scale structures.
+Neuroscience — The scientific study of the nervous system.
+Neuron — A nerve cell that transmits signals.
+Neurology — The study and treatment of the nervous system.
+Neural — Relating to nerves or the nervous system.
+Neurotransmitter — A chemical messenger that carries signals between nerve cells.
+Nutrition — The process of obtaining nutrients from food.
+Nutrient — A substance needed for growth and health.
+Naked — Without clothing or covering.
+Nameless — Having no name or identity.
+Nausea — A feeling of wanting to vomit.
+Nauseate — To make someone feel sick.
+Nauseous — Feeling sick or likely to vomit.
+Naughty — Behaving badly, especially in a playful way.
+Nimble — Quick and agile.
+Noble — Morally honorable or of high social rank.
+Nocturnal — Active mainly at night.
+Noisy — Making a lot of sound.
+Nomadic — Moving from place to place.
+Nonchalant — Appearing relaxed and unconcerned.
+Nonconformist — Someone who does not follow conventional behavior.
+Nondescript — Ordinary and not easily distinguished.
+Nonsensical — Lacking sense or meaning.
+Notorious — Widely known for something bad.
+Novelistic — Resembling or relating to a novel.
+Noxious — Harmful or poisonous.
+Nuanced — Containing subtle differences.
+Numbness — Lack of physical sensation.
+Napoleon — A large breed of dwarf rabbit; also a historical name.
+Narcissism — Excessive self-focus or admiration of oneself.
+Narcissist — A person excessively concerned with themselves.
+Nasality — The quality of a sound produced partly through the nose.
+Nauseating — Causing feelings of sickness or disgust.
+Necromancy — A supposed practice of communicating with the dead.
+Negativity — A tendency to focus on unfavorable aspects.
+Neologism — A newly invented word or phrase.
+Nihilism — A belief that life or values lack inherent meaning.
+Nirvana — A state of freedom from suffering in Buddhism.
+Nocturne — A musical composition associated with nighttime.
+Nomadism — A way of life involving movement from place to place.
+Nonchalance — A calm lack of concern.
+Nonentity — A person or thing of little importance.
+Normalcy — The state of being normal.
+Notability — The quality of being notable.
+Notification — An official message giving information.
+Novelty — The quality of being new or original.
+Nuisance — Something that causes annoyance or inconvenience.
+Numeracy — The ability to understand and work with numbers.
+Nascent — Beginning to exist or develop.
+Nebulous — Unclear, vague, or poorly defined.
+Nefarious — Extremely wicked or evil.
+Negligible — Too insignificant to be worth considering.
+Neoteric — Modern or recent.
+Nimble — Quick, agile, and skillful.
+Noisome — Unpleasant or offensive, especially in smell.
+Nonplussed — So surprised or confused that one does not know how to react.
+Nostalgic — Feeling sentimental about the past.
+Numinous — Having a mysterious or spiritually powerful quality.
