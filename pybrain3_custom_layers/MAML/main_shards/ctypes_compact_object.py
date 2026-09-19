@@ -1,3 +1,19 @@
+# Dylan Kenneth Eliot
+
+"""
+This script is designed for full object and runtime state capture, save and reload.
+
+This can code compact even pybrain3 based LLMs mimicking gpt 5.6 luna and reailgun it back to memory even from a file
+ by evaluation before reconstitution of object from slingblade xeroxing. Keep in mind that this also works for
+  pyodide.js and brython.js with sufficient shims.
+
+
+As this code has been manually tested, this file is ready for production environments. Please use this technology wisely.
+ Thank you and enjoy a faster runtime even for pybrain3 based copies of openai's gpt model.
+"""
+
+
+
 
 from __future__ import annotations
 
