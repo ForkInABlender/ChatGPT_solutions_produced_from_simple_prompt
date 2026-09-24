@@ -1,0 +1,250 @@
+Page — One side of a sheet in a book or document.
+Paint — A colored substance used to cover or decorate surfaces.
+Pair — Two things that belong together.
+Paper — Thin material used for writing, printing, or drawing.
+Parent — A person's mother or father.
+Park — An area of land used for recreation.
+Part — A piece or section of something larger.
+Party — A social gathering; also a group involved in an activity.
+Pass — To move past something or succeed in an examination.
+Past — The time that has already happened.
+Path — A route or track used for traveling.
+Patient — Able to wait calmly; also a person receiving medical care.
+Pattern — A repeated design or regular arrangement.
+Peace — A state without war or conflict.
+People — Human beings considered as a group.
+Perfect — Completely free from flaws.
+Person — An individual human being.
+Place — A particular location or position.
+Plan — A detailed proposal for achieving something.
+Plant — A living organism that generally grows in soil and makes its own food.
+Play — To engage in an enjoyable activity.
+Point — A particular position, idea, or purpose.
+Power — The ability or capacity to do something.
+Present — Existing now; also a gift.
+Problem — A matter that needs to be solved.
+Process — A series of actions that produce a result.
+Produce — To make, grow, or create something.
+Progress — Movement toward a goal or improvement.
+Promise — A commitment to do something.
+Protect — To keep someone or something safe.
+Public — Relating to or available to everyone.
+Purpose — The reason something exists or is done.
+Push — To move something away using force.
+Pull — To move something toward oneself.
+Pure — Not mixed with anything else; clean or uncontaminated.
+Puzzle — A problem or game requiring thought to solve.
+Picture — An image or representation of something.
+Placebo — A treatment with no active medical ingredient used as a comparison in studies.
+Planet — A large celestial body that orbits a star.
+Poem — A piece of writing using imaginative or rhythmic language.
+Poet — A person who writes poetry.
+Police — An organization responsible for enforcing laws.
+Policy — A set of principles or rules guiding decisions.
+Politics — Activities involving government and public affairs.
+Popular — Liked or supported by many people.
+Position — A particular place, location, or role.
+Possible — Able to happen or exist.
+Practice — Repeated activity used to improve a skill.
+Praise — To express approval or admiration.
+Prepare — To make something ready.
+Presence — The state of being present or nearby.
+Pressure — Continuous physical force or a demanding influence.
+Prevent — To stop something from happening.
+Previous — Existing or occurring before something else.
+Primary — First in importance, rank, or order.
+Principle — A fundamental rule or belief.
+Private — Belonging to an individual rather than the public.
+Prize — An award given for achievement.
+Probably — Almost certainly or very likely.
+Promise — A declaration that someone will do something.
+Proper — Suitable, correct, or appropriate.
+Property — Something owned by a person; also a characteristic of something.
+Proposal — A plan or suggestion offered for consideration.
+Propose — To suggest a plan or idea.
+Proud — Feeling satisfaction about one's achievements or qualities.
+Prove — To demonstrate that something is true.
+Provide — To supply or make something available.
+Protective — Intended to keep someone or something safe.
+Protest — An expression of strong disagreement.
+Pursue — To follow or work toward something.
+Quality — The standard or level of excellence of something.
+Quantity — The amount or number of something.
+Quick — Moving or happening rapidly.
+Quiet — Making little or no noise.
+Quite — To a certain or considerable degree.
+Question — A sentence or statement asking for information.
+Powerful — Having great strength or influence.
+Practical — Suitable for real-world use.
+Precise — Exact and accurate.
+Predict — To say what is likely to happen.
+Patiently — In a calm manner while waiting.
+Peaceful — Free from conflict or disturbance.
+Perfectly — In a complete or flawless manner.
+Personally — In a way relating to an individual.
+Personally — According to one's own feelings or experience.
+Permanent — Lasting indefinitely or for a very long time.
+Permission — Consent or authorization to do something.
+Persuade — To convince someone to do or believe something.
+Physical — Relating to the body or material things.
+Pioneer — A person who is among the first to explore or develop something.
+Pleasant — Enjoyable or agreeable.
+Plenty — A large or sufficient amount.
+Poison — A substance capable of causing harm or death when introduced into an organism.
+Polite — Showing good manners and respect.
+Positive — Favorable, hopeful, or indicating agreement.
+Potential — Existing as a possibility that may develop.
+Powerless — Lacking power or influence.
+Precious — Valuable or highly treasured.
+Predictable — Easy to anticipate.
+Prefer — To like one option better than another.
+Prejudice — An unfair opinion formed without sufficient knowledge.
+Preliminary — Coming before the main event or stage.
+Preserve — To protect something from damage or decay.
+Priority — Something considered more important than other things.
+Probable — Likely to happen.
+Procedure — An established way of doing something.
+Proceed — To continue or move forward.
+Proclaim — To announce something publicly or officially.
+Profession — A paid occupation requiring specialized knowledge or training.
+Professional — Relating to a skilled occupation; also a trained worker.
+Profound — Very deep, serious, or meaningful.
+Prominent — Important, noticeable, or well known.
+Promote — To encourage or support something; also to advance someone in rank.
+Pronounce — To say a word aloud.
+Properly — In a correct or suitable manner.
+Prosper — To succeed or become wealthy.
+Prosperity — A state of success or financial well-being.
+Provoke — To cause a reaction, especially anger.
+Prudent — Acting carefully and wisely.
+Publicity — Attention or exposure given to something through media.
+Punish — To impose a penalty for wrongdoing.
+Purchase — To buy something.
+Purely — Entirely or solely.
+Pursuit — The act of following or seeking something.
+Peculiar — Strange or unusual.
+Perceive — To become aware of something through the senses or thought.
+Perception — The way something is noticed or understood.
+Persist — To continue despite difficulty.
+Persistence — Continued effort despite obstacles.
+Pessimism — A tendency to expect negative outcomes.
+Pessimist — A person who tends to expect bad outcomes.
+Pessimistic — Expecting unfavorable results.
+Philosophy — The study of fundamental questions about existence, knowledge, and values.
+Phenomenon — An observable event or occurrence.
+Philanthropy — The act of giving money or resources to help others.
+Philanthropist — A person who gives resources to support charitable causes.
+Photography — The art or process of creating images using light.
+Physicality — The quality of being physical or bodily.
+Plausible — Seeming reasonable or believable.
+Poignant — Evoking strong emotion.
+Pragmatic — Focused on practical results.
+Precarious — Not secure or likely to become dangerous.
+Precaution — An action taken to prevent danger or problems.
+Predicament — A difficult or unpleasant situation.
+Prejudice — An unfair judgment made before knowing the facts.
+Premature — Happening earlier than appropriate.
+Presume — To assume something is true without proof.
+Pretend — To act as if something is true when it is not.
+Prohibit — To officially prevent something.
+Provoke — To deliberately cause a reaction.
+Panda — A black-and-white bear native to China.
+Panther — A large wild cat, especially a black leopard or jaguar.
+Parrot — A colorful bird known for its ability to imitate sounds.
+Penguin — A flightless seabird adapted to swimming.
+Pelican — A large water bird with a pouch beneath its bill.
+Peacock — A male peafowl known for its colorful tail feathers.
+Peafowl — A bird species including peacocks and peahens.
+Pheasant — A long-tailed game bird.
+Pig — A domesticated mammal raised for meat.
+Pigeon — A common bird found in many cities.
+Porcupine — A rodent covered with sharp protective quills.
+Possum — A nocturnal marsupial found mainly in Australia.
+Puma — A large wild cat also called a cougar.
+Python — A large nonvenomous constricting snake.
+Puppy — A young dog.
+Pony — A small horse.
+Polar bear — A large white bear adapted to Arctic environments.
+Platypus — An Australian mammal with a bill and webbed feet.
+Primate — A mammal group including humans, apes, and monkeys.
+Parakeet — A small or medium-sized parrot.
+Peach — A soft, sweet fruit with fuzzy skin.
+Pear — A sweet fruit with a rounded bottom and narrow top.
+Peanut — An edible seed that grows underground.
+Pea — A small round green seed used as food.
+Pepper — A spice or plant producing pungent fruits.
+Pineapple — A tropical fruit with rough skin and sweet flesh.
+Pistachio — A green edible nut inside a hard shell.
+Pancake — A flat cake made from batter and cooked on a hot surface.
+Pasta — Food made from dough, usually from wheat flour and water.
+Pickle — Food preserved in vinegar, brine, or another solution.
+Pie — A baked dish with a crust surrounding or covering a filling.
+Pizza — A baked dish with a flat dough base and toppings.
+Popcorn — Corn kernels that expand when heated.
+Pudding — A soft sweet or savory dish with a thick texture.
+Pretzel — A baked bread product traditionally twisted into a knot.
+Porridge — A soft food made by cooking grains in liquid.
+Pastry — Dough used for baked foods such as pies and tarts.
+Pancetta — Salt-cured pork belly.
+Papaya — A tropical fruit with orange flesh and black seeds.
+Parsley — A green herb commonly used as a garnish or seasoning.
+Physics — The science of matter, energy, motion, and forces.
+Psychology — The scientific study of the mind and behavior.
+Philosopher — A person who studies or develops philosophical ideas.
+Photosynthesis — The process plants use to convert light energy into chemical energy.
+Photon — A quantum or particle of electromagnetic radiation.
+Proton — A positively charged particle found in an atomic nucleus.
+Plasma — A state of matter consisting of highly energized charged particles.
+Polymer — A large molecule made of repeating smaller units.
+Protein — A biological molecule essential for structure and many body functions.
+Particle — A very small piece or unit of matter.
+Parallel — Existing or moving in the same direction without meeting.
+Parameter — A limit or variable that defines a system.
+Paradox — A statement or situation that appears contradictory but may reveal a truth.
+Paradigm — A typical model or framework for understanding something.
+Parliament — A legislative body responsible for making laws.
+Patriot — A person who strongly supports their country.
+Patriotism — Love and devotion toward one's country.
+Persevere — To continue despite difficulties.
+Persuasive — Good at convincing others.
+Phenomenal — Extremely impressive or extraordinary.
+Pivotal — Extremely important to the development of something.
+Practicality — The quality of being useful or workable.
+Prevalent — Common or widespread.
+Proficient — Skilled or competent at something.
+Profound — Having great depth or significance.
+Progressive — Favoring development, improvement, or change.
+Prominent — Important, famous, or easily noticeable.
+Propaganda — Information presented to influence opinions or beliefs.
+Proportional — Corresponding in size or degree.
+Prospective — Expected or likely to happen in the future.
+Palatable — Pleasant or acceptable to taste.
+Palpable — Able to be touched or clearly noticeable.
+Panacea — A supposed solution or cure for every problem.
+Paradigm — A model or pattern for understanding something.
+Paramount — More important than anything else.
+Paragon — A person or thing regarded as an excellent example.
+Peril — Serious danger.
+Perpetual — Continuing indefinitely or seemingly forever.
+Pernicious — Having a harmful effect, especially gradually.
+Perspicacious — Having a sharp ability to understand things.
+Pertinent — Relevant to the matter being discussed.
+Pervasive — Spread widely throughout an area or group.
+Plausibility — The quality of seeming reasonable or believable.
+Preeminent — Superior or outstanding compared with others.
+Prerogative — A special right or privilege.
+Prescient — Having knowledge of events before they happen.
+Prolific — Producing a large amount of something.
+Proponent — A person who supports an idea or cause.
+Provisional — Temporary and subject to change.
+Prudent — Careful and sensible when making decisions.
+Pugnacious — Eager or ready to fight.
+Punctual — Arriving or happening at the expected time.
+Pungent — Having a strong, sharp smell or taste.
+Purify — To remove unwanted substances from something.
+Purity — The condition of being clean or uncontaminated.
+Pursuit — The act of actively seeking or following something.
+Puzzle — Something difficult to understand or solve.
+Pyre — A pile of material used for burning, especially in a funeral ceremony.
+Pyrotechnic — Relating to fireworks or spectacular displays.
+Punctilious — Extremely careful about following rules or details.

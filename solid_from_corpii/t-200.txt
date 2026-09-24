@@ -1,0 +1,250 @@
+Table — A piece of furniture with a flat surface and legs.
+Take — To get, carry, or move something.
+Talk — To communicate using spoken words.
+Tall — Having greater than average height.
+Taste — The sensation produced by food in the mouth.
+Teach — To help someone learn something.
+Team — A group working together toward a goal.
+Technology — The practical application of scientific knowledge.
+Tell — To communicate information using words.
+Temperature — A measure of how hot or cold something is.
+Temple — A building used for religious worship.
+Ten — The number following nine.
+Tend — To be likely to behave in a particular way; also to care for something.
+Term — A word or expression; also a period of time.
+Test — An examination used to measure knowledge or ability.
+Thank — To express gratitude.
+Theory — An organized explanation supported by evidence.
+Think — To use the mind to consider or understand something.
+Thought — An idea or mental process.
+Time — The ongoing progression of events.
+Today — The present day.
+Together — With or alongside another person or thing.
+Tomorrow — The day after today.
+Tongue — The muscular organ in the mouth; also a language.
+Tool — An object used to perform a task.
+Top — The highest part of something.
+Total — The complete amount.
+Touch — To come into physical contact with something.
+Town — A populated place smaller than a city.
+Track — A path or course; also to follow something.
+Trade — The buying, selling, or exchange of goods.
+Train — To teach or develop a skill; also a connected series of railway cars.
+Travel — To move from one place to another.
+Treat — To behave toward someone in a certain way; also something enjoyable.
+Tree — A tall plant with a woody trunk.
+Truth — The state of being factually correct.
+Try — To make an effort to accomplish something.
+Turn — To move around or change direction.
+Type — A category or kind of something.
+Typical — Representative of a particular type.
+Target — A person or thing aimed at or intended for a purpose.
+Task — A piece of work that needs to be completed.
+Talent — A natural ability or skill.
+Tasty — Having a pleasant flavor.
+Teamwork — Cooperative work by members of a group.
+Tender — Soft or gentle; also an offer or means of payment.
+Tension — Mental strain or physical force within something.
+Territory — An area of land controlled or occupied by someone.
+Text — Written or printed words.
+Threat — A statement or indication of possible harm.
+Thrive — To grow, develop, or succeed strongly.
+Tidy — Neat and organized.
+Tight — Firmly fixed or having little space.
+Tiny — Extremely small.
+Title — A name given to a work or a person.
+Tone — The quality of a sound or the attitude expressed in speech.
+Topic — The subject being discussed.
+Torch — A portable light; also to burn something.
+Tough — Strong, durable, or difficult.
+Tour — A journey visiting several places.
+Tradition — A custom or belief passed through generations.
+Traffic — Vehicles or people moving along routes.
+Transform — To change something significantly.
+Transparent — Allowing light through; also easy to understand or detect.
+Transport — To carry people or goods from one place to another.
+Treasure — Something highly valuable or cherished.
+Trial — A test or legal proceeding.
+Trick — An action intended to deceive or surprise.
+Trigger — Something that causes an event or reaction.
+Triumph — A great victory or success.
+Trouble — Difficulty, problems, or distress.
+Trust — Firm belief in someone's reliability or honesty.
+Truthful — Honest and accurate.
+Typicality — The quality of being typical.
+Ultimately — In the end or finally.
+Tact — Skill in dealing with sensitive situations.
+Tactical — Relating to a plan for achieving a specific objective.
+Tactful — Careful not to offend others.
+Tangible — Able to be touched or clearly perceived.
+Temporary — Lasting for a limited time.
+Tempt — To attract someone toward something desirable.
+Temptation — A strong desire to do or have something.
+Tenacious — Determined and persistent.
+Tenacity — Persistence and determination.
+Tendency — A regular inclination or pattern.
+Terminal — Situated at an end; also a computer interface.
+Terminate — To bring something to an end.
+Terrific — Extremely good or impressive.
+Terrify — To cause extreme fear.
+Testify — To give evidence or make a formal statement.
+Testimony — A formal statement given as evidence.
+Thorough — Complete and careful.
+Thoughtful — Showing consideration or careful thinking.
+Threaten — To indicate an intention to cause harm.
+Timid — Lacking confidence or courage.
+Tolerate — To allow something without interfering.
+Tolerance — The ability to accept differences or endure something.
+Tolerant — Willing to accept different views or behavior.
+Tranquil — Calm and peaceful.
+Tranquility — A state of peace and calm.
+Transcend — To go beyond ordinary limits.
+Transcendent — Beyond ordinary physical or conceptual limits.
+Transparent — Easy to understand or see through.
+Traumatic — Causing severe emotional or physical distress.
+Treacherous — Dangerous or likely to betray trust.
+Tremendous — Extremely large, powerful, or impressive.
+Trend — A general direction in which something develops.
+Trial — An experiment or test of something.
+Trivial — Of little importance.
+Turbulent — Characterized by disorder or instability.
+Typical — Having the usual qualities of a particular group.
+Tyranny — Cruel or oppressive government.
+Tyrant — A ruler who exercises power cruelly.
+Taboo — A social or cultural prohibition.
+Tangible — Real and capable of being touched.
+Tarry — To delay or remain longer than expected.
+Temper — To moderate or control; also emotional disposition.
+Temperament — A person's characteristic emotional nature.
+Temperate — Moderate rather than extreme.
+Temporize — To delay making a decision.
+Tenet — A principle or belief held by a group.
+Tentative — Not certain or definite.
+Terminus — The final point or end of a route.
+Terrain — A particular type of land or landscape.
+Territory — A geographic area under someone's control.
+Theoretical — Based mainly on ideas rather than practical experience.
+Thesis — A central argument or proposition.
+Thoroughly — Completely and carefully.
+Threshold — The point at which something begins or changes.
+Timely — Happening at an appropriate or useful time.
+Tolerable — Able to be endured.
+Torment — Severe physical or emotional suffering.
+Tortuous — Full of twists and turns; also complicated.
+Tractable — Easy to control or deal with.
+Transitory — Lasting only briefly.
+Treacherous — Unsafe or deceptive.
+Tremor — A slight shaking movement.
+Truncate — To shorten by cutting off part.
+Turbulence — Violent or irregular movement.
+Uplifting — Having a positive emotional effect.
+Unanimous — Fully agreed upon by everyone.
+Unbiased — Not favoring one side unfairly.
+Uncertain — Not known or definite.
+Understand — To grasp the meaning of something.
+Undermine — To weaken gradually or secretly.
+Undertake — To begin or commit to an activity.
+Unique — One of a kind.
+Unity — The state of being joined together.
+Universal — Applying to everyone or everything.
+Unusual — Not common or ordinary.
+Unveil — To reveal something previously hidden.
+Upgrade — To improve something to a better version.
+Upright — Standing vertically; also morally honest.
+Urgent — Requiring immediate attention.
+Use — To employ something for a purpose.
+Useful — Providing practical benefit.
+Usual — Common or normally occurring.
+Utilize — To use something effectively.
+Utter — Complete or absolute; also to speak.
+Utterly — Completely or absolutely.
+Tableau — A carefully arranged scene or group of people.
+Tactile — Relating to the sense of touch.
+Talisman — An object believed to bring protection or good fortune.
+Tangible — Existing in a physical or clearly measurable form.
+Tantalize — To tease by offering something desirable but keeping it out of reach.
+Tapestry — A decorative fabric artwork.
+Tardy — Late or delayed.
+Taut — Stretched tight.
+Taxonomy — The classification of organisms or other things.
+Teem — To be full or overflowing with something.
+Temperance — Moderation, especially in eating or drinking.
+Temporal — Relating to time or worldly existence.
+Tenaciously — With persistent determination.
+Tenderness — Gentleness, affection, or sensitivity.
+Tentacle — A flexible limb used by certain animals for sensing or grasping.
+Tentative — Provisional or uncertain.
+Terse — Using very few words.
+Texture — The feel or surface quality of something.
+Thematic — Relating to a particular theme.
+Thwart — To prevent someone from accomplishing something.
+Timidity — Lack of confidence or courage.
+Tirade — A long, angry speech.
+Token — Something representing another thing or serving as a symbol.
+Tolerance — Acceptance of differences or the ability to endure.
+Topography — The arrangement and features of land surfaces.
+Torpid — Inactive or sluggish.
+Tranquility — Peaceful calmness.
+Transcendence — The state of going beyond ordinary limits.
+Transition — The process of changing from one state to another.
+Translucent — Allowing some light through but not clear images.
+Transmute — To change something into another form.
+Transparent — Clear or easily understood.
+Trepidation — Fear or anxiety about something that may happen.
+Tribute — An expression of respect or admiration.
+Truculent — Aggressively defiant or hostile.
+Turmoil — A state of confusion, disorder, or disturbance.
+Turncoat — A person who switches allegiance.
+Tutelage — Guidance or instruction from a mentor.
+Tyrannical — Exercising power in a cruel or oppressive way.
+Tyrannize — To rule or treat people in an oppressive manner.
+Tadpole — The aquatic larval stage of a frog or toad.
+Tarantula — A large, hairy spider.
+Tapir — A large mammal with a short trunk-like nose.
+Tarsier — A small primate with very large eyes.
+Termite — A social insect that often feeds on wood.
+Tiger — A large striped wild cat.
+Toad — An amphibian generally characterized by dry, bumpy skin.
+Tortoise — A land-dwelling reptile with a protective shell.
+Toucan — A tropical bird with a large colorful bill.
+Trout — A freshwater fish commonly caught for food or sport.
+Turtle — A reptile with a protective shell.
+Turkey — A large bird native to North America.
+Tuna — A large, fast-swimming ocean fish.
+Tigerfish — A predatory freshwater fish with sharp teeth.
+Tarantula — A large spider belonging to the family Theraphosidae.
+Terrapin — A turtle, especially one living in freshwater or brackish environments.
+Thrush — A group of songbirds with melodious calls.
+Tick — A small parasitic arachnid that feeds on blood.
+Tsetse — A biting African fly capable of transmitting disease.
+Turbot — A large flatfish used as food.
+Taco — A folded or rolled tortilla filled with various ingredients.
+Tangerine — A small citrus fruit with loose orange skin.
+Tart — A baked pastry with an open top and filling.
+Toffee — A sweet made by boiling sugar with butter.
+Tofu — A food made from coagulated soybean milk.
+Tomato — A red or otherwise colored fruit commonly used as a vegetable.
+Tortilla — A thin flatbread made from corn or wheat.
+Truffle — An edible underground fungus or a chocolate confection.
+Turnip — A root vegetable with white flesh and a purple or green top.
+Turmeric — A yellow-orange spice made from a plant root.
+Tapioca — Starch extracted from cassava.
+Thyme — An aromatic herb used in cooking.
+Tiramisu — An Italian dessert made with coffee-soaked layers and mascarpone.
+Toast — Bread browned by exposure to heat.
+Topping — Food placed on top of another food.
+Trail mix — A snack mixture commonly containing nuts, dried fruit, and other ingredients.
+Tuna — A marine fish commonly eaten as food.
+Tangerine — A small, sweet citrus fruit.
+Teaspoon — A small spoon or a unit of volume.
+Tablespoon — A large spoon or a unit of volume.
+Turbine — A machine that converts the energy of moving fluid into mechanical energy.
+Thermometer — An instrument used to measure temperature.
+Telescope — An instrument used to observe distant objects.
+Thermostat — A device that regulates temperature.
+Transistor — A semiconductor device used to amplify or switch electronic signals.
+Transformer — A device that changes electrical voltage.
+Trajectory — The path followed by a moving object.
+Transmission — The transfer of something from one place or person to another.
+Transcription — A written or recorded representation of spoken or other source material.
+Turbulence — Irregular, chaotic movement in a fluid or atmosphere.
