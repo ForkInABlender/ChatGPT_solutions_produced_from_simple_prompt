@@ -1,3 +1,7 @@
+# Dylan Kenneth Eliot
+
+
+
 """
 Single-file SciPy compatibility shim.
 
@@ -23,6 +27,21 @@ Dependencies:
     - Numba (JIT compilation)
 
 No SciPy dependency exists.
+
+
+With this in mind, it should run faster than standard python code.
+ with this code imported by scipy with the parts that use binaries to function instead use numpy and numba under the hood.
+
+The same form function is true of the numpy shim.
+ If numba is applied to it as well, memory reduction in excessive objective creation tales place.
+
+Now because numpy and scipy are imports pybrain3 uses, to set pybrain3 configured to use these:
+
+```
+__import__("sys").modules['mod_name'] = __import__("imported_shim_name")
+__import__("sys").modules['mod_name'] = __import__("imported_shim_name")
+{what you import from pybrain3 goes here}
+```
 """
 
 from __future__ import annotations
