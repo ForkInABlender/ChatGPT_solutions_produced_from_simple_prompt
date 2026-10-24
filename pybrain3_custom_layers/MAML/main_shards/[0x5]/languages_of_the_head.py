@@ -91,7 +91,7 @@ CHINESE_TRANSLATION: Dict[str, str] = {
     "people": "人们",
     "meaning": "意义",
     "context": "上下文",
-    "word": "词语",
+    "word": "词",
     "words": "词语",
     "write": "写",
     "text": "文本",
