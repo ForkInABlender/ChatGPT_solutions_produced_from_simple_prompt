@@ -1,4 +1,3 @@
-
 # Dylan Kenneth Eliot
 """
 Context-dependent multilingual compact encoder and decoder.
@@ -16,16 +15,11 @@ Features:
     - Preserves original spelling and capitalization.
     - Includes a reversible decoder.
     - No NLTK, TextBlob, or network downloads.
-
-Note:
-    This is a reversible encoding as encryption.
-    The glyph vocabulary must remain available for decoding.
-    If you manually change the order id each vocabulary defined in the file uses, remember that 0 has to exist.
-     and negative numbers do not aide in translation.
 """
 
 import re
-from typing import Dict, List, Tuple
+import json
+from typing import Dict, Tuple
 
 
 # ------------------------------------------------------------
@@ -104,38 +98,11 @@ CHINESE_TRANSLATION: Dict[str, str] = {
 
 
 # ------------------------------------------------------------
-# Tokenization
-# ------------------------------------------------------------
-
-# Whitespace, words, numbers, and punctuation are separate tokens.
-# Concatenating the tokens reconstructs the original text.
-TOKEN_PATTERN = re.compile(
-    r"\s+"
-    r"|[^\W\d_]+(?:['’][^\W\d_]+)*"
-    r"|\d+(?:[.,]\d+)*"
-    r"|[^\w\s]"
-    r"|\w+",
-    re.UNICODE,
-)
-
-WORD_PATTERN = re.compile(
-    r"^[^\W\d_]+(?:['’][^\W\d_]+)*$",
-    re.UNICODE,
-)
-
-
-# ------------------------------------------------------------
 # Encoder and decoder
 # ------------------------------------------------------------
 
-import re
-import json
-from pathlib import Path
-
-
-
 class CompactEncoder:
-    """Reversible encoder without open, close, or separator markers."""
+    """Context-dependent multilingual compact encoder and decoder."""
 
     def __init__(self):
         self.word_to_id = {}
@@ -155,7 +122,11 @@ class CompactEncoder:
             for index, glyph in enumerate(self.symbols)
         }
 
-        # Each word ID uses the same number of glyphs.
+        # Reverse dictionaries for decoding phrase lookups
+        self.hindi_to_english = {v: k for k, v in HINDI_TRANSLATION.items()}
+        self.chinese_to_english = {v: k for k, v in CHINESE_TRANSLATION.items()}
+
+        # Each word ID uses a fixed number of glyphs.
         self.width = 1
 
     def _update_width(self):
@@ -166,7 +137,7 @@ class CompactEncoder:
             self.width += 1
             capacity *= self.base
 
-    def encode_id(self, number):
+    def encode_id(self, number: int) -> str:
         """Encode an integer using exactly self.width glyphs."""
         if number < 0:
             raise ValueError("number must be nonnegative")
@@ -182,8 +153,8 @@ class CompactEncoder:
 
         return "".join(reversed(digits))
 
-    def decode_id(self, glyph_sequence):
-        """Decode a fixed-width glyph sequence."""
+    def decode_id(self, glyph_sequence: str) -> int:
+        """Decode a fixed-width glyph sequence into an integer ID."""
         number = 0
 
         for glyph in glyph_sequence:
@@ -197,25 +168,12 @@ class CompactEncoder:
 
         return number
 
-    def translate_word(self, word):
-        """Use the original dictionaries, then glyph-encode unknown words."""
-        key = word.casefold()
-
-        if key in HINDI_TRANSLATION:
-            return HINDI_TRANSLATION[key]
-
-        if key in CHINESE_TRANSLATION:
-            return CHINESE_TRANSLATION[key]
-
-        return "".join(
-            self.symbols[ord(char.lower()) - ord("a")]
-            for char in word
-        )
-
-    def encode(self, text):
+    def encode(self, text: str) -> str:
         """
-        Encode words directly as fixed-width glyph IDs.
-
+        Encode text using:
+            1. Hindi dictionary for matching words.
+            2. Chinese dictionary for matching words.
+            3. Fixed-width glyph sequences for unmapped words.
         Whitespace and punctuation are retained literally.
         """
         output = []
@@ -224,80 +182,94 @@ class CompactEncoder:
         for match in re.finditer(r"[A-Za-z]+", text):
             output.append(text[position:match.start()])
             word = match.group(0)
+            key = word.casefold()
 
-            if word not in self.word_to_id:
-                index = len(self.word_to_id)
-                self.word_to_id[word] = index
-                self.id_to_word[index] = word
+            if key in HINDI_TRANSLATION:
+                output.append(HINDI_TRANSLATION[key])
+            elif key in CHINESE_TRANSLATION:
+                output.append(CHINESE_TRANSLATION[key])
+            else:
+                if word not in self.word_to_id:
+                    index = len(self.word_to_id)
+                    self.word_to_id[word] = index
+                    self.id_to_word[index] = word
 
-            self._update_width()
-            output.append(self.encode_id(self.word_to_id[word]))
+                self._update_width()
+                output.append(self.encode_id(self.word_to_id[word]))
+
             position = match.end()
 
         output.append(text[position:])
         return "".join(output)
 
-    def decode(self, encoded_text):
+    def decode(self, encoded_text: str) -> str:
         """
-        Decode fixed-width glyph sequences using the saved vocabulary.
+        Decode encoded text back to original English words using reverse Hindi,
+        Chinese dictionaries, and glyph ID sequences.
+        """
+        # Sort phrases by length descending to support greedy multi-word matching
+        hindi_phrases = sorted(self.hindi_to_english.keys(), key=len, reverse=True)
+        chinese_phrases = sorted(self.chinese_to_english.keys(), key=len, reverse=True)
 
-        Non-glyph characters are preserved as literal text.
-        """
         output = []
-        glyph_run = []
+        i = 0
+        n = len(encoded_text)
 
-        def flush():
-            if not glyph_run:
-                return
+        while i < n:
+            # 1. Check for glyph sequences (unmapped words)
+            if encoded_text[i] in self.glyph_to_index:
+                glyph_run = []
+                while i < n and encoded_text[i] in self.glyph_to_index:
+                    glyph_run.append(encoded_text[i])
+                    i += 1
 
-            sequence = "".join(glyph_run)
-            glyph_run.clear()
+                sequence = "".join(glyph_run)
+                if len(sequence) % self.width:
+                    raise ValueError("Incomplete glyph ID sequence.")
 
-            if len(sequence) % self.width:
-                raise ValueError("Incomplete glyph ID sequence.")
+                for offset in range(0, len(sequence), self.width):
+                    chunk = sequence[offset:offset + self.width]
+                    word_id = self.decode_id(chunk)
 
-            for offset in range(0, len(sequence), self.width):
-                chunk = sequence[offset:offset + self.width]
-                word_id = self.decode_id(chunk)
+                    if word_id not in self.id_to_word:
+                        raise ValueError(f"Unknown word ID: {word_id}")
 
-                if word_id not in self.id_to_word:
-                    raise ValueError(f"Unknown word ID: {word_id}")
+                    output.append(self.id_to_word[word_id])
+                continue
 
-                output.append(self.id_to_word[word_id])
+            # 2. Check for Hindi phrase match
+            matched = False
+            for phrase in hindi_phrases:
+                if encoded_text.startswith(phrase, i):
+                    output.append(self.hindi_to_english[phrase])
+                    i += len(phrase)
+                    matched = True
+                    break
+            if matched:
+                continue
 
-        for char in encoded_text:
-            if char in self.glyph_to_index:
-                glyph_run.append(char)
-            else:
-                flush()
-                output.append(char)
+            # 3. Check for Chinese phrase match
+            for phrase in chinese_phrases:
+                if encoded_text.startswith(phrase, i):
+                    output.append(self.chinese_to_english[phrase])
+                    i += len(phrase)
+                    matched = True
+                    break
+            if matched:
+                continue
 
-        flush()
+            # 4. Preserve literal characters (whitespace, punctuation, etc.)
+            output.append(encoded_text[i])
+            i += 1
+
         return "".join(output)
 
-
-        def restore(match):
-            glyph_id = self.decode_id(match.group(1))
-
-            if glyph_id not in self.id_to_word:
-                raise ValueError(
-                    f"Unknown word ID: {glyph_id}"
-                )
-
-            return self.id_to_word[glyph_id]
-
-        decoded = pattern.sub(restore, encoded_text)
-
-        if self.OPEN in decoded or self.CLOSE in decoded:
-            raise ValueError("Malformed encoded text.")
-
-        return decoded
-
-    def save_vocabulary(self, filename):
+    def save_vocabulary(self, filename: str):
         """Persist the session vocabulary for later decoding."""
         with open(filename, "w", encoding="utf-8") as file:
             json.dump(
                 {
+                    "width": self.width,
                     "word_to_id": self.word_to_id,
                     "id_to_word": {
                         str(key): value
@@ -309,11 +281,12 @@ class CompactEncoder:
                 indent=2,
             )
 
-    def load_vocabulary(self, filename):
+    def load_vocabulary(self, filename: str):
         """Restore a previously saved session vocabulary."""
         with open(filename, "r", encoding="utf-8") as file:
             data = json.load(file)
 
+        self.width = data.get("width", 1)
         self.word_to_id = {
             key: int(value)
             for key, value in data["word_to_id"].items()
@@ -327,44 +300,23 @@ class CompactEncoder:
 
 
 # ------------------------------------------------------------
-# Convenience function
-# ------------------------------------------------------------
-
-def translate_full_sentence(sentence: str) -> str:
-    """
-    Encode one sentence using a new session.
-
-    Keep a CompactEncoder instance if you also need to decode
-    the result later.
-    """
-    return CompactEncoder().encode(sentence)
-
-
-# ------------------------------------------------------------
 # Example
 # ------------------------------------------------------------
 
 encoder = CompactEncoder()
 
-#original = (
-#    "The memory stores information. Hello world!\n"
-#    "abcdefghijklmnopqrstuvwxyz\n"
-#    "zzzzzz aaaa abcd qzxv"
-#)
-
-#encoded = encoder.encode(original)
-#encoder.save_vocabulary("language_vocabulary.json")
-
-encoded = (
- "𓂀 𓆣 𓂸 𓅓. 𓃰 𓀠!\n"
-"𓃱\n"
-"𓂻 𓆏 𓀿 𓁿"
+original = (
+"The memory stores information. Hello world!\n"
+"UnmappedWord example."
 )
+encoded = encoder.encode(original)
+encoder.save_vocabulary("language_vocabulary.json")
 
-encoder.load_vocabulary("language_vocabulary.json")
+# Decoder instance (loaded with vocabulary for unmapped words)
+decoder = CompactEncoder()
+decoder.load_vocabulary("language_vocabulary.json")
+decoded = decoder.decode(encoded)
 
-decoded = encoder.decode(encoded)
-
-#print("Original:", original)
-print("Encoded:", encoded)
-print("Decoded:", decoded)
+print("Original:", original)
+print("\nEncoded:", encoded)
+print("\nDecoded:", decoded)
