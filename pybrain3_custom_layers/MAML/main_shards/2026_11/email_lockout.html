@@ -1,0 +1,120 @@
+<!-- #Dylan Kenneth Eliot 
+
+Account lockouts begin. This works even for google blogspot.
+
+In addition, the only adaptation needed is the backend do a json-rpc check.
+This was the shortest path to prevent ill action by one user affecting another.
+ All account lockouts will be making use of the backend without fail.
+  This is stored here for other developers who face similar misconduct being made of their blogs and websites.
+
+-->
+
+<style>
+  #blogger-email-gate {
+    position: fixed;
+    inset: 0;
+    background: #ffffff;
+    z-index: 999999;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center; 
+    font-family: Arial, sans-serif;
+    text-align: center;
+    padding: 20px;
+  }
+  #blogger-email-gate input {
+    padding: 10px 14px;
+    font-size: 16px;
+    width: 280px;
+    max-width: 90%;
+    margin: 12px 0;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+  }
+  #blogger-email-gate button {
+    padding: 10px 22px;
+    font-size: 16px;
+    background: #1a73e8;
+    color: #ffffff;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+  }
+  #gate-error {
+    color: #d93025;
+    margin-top: 10px;
+    font-size: 14px;
+  }
+</style>
+
+<div id="blogger-email-gate">
+  <h2 id="gate-title">Verify Your Google Email</h2>
+  <p id="gate-desc">Enter your Google email address to view this blog.</p>
+  <form id="gate-form">
+    <input type="email" id="gate-email-input" placeholder="you@gmail.com" required="required" />
+    <br />
+    <button type="submit">Continue</button>
+  </form>
+  <div id="gate-error"></div>
+</div>
+
+<script type="text/javascript">
+//<![CDATA[
+(function() {
+  // ADD BLOCKED EMAIL ADDRESSES HERE (ALL LOWERCASE)
+  const BLOCKED_EMAILS = [
+    "temujin9@t9productions.com"
+  ];
+
+  const STORAGE_KEY = "blogger_user_gate_v1";
+  const gate = document.getElementById("blogger-email-gate");
+  const form = document.getElementById("gate-form");
+  const input = document.getElementById("gate-email-input");
+  const title = document.getElementById("gate-title");
+  const desc = document.getElementById("gate-desc");
+  const errorBox = document.getElementById("gate-error");
+
+  function lockOut() {
+    localStorage.setItem(STORAGE_KEY, "BLOCKED");
+    title.innerText = "Access Denied";
+    desc.innerText = "Your account has been blocked from viewing this blog.";
+    form.style.display = "none";
+    errorBox.innerText = "";
+  }
+
+  function unlock() {
+    localStorage.setItem(STORAGE_KEY, "ALLOWED");
+    document.body.classList.add("gate-unlocked");
+    if (gate) gate.remove();
+  }
+
+  // Check if user was already verified or locked out on a previous visit
+  const currentStatus = localStorage.getItem(STORAGE_KEY);
+  if (currentStatus === "BLOCKED") {
+    lockOut();
+    return;
+  }
+  if (currentStatus === "ALLOWED") {
+    unlock();
+    return;
+  }
+
+  form.addEventListener("submit", function(e) {
+    e.preventDefault();
+    const enteredEmail = input.value.trim().toLowerCase();
+
+    if (!enteredEmail || !enteredEmail.includes("@")) {
+      errorBox.innerText = "Please enter a valid email address.";
+      return;
+    }
+
+    if (BLOCKED_EMAILS.includes(enteredEmail)) {
+      lockOut();
+    } else {
+      unlock();
+    }
+  });
+})();
+//]]>
+</script>
