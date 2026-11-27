@@ -30,7 +30,7 @@ Additionally, hugginfaces would not change the pace of development to any benefi
 
 # why MRI, fasta, biopython, rdkit, and neuron spiking? what does that have to do with AI?
 
-The closer you get to a machine reasoning as a human mind does, even with accuracy for internal environmental status of finction, you come closer to what Alan Turing called AI. To do otherwise would be creation of the ELIZA project which was designed to scapegoat the Turing test on proofing consciousness in a machine rather than symbolism and symmantic psuedosymmetrical mirroring of language by inverse reflection on inquiry.
+The closer you get to a machine reasoning as a human mind does, even with accuracy for internal environmental status of function, you come closer to what Alan Turing called AI. To do otherwise would be creation of the ELIZA project which was designed to scapegoat the Turing test on proofing consciousness in a machine rather than symbolism and symmantic psuedosymmetrical mirroring of language by inverse reflection on inquiry.
 
 # Why are you using localtunnel with the same subdomain? isn't what you're doing illegal?
 
